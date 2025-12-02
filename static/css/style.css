@@ -1,0 +1,18 @@
+/* nav party    */
+/* #c39d3b
+#122046 */
+.btn-agen-colr 
+{
+    background-color: #122046;
+    color: white;
+}
+.btn-outline-agen-colr:hover 
+{
+    background-color: #122046;;
+    color: white;
+    transition:0.5s;
+}
+.btn-outline-agen-colr{
+    border-color: #122046;
+    color:#122046;
+}
