@@ -1,11 +1,23 @@
+:root {
+    --shine-blue: #004aad;; /* Bleu Marine de l'AGENCY */
+    --shine-gold: #c39d3b; /* Or de SHINE */
+    --bg-shine-gold:#c39d3b;
+}
+
 /* nav party    */
 /* #c39d3b
 #122046 */
 .btn-agen-colr 
 {
-    background-color: #122046;
+    background-color: #c39d3b;
     color: white;
 }
+.btn-agen-colr:hover 
+{
+    background-color: #a67c2e;
+    color: white;
+    transition:0.5s;
+}   
 .btn-outline-agen-colr:hover 
 {
     background-color: #122046;;
@@ -29,7 +41,7 @@
 }
 .btn-responsive-primaryl{
     background-color: #122046;
-    color: white;
+    color: white !important;
 }
 .btn-responsive-primaryl:hover{
     background-color: #0e1b34;
@@ -44,7 +56,13 @@
     display: flex;
     align-items: center;
 }
-
+.hero-faq{
+     position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 /* Image responsive */
 .hero-banner .hero-bg {
     position: absolute;
@@ -270,3 +288,132 @@
     background-color: #f8f9fa !important;
 }
 /* ................................................................................................................................ */
+/* contact party */
+.icon-color {
+    color:#122046;
+    font-weight: bold;
+}
+/* Accentuation des icônes dans les coordonnées et le formulaire */
+.icon-color {
+    color: var(--shine-gold) !important;
+}
+
+/* Style du bouton d'envoi */
+.btn-responsive-primaryl {
+    background-color: var(--shine-gold); /* Bouton en Or */
+    border-color: var(--shine-gold);
+    color: var(--shine-blue); /* Texte en Bleu */
+    font-weight: bold;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.btn-responsive-primaryl:hover {
+    background-color: var(--shine-blue); /* Hover en Bleu */
+    border-color: var(--shine-blue);
+    color: #fff;
+}
+
+/* Amélioration de la lisibilité des numéros de téléphone */
+.contact-list li {
+    font-size: 0.95rem;
+    padding: 3px 0;
+    border-bottom: 1px dotted #e9ecef;
+}
+
+/* Ombre plus prononcée sur le formulaire pour le mettre en avant */
+.contact-form-card {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+/* faq party  */
+/* Couleurs de base */
+
+/* Style des boutons de filtre */
+.btn-faq-filter {
+    background-color: transparent;
+    color: var(--shine-blue);
+    border: 1px solid var(--shine-blue);
+    transition: all 0.3s ease;
+}
+
+.btn-faq-filter:hover {
+    background-color: var(--shine-blue);
+    color: #fff;
+    border-color: var(--shine-blue);
+}
+
+.btn-faq-filter.active {
+    background-color: var(--shine-gold); /* Bouton actif en OR */
+    color: #fff;
+    border-color: var(--shine-gold);
+}
+
+/* Style de l'accordéon */
+.accordion-button {
+    color: var(--shine-blue) !important;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #eaf1f8; /* Léger fond bleu pour la question ouverte */
+    color: var(--shine-blue);
+    box-shadow: none;
+}
+
+/* Icône de l'accordéon */
+.accordion-button:not(.collapsed)::after {
+    filter: brightness(0.5); /* Assurez-vous que l'icône est visible sur le fond */
+}
+
+.accordion-item {
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden; /* Important pour les coins arrondis */
+    transition: all 0.5s ease;
+}
+
+.accordion-body {
+    border-top: 1px solid #e9ecef;
+}
+.text-title-gold{
+    color:var(--shine-gold);
+}
+.text-title-blue{
+    color:var(--shine-blue);
+}
+/* mentorat party  */
+/* Style du bouton d'appel à l'action final */
+.btn-shine-gold {
+    background-color: var(--shine-gold);
+    border-color: var(--shine-gold);
+    color: var(--shine-blue); /* Texte bleu sur fond or */
+    transition: all 0.3s ease;
+}
+
+.btn-shine-gold:hover {
+    background-color: #c29f37; /* Or légèrement plus foncé au survol */
+    border-color: #c29f37;
+    color: var(--shine-blue);
+    transform: translateY(-2px); /* Léger effet pour l'UX */
+}
+
+/* Amélioration visuelle pour les avantages */
+.mentor-advantage-card {
+    transition: transform 0.3s ease;
+}
+
+.mentor-advantage-card:hover {
+    transform: translateY(-5px); /* Effet de soulèvement pour l'engagement */
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+}
+
+/* Style spécifique pour la liste des profils (UX) */
+.list-group-item {
+    transition: background-color 0.3s;
+}
+
+.list-group-item:hover {
+    background-color: #eaf1f8; /* Léger fond bleu au survol */
+}
+.bg-shine-gold{
+    background-color: var(--bg-shine-gold);
+}

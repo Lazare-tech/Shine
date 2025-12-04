@@ -8,6 +8,11 @@ app_name = "shine"
 
 urlpatterns = [
     path('', shine.views.home, name='homepage'),
+    contact_path := path('contact/', shine.views.contact, name='contact'),
+    faq_path := path('faq/', shine.views.faq, name='faq'),
+    about_path := path('about/', shine.views.about, name='about'),
+    devis_path := path('devis/', shine.views.devis, name='devis'),
+    mentorat_path := path('mentorat/', shine.views.mentorat, name='mentorat'),
 ] +   static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Serve static and media files during development

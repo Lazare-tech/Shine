@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{% endblock title %}
+
+{% block content %}
+
+<section class="hero-banner">
+
+    <!-- Image -->
+    <img src="{% static 'images/hero_f.jpg' %}" 
+         alt="Étudiants à l'université"
+         class="hero-bg">
+
+    <!-- Overlay bleu foncé transparent -->
+    <div class="hero-overlay"></div>
+
+    <!-- Contenu du Hero -->
+    <div class="container hero-content">
+        <div class="row">
+            <div class="col-lg-6">
+                <h1 class="hero-title">
+                    Contactez-nous
+                </h1>
+                <p class="hero-text">
+                    Vous avez des questions ou besoin d'assistance ? Notre équipe est là pour vous aider. N'hésitez pas à nous contacter via le formulaire ci-dessous ou par téléphone. Nous sommes impatients de vous accompagner dans votre parcours éducatif avec SHINE.
+                </p>
+
+                <div class="mt-4">
+                    <a href="#" class="btn btn-responsive-warning me-2">Remplir le formulaire</a>
+                    <a href="#" class="btn btn-outline-light">Discutez avec nous sur WhatsApp </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<section class="py-3">
+<div class="circles justify-content-center align-items-center">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+</section>
+<section class="py-5" id="form-contact">
+    <div class="container">
+        <div class="row g-4">
+            
+            <div class="col-12 col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0">
+                <div class="h-100 d-flex flex-column">
+
+                    <div class="card mb-4 shadow-sm" style="height: 300px;">
+                        <div class="card-body d-flex justify-content-center align-items-center" style="background-color: #e9ecef;">
+                            <i class="fas fa-map-marked-alt fa-3x" style="color: #004aad;"></i>
+                            <p class="ms-3 text-muted">Emplacement Google Maps ici</p>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm p-4 flex-grow-1" style="border-top: 5px solid #e2b740;">
+                        <h4 class="mb-4 fw-bold text-title-blue">Nos coordonnées</h4>
+                        <div class="mb-4">
+                            <p class="mb-3">
+                                <i class="fas fa-home me-3 text-title-gold"></i> 
+                                **Siège Bobo-Dioulasso** : Secteur 5 face à Megamonde
+                            </p>
+                            
+                            <p class="mb-3">
+                                <i class="fas fa-envelope me-3 text-title-gold"></i> 
+                                **Email Général** : shineagency226@gmail.com
+                            </p>
+                        </div>
+                        
+                        <h6 class="text-uppercase fw-bold small mb-2 text-title-blue">
+                            <i class="fas fa-phone-alt fa-rotate-90 me-2 text-title-gold"></i> Téléphones Directs
+                        </h6>
+                        <ul class="list-unstyled contact-list">
+                            <li><strong class="text-title-blue">Bobo-Dioulasso:</strong> <span class="fw-bold">+226 74 59 90 48</span></li>
+                            <li><strong class="text-title-blue">Ouagadougou:</strong> <span class="fw-bold">+226 60 79 78 31</span></li>
+                            <li><strong class="text-title-blue">France (Support Europe):</strong> <span class="fw-bold">+33 7 59 86 92 56</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-12 col-lg-6 order-2 order-lg-1">
+                <h4 class="mb-4 text-center fw-bold" style="color: #004aad;">Envoyez-nous un message</h4>
+                <div class="bg-white border rounded shadow-lg p-4 p-xl-5 contact-form-card">
+                    
+                    <div class="alert alert-light text-center mb-4 small fw-bold" role="alert" style="border-left: 4px solid #e2b740; background-color: #fff9e6; color: #004aad;">
+                        Besoin d'aide ? On est là ! des experts à l'écoute. 👋
+                    </div>
+
+                    <form method="post" enctype="multipart/form-data">
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label" for="nom">
+                                    <i class="fas fa-user icon-color me-1 text-title-gold"></i> Nom <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" id="nom" name="nom" class="form-control" placeholder="Votre nom" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label" for="email">
+                                    <i class="fas fa-envelope icon-color me-1 text-title-gold"></i> Email <span class="text-danger">*</span>
+                                </label>
+                                <input type="email" id="email" name="email" class="form-control" placeholder="Votre email" required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label" for="telephone">
+                                    <i class="fas fa-phone-alt icon-color me-1 text-title-gold"></i> Téléphone <span class="text-danger">*</span>
+                                </label>
+                                <input type="tel" id="telephone" name="telephone" class="form-control" placeholder="ex:+226numéro" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label" for="objet">
+                                    <i class="fas fa-tag icon-color me-1 text-title-gold"></i> Objet <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" id="objet" name="objet" class="form-control" placeholder="Objet de votre message" required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <label class="form-label" for="message">
+                                    <i class="fas fa-comment-alt icon-color me-1 text-title-gold"></i> Message <span class="text-danger">*</span>
+                                </label>
+                                <textarea id="message" name="message" class="form-control" rows="4" placeholder="Votre message" required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-12 mt-4">
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-responsive-primaryl btn-lg ">
+                                    <i class="fas fa-paper-plane me-2"></i> Envoyer
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+{% endblock content %}

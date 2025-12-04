@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{% endblock title %}
+
+
+{% block content %}
+<section class="hero-banner">
+
+    <!-- Image -->
+    <img src="{% static 'images/7879.jpg' %}" 
+         alt="Étudiants à l'université"
+         class="hero-faq">
+
+    <!-- Overlay bleu foncé transparent -->
+    <div class="hero-overlay"></div>
+
+    <!-- Contenu du Hero -->
+    <div class="container hero-content">
+        <div class="row">
+            <div class="col-lg-6">
+                <h1 class="hero-title text-title">
+                    Foire Aux Questions (FAQ)
+                </h1>
+                <p class="hero-text">
+                    Vous avez des questions ? Nous avons les réponses ! Consultez notre FAQ pour trouver des informations utiles sur nos services, les procédures d'admission, les bourses d'études, et bien plus encore. Si vous ne trouvez pas ce que vous cherchez, n'hésitez pas à nous contacter directement.
+                </p>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+    <section class="py-4" style="background-color: #f8f9fa;">
+    <div class="circles justify-content-center align-items-center">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>                   
+</div>
+    <div class="container">
+        <p class="text-center lead mb-5 text-muted">Trouvez rapidement les réponses à vos interrogations sur vos études à l'étranger.</p>
+
+        <div class="d-flex justify-content-center mb-5 flex-wrap" id="faq-filters">
+            <button class="btn btn-faq-filter active me-2 mb-2" data-filter="all">Toutes les Catégories</button>
+            <button class="btn btn-faq-filter me-2 mb-2" data-filter="orientation">Orientation</button>
+            <button class="btn btn-faq-filter me-2 mb-2" data-filter="hebergement">Hébergement & Logement</button>
+            <button class="btn btn-faq-filter me-2 mb-2" data-filter="visa">Visa & Formalités</button>
+            <button class="btn btn-faq-filter me-2 mb-2" data-filter="finances">Coûts & Finances</button>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="accordion" id="faq-accordion">
+
+                    <div class="accordion-item faq-item" data-category="orientation">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                Comment Shine Agency m'aide-t-elle à choisir mon université et ma filière ?
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#faq-accordion">
+                            <div class="accordion-body">
+                                Notre équipe d'experts réalise un bilan d'orientation personnalisé en fonction de vos résultats scolaires, de vos passions et de votre budget. Nous vous proposons ensuite une liste ciblée de programmes et d'établissements qui correspondent parfaitement à votre profil.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item faq-item" data-category="hebergement">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                Pouvez-vous m'aider à trouver un logement avant mon arrivée ?
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faq-accordion">
+                            <div class="accordion-body">
+                                Oui, l'hébergement fait partie intégrante de notre accompagnement. Nous vous connectons avec des résidences universitaires, des familles d'accueil, ou des propriétaires de logements privés fiables, adaptés à votre budget et à la proximité de votre campus.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item faq-item" data-category="visa">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                                Quelles sont les étapes pour l'obtention de mon visa étudiant ?
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faq-accordion">
+                            <div class="accordion-body">
+                                Nous vous guidons à travers chaque étape : préparation du dossier (formulaires, preuves financières, lettre d'admission), vérification des documents pour éviter tout rejet, et préparation aux entretiens consulaires. Nous vous assurons que votre dossier est complet et conforme aux exigences du pays.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item faq-item" data-category="orientation">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                                Puis-je changer de filière après mon inscription ?
+                            </button>
+                        </h2>
+                        <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#faq-accordion">
+                            <div class="accordion-body">
+                                La possibilité de changer de filière dépend de l'établissement et du pays. Nous vous conseillons sur les options de transfert de crédits ou de réorientation, mais il est toujours préférable de bien définir votre choix initial avec nos conseillers.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item faq-item" data-category="finances">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive">
+                                Quel est le coût total d'une année d'étude à l'étranger ?
+                            </button>
+                        </h2>
+                        <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#faq-accordion">
+                            <div class="accordion-body">
+                                Le coût varie énormément selon le pays, l'université et le mode de vie. Nous fournissons une estimation détaillée incluant les frais de scolarité, l'hébergement, l'assurance et les dépenses personnelles pour vous aider à planifier votre budget.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    {% endblock content %}

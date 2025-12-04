@@ -17,7 +17,7 @@
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
         <li class="nav-item me-3"> 
-          <a class="nav-link text-dark" href="#">Accueil</a>
+          <a class="nav-link text-dark" href="{% url 'shine:homepage'%}">Accueil</a>
         </li>
 
         <li class="nav-item dropdown me-3">
@@ -37,7 +37,7 @@
           <a class="nav-link text-dark" href="#">Infos Bourses d'Études</a>
         </li>
         <li class="nav-item me-3">
-          <a class="nav-link text-dark" href="#">Dévenir mentor</a>
+          <a class="nav-link text-dark" href="{% url 'shine:mentorat'%}">Dévenir mentor</a>
         </li>
         <li class="nav-item me-3">
           <a class="nav-link text-dark" href="#">Blog</a>
@@ -50,17 +50,17 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" href="#">A Propos de SHINE</a></li>
-            <li><a class="dropdown-item" href="#">Contactez-nous</a></li>
+            <li><a class="dropdown-item" href="{% url 'shine:contact'%}">Contactez-nous</a></li>
           </ul>
         </li>
         <li class="nav-item me-3">
-          <a class="nav-link text-dark" href="#">FAQ</a>
+          <a class="nav-link text-dark" href="{% url 'shine:faq'%}">FAQ</a>
         </li>
 
       </ul>
       
       <span class="d-flex align-items-center ms-4"> 
-        <a class="fw-bold text-white btn btn-agen-colr btn-sm me-2 px-2 py-1" href="#">
+        <a class="fw-bold text-white btn btn-agen-colr btn-sm me-2 px-2 py-1" href="{% url 'shine:devis'%}">
           Demander un devis
         </a>
         <a class=" btn btn-outline-agen-colr btn-sm px-2 py-1" href="#">

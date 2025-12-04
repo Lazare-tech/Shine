@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{% endblock title %}
+
+{% block content %}
+<section class="hero-banner">   
+
+    <!-- Image -->
+    <img src="{% static 'images/hero_devis.jpg' %}" 
+         alt="Étudiants à l'université"
+         class="hero-bg">
+
+    <!-- Overlay bleu foncé transparent -->
+    <div class="hero-overlay"></div>
+
+    <!-- Contenu du Hero -->
+    <div class="container hero-content">
+        <div class="row">
+            <div class="col-lg-6">
+                <h1 class="hero-title">
+                    Demande de Devis Gratuit
+                </h1>
+                <p class="hero-text">
+                    Obtenez une estimation personnalisée pour vos études à l'étranger avec Shine Agency. Remplissez le formulaire ci-dessous pour recevoir un devis gratuit adapté à vos besoins académiques et financiers.
+                
+            Un conseiller vous répond sous 24h, sans engagement.
+       
+                </p>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION FORMULAIRE DEVIS -->
+<section class="devis-section py-5" id="form-devis">
+    <div class="container">
+        <div class="row align-items-center">
+
+            <div class="col-lg-6 mb-4 mb-lg-0 text-center text-lg-start">
+                <div class="p-4" style="border-left: 5px solid #e2b740; background-color: #f8f9fa; border-radius: 8px;">
+                    <span style="font-size: 3rem;">🚀</span>
+                    <h2 class="fw-bolder mb-3 mt-2 text-title-blue" >
+                        Prêt(e) à faire le <span class="text-title-gold">grand saut</span> ?
+                    </h2>
+                    <p class="lead mb-3" style="color: #343a40;">
+                        Finies les hésitations ! C'est le moment de concrétiser ton projet d'études à l'étranger.
+                    </p>
+                    <ul class="list-unstyled text-start ms-3" style="color: #343a40;">
+                        <li class="mb-2"><i class="fas fa-check-circle me-2 text-title-gold" ></i> Devis 100% Gratuit.</li>
+                        <li class="mb-2"><i class="fas fa-check-circle me-2 text-title-gold" ></i> Réponse ultra-rapide (moins de 24h).</li>
+                        <li><i class="fas fa-check-circle me-2 text-title-gold"></i> 0% d'engagement, 100% de conseils !</li>
+                    </ul>
+                    <p class="small mt-4 text-muted">
+                        Ton futur t'attend, remplis ce formulaire et commençons l'aventure ! 🌍
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card shadow-lg rounded p-4 bg-white text-dark">
+                    <h4 class="mb-3">Demander un devis</h4>
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="nom" class="form-label">Nom</label>
+                            <input type="text" class="form-control" id="nom" placeholder="Votre nom" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="numero" class="form-label">Numéro</label>
+                            <input type="tel" class="form-control" id="numero" placeholder="Votre numéro de téléphone" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" placeholder="Votre email" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="projet" class="form-label">Votre projet</label>
+                            <textarea class="form-control" id="projet" rows="3" placeholder="Décrivez votre projet" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-responsive-primaryl btn-lg w-100">
+                            Envoyer ma demande
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+     
+{% endblock content %}

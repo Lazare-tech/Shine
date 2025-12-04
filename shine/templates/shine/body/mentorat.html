@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{% endblock title %}
+{% block content %}
+<section class="hero-banner">
+    <!-- Image -->
+    <img src="{% static 'images/hero_f.jpg' %}" 
+         alt="Étudiants à l'université"
+         class="hero-bg">
+
+    <!-- Overlay bleu foncé transparent -->
+    <div class="hero-overlay"></div>
+
+    <!-- Contenu du Hero -->
+    <div class="container hero-content">
+        <div class="row">
+            <div class="col-lg-6">
+                <h1 class="hero-title">
+                    Devenez Mentor & Conseiller chez Shine Agency
+                </h1>
+                <p class="hero-text">
+                Partagez votre expérience internationale pour éclairer le chemin de nos futurs étudiants.
+                </p>    
+            </div>
+        </div>
+    </div>
+</section>
+<section class="py-3">
+<div class="circles justify-content-center align-items-center">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+</section>  
+<section class="py-5">
+    <div class="container">
+        <div class="row g-5">
+
+            <div class="col-lg-6">
+                <h3 class="fw-bold mb-4" style="color: #004aad;">
+                    Qu'est-ce qu'un Mentor Shine Agency ?
+                </h3>
+                <div class="p-4 rounded shadow-sm definition-card" style="border-left: 5px solid #e2b740; background-color: #f8f9fa;">
+                    <p class="lead mb-3">
+                        Un mentor est un **ambassadeur expérimenté** et un **conseiller d'orientation** qui guide nos futurs étudiants à travers le processus complexe des études à l'étranger.
+                    </p>
+                    <p>
+                        Votre rôle est crucial : il s'agit d'offrir une **perspective personnelle et pratique** sur la vie étudiante internationale, le choix d'établissement, les démarches administratives (visa, inscription) et l'intégration culturelle. Vous êtes la première source d'inspiration et de réassurance pour nos candidats.
+                    </p>
+                    <p class="small text-muted mt-3">
+                        <i class="fas fa-quote-left me-2" style="color: #e2b740;"></i> 
+                        Nous cherchons des personnes qui ont déjà fait le voyage, prêtes à tenir la main des autres.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <h3 class="fw-bold mb-4" style="color: #004aad;">
+                    Les Profils pour Devenir Mentor
+                </h3>
+                <p class="mb-4">
+                    Nous recherchons des professionnels de l'éducation, des anciens étudiants ayant réussi à l'étranger ou des experts en formalités internationales :
+                </p>
+                
+                <ul class="list-group list-group-flush shadow-sm">
+                    <li class="list-group-item d-flex align-items-start" style="border-left: 3px solid #e2b740;">
+                        <i class="fas fa-graduation-cap fa-2x me-3 pt-1" style="color: #e2b740;"></i>
+                        <div>
+                            <h5 class="mb-1" style="color: #004aad;">Alumni International</h5>
+                            <p class="mb-0 small text-muted">Avoir complété au moins une année d'études supérieures dans un pays partenaire de Shine Agency.</p>
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-start" style="border-left: 3px solid #e2b740;">
+                        <i class="fas fa-atlas fa-2x me-3 pt-1" style="color: #e2b740;"></i>
+                        <div>
+                            <h5 class="mb-1" style="color: #004aad;">Expert en Mobilité & Visa</h5>
+                            <p class="mb-0 small text-muted">Connaissance approfondie des procédures de visa Schengen, Canada, ou États-Unis, et des formalités d'inscription universitaire.</p>
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-start" style="border-left: 3px solid #e2b740;">
+                        <i class="fas fa-users fa-2x me-3 pt-1" style="color: #e2b740;"></i>
+                        <div>
+                            <h5 class="mb-1" style="color: #004aad;">Conseiller d'Orientation (Professionnel)</h5>
+                            <p class="mb-0 small text-muted">Expérience dans l'aide au choix de carrière et la rédaction de lettres de motivation académiques.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!--### 2. Pourquoi Devenir Mentor à Shine (Avantages)
+
+Cette section met en avant les avantages spécifiques liés à la mission d'accompagnement.
+
+```html-->
+<section class="py-5" style="background-color: #f8f9fa;">
+    <div class="container">
+        <h3 class="text-center fw-bold mb-5" style="color: #004aad;">
+            Pourquoi Devenir Mentor à Shine Agency ? 
+        </h3>
+
+        <div class="row g-4 text-center">
+            
+            <div class="col-md-4">
+                <div class="card h-100 p-4 shadow-sm mentor-advantage-card" style="border-top: 3px solid #004aad;">
+                    <i class="fas fa-seedling fa-3x mb-3" style="color: #e2b740;"></i>
+                    <h5 class="fw-bold" style="color: #004aad;">Un Impact Humain Réel</h5>
+                    <p class="small text-muted mb-0">
+                        Aidez concrètement de jeunes Africains à réaliser leur rêve d'études internationales, en étant leur point de contact privilégié.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 p-4 shadow-sm mentor-advantage-card" style="border-top: 3px solid #004aad;">
+                    <i class="fas fa-network-wired fa-3x mb-3" style="color: #e2b740;"></i>
+                    <h5 class="fw-bold" style="color: #004aad;">Élargissement de Réseau</h5>
+                    <p class="small text-muted mb-0">
+                        Intégrez un réseau international de conseillers, d'universités partenaires et d'anciens étudiants de haut niveau.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 p-4 shadow-sm mentor-advantage-card" style="border-top: 3px solid #004aad;">
+                    <i class="fas fa-wallet fa-3x mb-3" style="color: #e2b740;"></i>
+                    <h5 class="fw-bold" style="color: #004aad;">Rémunération de l'Expertise</h5>
+                    <p class="small text-muted mb-0">
+                        Votre temps et vos connaissances sont valorisés par un modèle de compensation juste et flexible.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!--### 3. Appel à l'Action (CTA)
+
+Un appel à l'action clair et engageant.
+
+```html-->
+<section class="py-5 mentor-cta bg-shine-gold">
+    <div class="container text-center">
+        <h3 class="fw-bold mb-3 text-title-blue">Prêt(e) à être le guide de l'excellence ?</h3>
+        
+        <p class="lead mb-4" style="color: #343a40;">
+            Rejoignez notre équipe d'experts et transformons des vies ensemble.
+        </p>
+        
+        <a href="URL_DU_FORMULAIRE_DE_CANDIDATURE" class="btn btn-lg btn-responsive-primaryl fw-bold" style="background-color: var(--shine-blue); border-color: var(--shine-blue); color: white;">
+            <i class="fas fa-user-plus me-2"></i> Postuler comme Mentor
+        </a>
+    </div>
+</section>
+{% endblock content %}
