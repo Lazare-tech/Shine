@@ -145,80 +145,86 @@
     border-radius: 50%;
     background:#444;
 }
-.step-card {
-    background: #fff;
-    border-radius: 6px;
-    overflow: hidden;
-    transition: .3s;
-    height: 210px; /* Conserve la hauteur fixe */
-
-    /* AJOUT : Flexbox pour centrer le contenu verticalement */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* Distribue l'espace entre le header et le paragraphe */
-    align-items: center; /* Centre horizontalement si besoin */
-    padding-bottom: 15px; /* Ajoute un padding en bas pour équilibrer */
+/* -------------------------------------------------------------------------- */
+/* STYLE DES CARTES ÉTAPES (SECTION 1) */
+/* -------------------------------------------------------------------------- */
+.service-card{
+    background:#fff;
+    border-radius:8px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.05);
+    transition:.3s;
+}
+.service-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.12);
 }
 
-/* Le reste du CSS... */
-.step-header {
-    background: #122046;;
-    color: #fff;
-    padding: 15px;
-    width: 100%; /* S'assure que le header prend toute la largeur */
-}
-/* ... */
-.step-header i{
-    font-size:22px;
-    display:block;
+/* -------------------------------------------------------------------------- */
+/* STYLE DES BOUTONS ET LIENS DE MARQUE */
+/* -------------------------------------------------------------------------- */
+.btn-responsive-primaryl {
+    background-color: var(--shine-gold);
+    border-color: var(--shine-gold);
+    color: var(--shine-blue);
+    font-weight: bold;
+    transition: background-color 0.3s;
 }
 
-.step-header h6{
-    font-size:13px;
-    font-weight:bold;
-    margin-top:6px;
-}
-/* ................................................................................................................................ */
-.text-primary {
-    color: #004aad !important;
+.btn-responsive-primaryl:hover {
+    background-color: var(--bg-shine-gold);
+    border-color: var(--bg-shine-gold);
+    color: var(--shine-blue);
 }
 
+.btn-outline-agen-colr {
+    color: var(--shine-blue);
+    border-color: var(--shine-blue);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-outline-agen-colr:hover {
+    background-color: var(--shine-blue);
+    color: white;
+}
+
+/* -------------------------------------------------------------------------- */
+/* STYLE DES ONGLET VERTICAUX (SECTION MÉTHODE) */
+/* -------------------------------------------------------------------------- */
 .custom-v-pills .nav-link {
-    text-align: left;
-    padding: 1rem 1.5rem;
+    border-left: 4px solid #eee;
     margin-bottom: 10px;
-    border-radius: 8px;
-    background-color: #f8f9fa; /* Couleur de fond des onglets inactifs */
-    border-left: 5px solid transparent; /* Bordure progressive */
-    transition: all 0.3s ease;
+    padding: 15px;
+    text-align: left;
+    color: #343a40;
+    transition: all 0.3s;
 }
 
 .custom-v-pills .nav-link:hover {
-    background-color: #e9ecef;
+    border-left-color: var(--shine-gold);
+    background-color: #f8f9fa;
 }
 
 .custom-v-pills .nav-link.active {
-    background-color: #e3f2fd; /* Bleu très clair pour l'onglet actif */
-    color: #004aad; /* Texte bleu pour l'onglet actif */
-    border-left: 5px solid #004aad; /* Couleur de l'étape active */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-left-color: var(--shine-blue);
+    background-color: #eaf1f8; /* Léger bleu pour l'actif */
+    color: var(--shine-blue);
 }
 
-.step-num {
-    display: inline-block;
-    width: 28px;
-    height: 28px;
-    line-height: 28px;
-    text-align: center;
-    border-radius: 50%;
-    background: #004aad;
-    color: #fff;
+.custom-v-pills .step-num {
+    background-color: var(--shine-gold);
+    color: var(--shine-blue);
     font-weight: bold;
-    font-size: 14px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
 }
 
-.custom-v-pills .nav-link.active .step-num {
-    background: #dc3545; /* Couleur d'accentuation (rouge par exemple) pour le numéro actif */
+.custom-v-pills .nav-link.active .step-title {
+    color: var(--shine-blue);
 }
 
 /* ................................................................................................................................ */
@@ -416,4 +422,58 @@
 }
 .bg-shine-gold{
     background-color: var(--bg-shine-gold);
+}
+* -------------------------------------------------------------------------- */
+/* STYLE DES ONGLET VERTICAUX (SECTION MÉTHODE) */
+/* -------------------------------------------------------------------------- */
+.custom-v-pills .nav-link {
+    border-left: 4px solid #eee;
+    margin-bottom: 10px;
+    padding: 15px;
+    text-align: left;
+    color: #343a40;
+    transition: all 0.3s;
+}
+
+.custom-v-pills .nav-link:hover {
+    border-left-color: var(--shine-gold);
+    background-color: #f8f9fa;
+}
+
+.custom-v-pills .nav-link.active {
+    border-left-color: var(--shine-blue);
+    background-color: #eaf1f8; /* Léger bleu pour l'actif */
+    color: var(--shine-blue);
+}
+
+.custom-v-pills .step-num {
+    background-color: var(--shine-gold);
+    color: var(--shine-blue);
+    font-weight: bold;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+}
+
+.custom-v-pills .nav-link.active .step-title {
+    color: var(--shine-blue);
+}
+/* -------------------------------------------------------------------------- */
+/* STYLE DE LA SECTION TÉMOIGNAGES */
+/* -------------------------------------------------------------------------- */
+.testimonial-section .card-body {
+    position: relative;
+}
+
+.testimonial-section .avatar-img {
+    border: 3px solid var(--shine-gold); /* Bordure Or autour des avatars */
+}
+
+/* Pour utiliser l'Or sur les étoiles */
+.testimonial-section .rating {
+    color: var(--shine-gold) !important;
 }
