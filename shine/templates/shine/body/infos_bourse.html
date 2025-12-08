@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{% endblock title %}
+
+{% block content %}
+<!-- HERO BANNER -->
+<section class="hero-banner">
+                <img src="{% static 'images/bourse.jpg'%}" class="hero-bg" alt="">
+                    <div class="hero-overlay"></div>
+
+    <div class="container hero-content">
+        <div class="row ">
+
+            <div class="col-lg-6">
+                <h1 class=" hero-title">Trouvez la Bourse<br>de vos Rêves à l’Étranger</h1>
+                <p class="hero-text">Shine Agency vous accompagne pour étude, logement, visa et inscription.</p>
+                <a href="#" class="btn btn-warning btn-lg fw-bold mt-3">Explorer les Bourses</a>
+            </div>
+
+         
+
+        </div>
+    </div>
+</section>
+
+
+
+
+<!-- FILTRE DE RECHERCHE -->
+<section class="bg-gray-searc shadow-sm">
+<div class="py-2 circles justify-content-center align-items-center">
+    <span></span>
+    <span></span>
+    <span></span>   
+    <span></span>
+</div>
+    <div class="container py-4">
+
+        <div class="row gy-3 align-items-center">
+
+            <div class="col-md-3">
+                <input type="text" class="form-control" placeholder="Mot-clé">
+            </div>
+
+            <div class="col-md-2">
+                <select class="form-select">
+                    <option>Pays de destination</option>
+                    <option>France</option><option>Canada</option><option>USA</option>
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <select class="form-select">
+                    <option>Niveau d'étude</option>
+                    <option>Licence</option><option>Master</option><option>Doctorat</option>
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <select class="form-select">
+                    <option>Domaine d’étude</option>
+                    <option>Tech</option><option>Commerce</option><option>Médecine</option>
+                </select>
+            </div>
+
+            <div class="col-md-3 text-end">
+                <button class="btn btn-responsive-primaryl px-4">Rechercher</button>
+            </div>
+
+        </div>
+        
+        <div class="form-check mt-3">
+            <input type="checkbox" class="form-check-input" checked>
+            <label class="form-check-label">Bourses encore ouvertes</label>
+        </div>
+
+        <div class="mt-2 small">
+            Trier par : <a href="#" class="fw-bold text-decoration-none">Populaire</a> —
+            Voir : <a href="#" class="fw-bold text-decoration-none">candidats</a>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- BOURSES -->
+<section class="py-5">
+    <div class="container">
+                <h4 class="fw-bold mb-3">Bourses du Moment</h4>
+
+        <div class="row gy-4">
+
+            <!-- LISTE BOURSE -->
+
+
+                    <!-- CARD BOURSE -->
+                    <div class="col-lg-4">
+                        <div class="card bourse-card p-3 h-100 shadow-sm">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <img src="FR_FLAG.png" width="40">
+                                <span class="badge bg-primaryl">Première</span>
+                            </div>
+                            <h6 class="fw-bold">Bourse d'Excellence Eiffel – France</h6>
+                            <p class="small text-muted mb-1">Université Paris-Saclay</p>
+                            <p class="small text-muted mb-2">Montant : 1 900€/mois</p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <span class="badge bg-success">Ouvert</span>
+                                <a href="#" class="btn btn-outline-agen-colr btn-sm">En savoir plus</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="card bourse-card p-3 h-100 shadow-sm">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <img src="CA_FLAG.png" width="40">
+                                <span class="badge bg-warning">Résidence</span>
+                            </div>
+                            <h6 class="fw-bold">Bourse d'Excellence – Canada</h6>
+                            <p class="small text-muted mb-1">Université Montréal</p>
+                            <p class="small text-muted mb-2">Frais couverts + Allocation</p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <span class="badge bg-success">Ouvert</span>
+                                <a href="#" class="btn btn-outline-agen-colr btn-sm">Détails</a>
+                            </div>
+                        </div>
+                    </div>
+                       <!-- CARD BOURSE -->
+                    <div class="col-lg-4">
+                        <div class="card bourse-card p-3 h-100 shadow-sm">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <img src="FR_FLAG.png" width="40">
+                                <span class="badge bg-primaryl">Première</span>
+                            </div>
+                            <h6 class="fw-bold">Bourse d'Excellence Eiffel – France</h6>
+                            <p class="small text-muted mb-1">Université Paris-Saclay</p>
+                            <p class="small text-muted mb-2">Montant : 1 900€/mois</p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <span class="badge bg-success">Ouvert</span>
+                                <a href="#" class="btn btn-outline-agen-colr btn-sm">En savoir plus</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- PAGINATION -->
+                <div class="text-center mt-4">
+                    <nav>
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">›</a></li>
+                        </ul>
+                    </nav>
+               
+
+        </div>
+    </div>
+</section>
+<section class="py-5 bg-light">
+    <div class="container">
+
+        <h3 class="text-center fw-bold mb-5">Conseils pour postuler à une Bourse 🎓</h3>
+
+        <div class="row g-4 justify-content-center">
+
+            <!-- CARD 1 -->
+            <div class="col-6 col-md-3">
+                <div class="mini-card text-center p-3">
+                    <div class="icon-round mb-3 fa-3x">
+                        <i class="fas fa-search"></i> <!-- 🔍 Icône FontAwesome -->
+                    </div>
+                    <h5 class="fw-bold">Bien lire les critères</h5>
+                    <p class="small text-muted">Analyse attentivement les exigences pour éviter des dossiers incomplets.</p>
+                </div>
+            </div>
+
+            <!-- CARD 2 -->
+            <div class="col-6 col-md-3">
+                <div class="mini-card text-center p-3">
+                    <div class="icon-round mb-3">
+                        <i class="fas fa-file-alt fa-3x"></i> <!-- 📄 Icône FontAwesome -->
+                    </div>
+                    <h5 class="fw-bold">CV & Lettre au point</h5>
+                    <p class="small text-muted">Un dossier clair, propre et professionnel augmente tes chances.</p>
+                </div>
+            </div>
+
+            <!-- CARD 3 -->
+            <div class="col-6 col-md-3">
+                <div class="mini-card text-center p-3">
+                    <div class="icon-round mb-3">
+                        <i class="fas fa-clock fa-3x"></i> 
+                    </div>
+                    <h5 class="fw-bold">Ne pas attendre la dernière minute</h5>
+                    <p class="small text-muted">Prépare tôt ton dossier pour éviter le stress et les erreurs.</p>
+                </div>
+            </div>
+
+            <!-- CARD 4 -->
+            <div class="col-6 col-md-3">
+                <div class="mini-card text-center p-3">
+                    <div class="icon-round mb-3 ">
+                        <i class="fas fa-user-check fa-3x"></i> 
+                    </div>
+                    <h5 class="fw-bold">Faire relire par un expert</h5>
+                    <p class="small text-muted">Un avis extérieur améliore la qualité de ton dossier.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<section class="py-5 mentor-cta bg-shine-gold text-white">
+
+    <div class="container-fluid text-center">
+        <h2 class="fw-bold mb-3">Passe à l’action maintenant</h2>
+        <p class="lead mb-4">Ne laisse pas passer ta chance. Plus tôt tu commences, plus tes opportunités augmentent.</p>
+        <a href="#" class="btn btn-responsive-primaryl btn-lg px-4">Postuler dès maintenant</a>
+    </div>
+</section>
+
+{% endblock content %}

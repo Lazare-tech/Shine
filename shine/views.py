@@ -19,3 +19,6 @@ def devis(request):
 def mentorat(request):
     return render(request,'shine/body/mentorat.html')    
 #............................................................................................
+def infos_bourses(request):
+    return render(request,'shine/body/infos_bourse.html')    
+#............................................................................................

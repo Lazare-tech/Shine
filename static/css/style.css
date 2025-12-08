@@ -1,54 +1,50 @@
 :root {
-    --shine-blue: #004aad;; /* Bleu Marine de l'AGENCY */
-    --shine-gold: #c39d3b; /* Or de SHINE */
-    --bg-shine-gold:#c39d3b;
+    --shine-blue: #004aad;     /* Bleu Marine de l'AGENCY (Utilisé pour le fond si nécessaire, titres, etc.) */
+    --shine-dark-blue: #122046; /* Bleu très foncé (Utilisé pour les boutons, textes importants, etc.) */
+    --shine-gold: #c39d3b;     /* Or de SHINE (Boutons, accents, backgrounds) */
+    --bg-shine-gold: #c39d3b;   /* Maintenu pour la clarté */
+    --bg-shine-blue: #004aad;  /* Maintenu pour la clarté */
+}
+/* --- BOUTONS UNIFIÉS --- */
+
+/* Bouton OR (Fond Or, Texte Blanc/Bleu Foncé) */
+.btn-agen-colr,
+.btn-responsive-warning {
+    background-color: var(--shine-gold);
+    color: white; /* Conserver le blanc car c'était le cas dans l'original */
+    transition: 0.5s;
 }
 
-/* nav party    */
-/* #c39d3b
-#122046 */
-.btn-agen-colr 
-{
-    background-color: #c39d3b;
+.btn-agen-colr:hover,
+.btn-responsive-warning:hover {
+    background-color: #a67c2e; /* Version sombre de l'Or */
     color: white;
 }
-.btn-agen-colr:hover 
-{
-    background-color: #a67c2e;
-    color: white;
-    transition:0.5s;
-}   
-.btn-outline-agen-colr:hover 
-{
-    background-color: #122046;;
-    color: white;
-    transition:0.5s;
-}
-.btn-outline-agen-colr{
-    border-color: #122046;
-    color:#122046;
-}
-/* hero home */
 
-.btn-responsive-warning{
-    background-color: #c39d3b;
+/* Bouton OUTLINE (Contour Bleu Foncé, Texte Bleu Foncé) */
+.btn-outline-agen-colr {
+    border-color: var(--shine-dark-blue);
+    color: var(--shine-dark-blue);
+    transition: 0.5s;
+}
+
+.btn-outline-agen-colr:hover {
+    background-color: var(--shine-dark-blue);
     color: white;
 }
-.btn-responsive-warning:hover{
-    background-color: #a67c2e;
-    color: white;
-    transition:0.5s;
-}
-.btn-responsive-primaryl{
-    background-color: #122046;
+
+/* Bouton BLEU FONCÉ (Fond Bleu Foncé, Texte Blanc) */
+.btn-responsive-primaryl {
+    background-color: var(--shine-dark-blue);
     color: white !important;
+    transition: 0.5s;
 }
-.btn-responsive-primaryl:hover{
-    background-color: #0e1b34;
+
+.btn-responsive-primaryl:hover {
+    background-color: #0e1b34; /* Version sombre du Bleu Foncé */
     color: white;
-    transition:0.5s;
 }
-/* HERO GLOBAL */
+/* --- HERO GLOBAL --- */
 .hero-banner {
     position: relative;
     height: 450px;
@@ -56,14 +52,13 @@
     display: flex;
     align-items: center;
 }
-.hero-faq{
+.hero-faq {
      position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-/* Image responsive */
 .hero-banner .hero-bg {
     position: absolute;
     inset: 0;
@@ -71,54 +66,33 @@
     height: 100%;
     object-fit: cover;
 }
-
-/* Overlay bleu avec opacité */
-
-/* .hero-banner .hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(4, 13, 44, 0.70);
-} */
-
-
-
-/* ==> La partie bleue côté gauche */
-.hero-banner::after{
+.hero-banner::after {
     content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(
-        115deg,                    /* Angle = diagonale bleue */
-        rgba(6, 22, 54, .92) 0%,    /* Bleu foncé opaque gauche */
-        rgba(6, 22, 54, .88) 35%,   /* Transition progressive */
-        rgba(6, 22, 54, .45) 55%,   /* Zone semi transparente */
-        rgba(6, 22, 54, 0) 100%     /* Fin : image visible */
+        115deg,
+        rgba(6, 22, 54, .92) 0%,
+        rgba(6, 22, 54, .88) 35%,
+        rgba(6, 22, 54, .45) 55%,
+        rgba(6, 22, 54, 0) 100%
     );
     z-index: 1;
 }
-
-
-/* Texte dans le Hero */
 .hero-content {
     position: relative;
     z-index: 10;
     color: white;
 }
-
-/* Titre du hero */
 .hero-title {
     font-size: 32px;
     font-weight: 700;
     line-height: 1.4;
 }
-
-/* Texte */
 .hero-text {
     font-size: 17px;
     opacity: .95;
 }
-
-/* Responsive */
 @media (max-width: 768px) {
     .hero-banner {
         height: 380px;
@@ -131,72 +105,68 @@
         font-size: 15px;
     }
 }
-/* ................................................................................................................................ */
 
-/* circle down hero  */
-.circles{
+/* --- DIVERS --- */
+.circles {
     display: flex;
     gap: 10px;
 }
-
-.circles span{
+.circles span {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background:#444;
+    background: #444;
 }
-/* -------------------------------------------------------------------------- */
-/* STYLE DES CARTES ÉTAPES (SECTION 1) */
-/* -------------------------------------------------------------------------- */
-.service-card{
-    background:#fff;
-    border-radius:8px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.05);
-    transition:.3s;
+.service-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: .3s;
 }
-.service-card:hover{
-    transform:translateY(-5px);
-    box-shadow:0 8px 20px rgba(0,0,0,0.12);
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
-
-/* -------------------------------------------------------------------------- */
-/* STYLE DES BOUTONS ET LIENS DE MARQUE */
-/* -------------------------------------------------------------------------- */
-.btn-responsive-primaryl {
-    background-color: var(--shine-gold);
-    border-color: var(--shine-gold);
-    color: var(--shine-blue);
-    font-weight: bold;
-    transition: background-color 0.3s;
-}
-
-.btn-responsive-primaryl:hover {
+.bg-shine-gold {
     background-color: var(--bg-shine-gold);
-    border-color: var(--bg-shine-gold);
+}
+.text-title-gold {
+    color: var(--shine-gold);
+}
+.text-title-blue {
     color: var(--shine-blue);
 }
-
-.btn-outline-agen-colr {
-    color: var(--shine-blue);
-    border-color: var(--shine-blue);
-    transition: background-color 0.3s, color 0.3s;
+.text-primary {
+    color: var(--shine-blue) !important;
 }
 
-.btn-outline-agen-colr:hover {
-    background-color: var(--shine-blue);
-    color: white;
+/* --- ACCENTS ET COULEURS DANS LES FORMULAIRES/LISTES --- */
+.icon-color {
+    color: var(--shine-gold) !important;
+    font-weight: bold;
+}
+.contact-list li {
+    font-size: 0.95rem;
+    padding: 3px 0;
+    border-bottom: 1px dotted #e9ecef;
+}
+.contact-form-card {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
 }
 
-/* -------------------------------------------------------------------------- */
-/* STYLE DES ONGLET VERTICAUX (SECTION MÉTHODE) */
-/* -------------------------------------------------------------------------- */
+/* --- ONGLET VERTICAUX / MÉTHODE / MENTORAT LISTE --- */
+
+.custom-v-pills .nav-link,
+.list-group-item {
+    border-left: 4px solid #eee; /* Style base pour les listes et nav-links */
+    transition: all 0.3s;
+}
+
 .custom-v-pills .nav-link {
-    border-left: 4px solid #eee;
     margin-bottom: 10px;
     padding: 15px;
     text-align: left;
     color: #343a40;
-    transition: all 0.3s;
 }
 
 .custom-v-pills .nav-link:hover {
@@ -206,7 +176,7 @@
 
 .custom-v-pills .nav-link.active {
     border-left-color: var(--shine-blue);
-    background-color: #eaf1f8; /* Léger bleu pour l'actif */
+    background-color: #eaf1f8;
     color: var(--shine-blue);
 }
 
@@ -227,253 +197,149 @@
     color: var(--shine-blue);
 }
 
-/* ................................................................................................................................ */
-
-/* blog party  */
-/* CSS personnalisé pour la section */
-
-/* Style pour la vignette/image de l'article */
-.blog-thumb {
-    width: 60px; /* Largeur de la miniature */
-    height: 60px; /* Hauteur de la miniature */
-    border-radius: 8px; /* Coins légèrement arrondis */
-    background-color: #dee2e6; /* Couleur de placeholder (à remplacer par une image réelle) */
-    flex-shrink: 0; /* Empêche la miniature de se réduire */
+/* Style de survol pour la liste de mentorat (unifié avec le style des onglets) */
+.list-group-item:hover {
+    background-color: #eaf1f8; /* Léger fond bleu pour l'UX */
 }
 
-/* Optionnel : Pour un meilleur espacement des cartes blog */
+/* --- SECTION BLOG --- */
+.blog-thumb {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    background-color: #dee2e6;
+    flex-shrink: 0;
+}
 .custom-card-blog .card-body {
     padding: 1rem;
 }
-
-/* S'assurer que le texte de la colonne de gauche est centré sur la hauteur */
 .col-lg-6.d-flex {
-    min-height: 450px; /* Donne une hauteur minimale pour centrer le contenu verticalement */
+    min-height: 450px;
 }
 
-.text-primary {
-    color: #004aad !important; /* Exemple de couleur primaire cohérente */
+/* --- TÉMOIGNAGES --- */
+.testimonial-section .card-body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
 }
-/* ................................................................................................................................ */
-
-/* avis utilisateur */
-/* Style personnalisé pour les avis utilisateurs */
-
-/* S'assurer que les avatars sont bien ronds et de taille fixe */
 .avatar-container {
     width: 80px;
     height: 80px;
     border-radius: 50%;
     overflow: hidden;
-    border: 3px solid #004aad; /* Bordure autour de l'avatar */
+    border: 3px solid var(--shine-blue); /* Bordure autour de l'avatar */
 }
-
 .avatar-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-
-/* Flexbox pour garantir que le texte de l'avis prend toute la hauteur disponible */
-.card-body {
-    display: flex;
-    flex-direction: column;
-}
-
 .flex-grow-1 {
     flex-grow: 1;
 }
-
-/* Couleur pour les icônes Font Awesome si vous les avez liées (requis pour les étoiles) */
+.testimonial-section .rating,
 .text-warning i {
-    color: #ffc107; /* Jaune standard Bootstrap pour les étoiles */
+    color: var(--shine-gold) !important; /* Utilisation de la variable Or pour les étoiles */
 }
 
-/* Couleurs utilisées (assurez-vous d'avoir les liens Font Awesome dans votre <head>) */
-.bg-light {
-    background-color: #f8f9fa !important;
+/* --- STYLE MENTORAT (CARTE AVANTAGES) --- */
+.mentor-advantage-card {
+    transition: transform 0.3s ease;
 }
-/* ................................................................................................................................ */
-/* contact party */
-.icon-color {
-    color:#122046;
-    font-weight: bold;
-}
-/* Accentuation des icônes dans les coordonnées et le formulaire */
-.icon-color {
-    color: var(--shine-gold) !important;
+.mentor-advantage-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
 }
 
-/* Style du bouton d'envoi */
-.btn-responsive-primaryl {
-    background-color: var(--shine-gold); /* Bouton en Or */
-    border-color: var(--shine-gold);
-    color: var(--shine-blue); /* Texte en Bleu */
-    font-weight: bold;
-    transition: background-color 0.3s, border-color 0.3s;
-}
-
-.btn-responsive-primaryl:hover {
-    background-color: var(--shine-blue); /* Hover en Bleu */
-    border-color: var(--shine-blue);
-    color: #fff;
-}
-
-/* Amélioration de la lisibilité des numéros de téléphone */
-.contact-list li {
-    font-size: 0.95rem;
-    padding: 3px 0;
-    border-bottom: 1px dotted #e9ecef;
-}
-
-/* Ombre plus prononcée sur le formulaire pour le mettre en avant */
-.contact-form-card {
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-}
-/* faq party  */
-/* Couleurs de base */
-
-/* Style des boutons de filtre */
+/* --- FAQ ACCORDÉON --- */
 .btn-faq-filter {
     background-color: transparent;
     color: var(--shine-blue);
     border: 1px solid var(--shine-blue);
     transition: all 0.3s ease;
 }
-
 .btn-faq-filter:hover {
     background-color: var(--shine-blue);
     color: #fff;
     border-color: var(--shine-blue);
 }
-
 .btn-faq-filter.active {
-    background-color: var(--shine-gold); /* Bouton actif en OR */
+    background-color: var(--shine-gold);
     color: #fff;
     border-color: var(--shine-gold);
 }
-
-/* Style de l'accordéon */
 .accordion-button {
     color: var(--shine-blue) !important;
 }
-
 .accordion-button:not(.collapsed) {
-    background-color: #eaf1f8; /* Léger fond bleu pour la question ouverte */
+    background-color: #eaf1f8;
     color: var(--shine-blue);
     box-shadow: none;
 }
-
-/* Icône de l'accordéon */
 .accordion-button:not(.collapsed)::after {
-    filter: brightness(0.5); /* Assurez-vous que l'icône est visible sur le fond */
+    filter: brightness(0.5);
 }
-
 .accordion-item {
     margin-bottom: 10px;
     border: 1px solid #ddd;
     border-radius: 6px;
-    overflow: hidden; /* Important pour les coins arrondis */
+    overflow: hidden;
     transition: all 0.5s ease;
 }
-
 .accordion-body {
     border-top: 1px solid #e9ecef;
 }
-.text-title-gold{
-    color:var(--shine-gold);
-}
-.text-title-blue{
-    color:var(--shine-blue);
-}
-/* mentorat party  */
-/* Style du bouton d'appel à l'action final */
-.btn-shine-gold {
-    background-color: var(--shine-gold);
-    border-color: var(--shine-gold);
-    color: var(--shine-blue); /* Texte bleu sur fond or */
-    transition: all 0.3s ease;
+/* infos bourses */
+
+
+.bourse-card:hover {
+    transform: translateY(-4px);
+    transition: .3s;
 }
 
-.btn-shine-gold:hover {
-    background-color: #c29f37; /* Or légèrement plus foncé au survol */
-    border-color: #c29f37;
-    color: var(--shine-blue);
-    transform: translateY(-2px); /* Léger effet pour l'UX */
+.info-card {
+    border-radius: 10px;
+    background: #fff;
+}
+.info-card:hover {
+    transform: scale(1.05);
+    transition: .3s;
+}
+.bg-gray-searc {
+    background-color: rgb(243, 243, 243);
+}
+.mini-card{
+    background:#fff;
+    border-radius:10px;
+    box-shadow:0 3px 10px rgba(0,0,0,.1);
+    transition:.3s;
 }
 
-/* Amélioration visuelle pour les avantages */
-.mentor-advantage-card {
-    transition: transform 0.3s ease;
+.mini-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
 }
 
-.mentor-advantage-card:hover {
-    transform: translateY(-5px); /* Effet de soulèvement pour l'engagement */
-    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+/* Icône ronde */
+.icon-round{
+    width:70px;
+    height:70px;
+    display:flex;
+    align-items:center;        /* Centre verticalement */
+    justify-content:center;    /* Centre horizontalement */
+    margin: 0 auto;            /* Centre le cercle dans la card */
+}
+.icon-round i{
+        color:var(--shine-gold);
+
 }
 
-/* Style spécifique pour la liste des profils (UX) */
-.list-group-item {
-    transition: background-color 0.3s;
+.icon-round h5{
+        color: var(--shine-blue);
+
+}
+.bg-primaryl {
+    background-color: var(--shine-blue) ;
 }
 
-.list-group-item:hover {
-    background-color: #eaf1f8; /* Léger fond bleu au survol */
-}
-.bg-shine-gold{
-    background-color: var(--bg-shine-gold);
-}
-* -------------------------------------------------------------------------- */
-/* STYLE DES ONGLET VERTICAUX (SECTION MÉTHODE) */
-/* -------------------------------------------------------------------------- */
-.custom-v-pills .nav-link {
-    border-left: 4px solid #eee;
-    margin-bottom: 10px;
-    padding: 15px;
-    text-align: left;
-    color: #343a40;
-    transition: all 0.3s;
-}
-
-.custom-v-pills .nav-link:hover {
-    border-left-color: var(--shine-gold);
-    background-color: #f8f9fa;
-}
-
-.custom-v-pills .nav-link.active {
-    border-left-color: var(--shine-blue);
-    background-color: #eaf1f8; /* Léger bleu pour l'actif */
-    color: var(--shine-blue);
-}
-
-.custom-v-pills .step-num {
-    background-color: var(--shine-gold);
-    color: var(--shine-blue);
-    font-weight: bold;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1rem;
-}
-
-.custom-v-pills .nav-link.active .step-title {
-    color: var(--shine-blue);
-}
-/* -------------------------------------------------------------------------- */
-/* STYLE DE LA SECTION TÉMOIGNAGES */
-/* -------------------------------------------------------------------------- */
-.testimonial-section .card-body {
-    position: relative;
-}
-
-.testimonial-section .avatar-img {
-    border: 3px solid var(--shine-gold); /* Bordure Or autour des avatars */
-}
-
-/* Pour utiliser l'Or sur les étoiles */
-.testimonial-section .rating {
-    color: var(--shine-gold) !important;
-}
