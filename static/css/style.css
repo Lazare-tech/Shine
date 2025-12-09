@@ -134,7 +134,7 @@
     color: var(--shine-gold);
 }
 .text-title-blue {
-    color: var(--shine-blue);
+    color: var(--shine-dark-blue);
 }
 .text-primary {
     color: var(--shine-blue) !important;
@@ -342,4 +342,76 @@
 .bg-primaryl {
     background-color: var(--shine-blue) ;
 }
+/* LOGIN PAGE  */
+.shine-card{
+        max-width:480px;
+        margin:auto;
+        background:white;
+        border-radius:14px;
+        padding:35px;
+        box-shadow:0 8px 25px rgba(0,0,0,0.12);
+    }
 
+    /* Sélection rôle */
+    .user-role-box{
+        display:flex;
+        gap:10px;
+        justify-content:center;
+        margin-bottom:22px;
+    }
+
+    .role-btn{
+        flex:1;
+        border:2px solid #C4A13A;
+        padding:5px 8px;
+        font-size:11px;
+        font-weight:600;
+        border-radius:8px;
+        background:white;
+        color:#C4A13A;
+        transition:.3s;
+    }
+
+    .role-btn.active, .role-btn:hover{
+        background:#C4A13A;
+        color:white;
+    }
+
+    .btn-shine{
+        background:#C4A13A;
+        border:none;
+        padding:12px;
+        font-size:17px;
+        font-weight:600;
+        border-radius:6px;
+        transition:.3s;
+    }
+    .btn-shine:hover{ background:#b18e26; }
+
+    .logo-area img{ width:170px; display:block; margin:auto; }
+
+    .input-custom{
+        border:1.8px solid #d1d1d1;
+        border-radius:7px;
+        height:48px;
+    }
+    .input-custom:focus{
+        border-color:#C4A13A;
+        box-shadow:0 0 4px rgba(196,161,58,.6);
+    }
+    .btn-toggle {
+    border-radius: 50rem !important;
+    transition: all .55s ease-in-out;
+}
+
+.active-btn {
+    background-color: var(--shine-dark-blue) !important; /* Couleur primaire BOOTSTRAP */
+    box-shadow: 0 3px 12px rgba(13,110,253,.45);
+    transform: scale(1.05);
+}
+
+.btn-toggle:hover:not(.active-btn) {
+    background-color: var(--shine-dark-blue);
+    transform: scale(1.03);
+color:white !important;
+}

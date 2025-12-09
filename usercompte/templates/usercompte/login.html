@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}{% endblock title %}
+{% block content %}
+
+{% include 'usercompte/sec.html' %}
+
+<div class="container py-3">
+    
+    <!---------------- LOGO ---------------->
+  
+    <!-- CARD -->
+    <div class="shine-card">
+
+        <h3 class="text-center mb-4 text-title-blue" >Connexion à votre Espace</h3>
+        <h6 class="text-center mb-4 text-title-blue">Veuillez sélectionner votre profil et vous connecter</h6>
+        <!-- CHOIX PROFIL EN HAUT -->
+<div class="user-role-box">
+    <button class="role-btn" onclick="setRole('Client')">
+        <i class="fas fa-user"></i>
+        <span>Client</span>
+    </button>
+
+    <button class="role-btn" onclick="setRole('Apporteur')">
+        <i class="fas fa-briefcase"></i>
+        <span>Apporteur d’affaires</span>
+    </button>
+
+    <button class="role-btn" onclick="setRole('Mentor')">
+        <i class="fas fa-chalkboard-teacher"></i>
+        <span>Mentor</span>
+    </button>
+</div>
+        <!------------- FORMULAIRE (TOUJOURS VISIBLE)-->
+        <form>
+            <div class="mb-3">
+                <input type="text" class="form-control input-custom"
+                       placeholder="E-mail ou Nom d'utilisateur">
+            </div>
+            <div class="mb-2">
+                <input type="password" class="form-control input-custom"
+                       placeholder="Mot de passe">
+            </div>
+
+            <div class="d-flex justify-content-between mb-3 small">
+                <label><input type="checkbox"> Se souvenir de moi</label>
+                <a href="#" class="text-title-blue fw-bold">Mot de passe oublié ?</a>
+            </div>
+
+            <button class="btn-shine w-100 text-white">Continuer</button>
+
+            <p class="text-center mt-3">
+                Vous n'avez pas encore de compte ? 
+                <a href="{% url 'usercompte:register' %}" class="text-title-blue fw-bold">Créer un compte</a>
+            </p>
+        </form>
+    </div>
+</div>
+
+<script>
+function setRole(role){
+    document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+}
+</script>
+
+
+{% endblock content %}
