@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block title %}Espace Mentor{% endblock %}
+{% block content %}
+
+<section class="container py-5" style="max-width:900px">
+
+    <h2 class="fw-bold text-center" style="color:var(--shine-dark-blue)">Espace Mentor</h2>
+    <p class="text-center text-muted">Gérez vos informations, vos missions, et suivez votre validation.</p>
+
+
+    <!-- ▬▬▬▬ ÉTAT DU DOSSIER ▬▬▬▬ -->
+    <div class="shine-box mb-4">
+
+        <h5 class="fw-bold text-title-gold mb-2">📌 Suivi de votre dossier</h5>
+
+        <div class="timeline">
+
+            <div class="step done">
+                <span>1. Dossier soumis</span>
+                <small>✦ 12/02/2025</small>
+            </div>
+            
+            <div class="step active">
+                <span>2. Vérification de l’équipe SHINE</span>
+                <small>En cours...</small>
+            </div>
+
+            <div class="step">
+                <span>3. Validation finale</span>
+                <small>En attente</small>
+            </div>
+
+        </div>
+
+        <!-- Possibilité d’ajouter intervalle de dates -->
+        <div class="mt-3">
+            <label class="form-label">Délai estimé de validation (admin visible uniquement)</label>
+            <input type="date" class="form-control" disabled>
+        </div>
+
+    </div>
+
+
+    <!-- ========= INFOS PERSONNELLES ========== -->
+    <div class="card-box mt-4">
+
+        <h4 class="section-title">🧾 Vos Informations</h4>
+
+        <div class="row mt-3">
+            <div class="col-md-4"><b>Nom :</b> {{ user.last_name }}</div>
+            <div class="col-md-4"><b>Prénom :</b> {{ user.first_name }}</div>
+            <div class="col-md-4"><b>Nationalité :</b> {{ user.profile.nationalite }}</div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-md-4"><b>Genre :</b> {{ user.profile.genre }}</div>
+            <div class="col-md-4"><b>Email :</b> {{ user.email }}</div>
+            <div class="col-md-4"><b>Téléphone :</b> {{ user.profile.phone }}</div>
+        </div>
+
+        <button class="edit-btn mt-3" onclick="document.getElementById('editModal').style.display='block'">
+            Modifier mes informations ✏
+        </button>
+    </div>
+
+
+    <!-- ▬▬▬▬ COMPÉTENCES DU MENTOR ▬▬▬▬ -->
+    <div class="shine-box mb-4">
+
+        <h5 class="fw-bold text-title-gold mb-3">🎓 Domaines d’accompagnement</h5>
+
+        <label class="form-check d-flex gap-2">
+            <input class="form-check-input" type="checkbox"/> A. Orientation scolaire & professionnelle
+        </label>
+        <label class="form-check d-flex gap-2">
+            <input class="form-check-input" type="checkbox"/> B. Soutien académique aux élèves en difficulté
+        </label>
+        <label class="form-check d-flex gap-2">
+            <input class="form-check-input" type="checkbox"/> C. Coaching éducatif & développement personnel
+        </label>
+        <label class="form-check d-flex gap-2">
+            <input class="form-check-input" type="checkbox"/> Mentorat partage d’expérience locale
+        </label>
+
+        <textarea class="form-control mt-3" rows="3"
+        placeholder="Ajoutez un résumé de votre expertise (optionnel)"></textarea>
+
+        <button class="btn-shine w-100 mt-3">Enregistrer ✓</button>
+    </div>
+
+
+
+    <!-- ▬▬▬▬ DISPONIBILITÉS & MENTORATS ▬▬▬▬ -->
+    <div class="shine-box mb-4">
+        <h5 class="fw-bold text-title-gold mb-3">📅 Disponibilités</h5>
+
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label>Début</label>
+                <input type="date" class="form-control">
+            </div>
+            <div class="col-md-6">
+                <label>Fin</label>
+                <input type="date" class="form-control">
+            </div>
+        </div>
+
+        <textarea class="form-control mt-3" rows="3" placeholder="Notes sur vos créneaux..."></textarea>
+
+        <button class="btn-shine w-100 mt-3">Ajouter la disponibilité</button>
+    </div>
+
+</section>
+
+
+
+<!-- ============= MODALE MODIFICATION PROFIL ============= -->
+<div id="editModal" 
+     style="position:fixed;top:0;left:0;width:100%;height:100%;
+         background:#0008;display:none;align-items:center;justify-content:center;">
+     
+    <form method="POST" class="card-box" style="width:600px;">
+        {% csrf_token %}
+        <h4 class="section-title mb-3">Modifier mon profil</h4>
+
+        <input name="nom" class="form-control" placeholder="Nom" value="{{ user.last_name }}" required><br>
+        <input name="prenom" class="form-control" placeholder="Prénom" value="{{ user.first_name }}" required><br>
+        <input name="phone" class="form-control" placeholder="Téléphone" value="{{ user.profile.phone }}"><br>
+        <input name="nationalite" class="form-control" placeholder="Nationalité" value="{{ user.profile.nationalite }}"><br>
+        
+        <select name="genre" class="form-control" required>
+            <option {% if profile.genre == "Homme" %}selected{% endif %}>Homme</option>
+            <option {% if profile.genre == "Femme" %}selected{% endif %}>Femme</option>
+        </select><br>
+
+        <button class="edit-btn w-100">Enregistrer ✔</button>
+        <p class="text-center mt-2" onclick="document.getElementById('editModal').style.display='none'" style="cursor:pointer;color:red">Fermer ✖</p>
+    </form>
+</div>
+{% endblock content %}

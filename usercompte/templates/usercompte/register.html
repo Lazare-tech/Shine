@@ -18,7 +18,8 @@
                     <p class="text-muted small mt-2">
                         Suivez vos démarches (programmes, bourses, visa & admission).
                     </p>
-                    <a href="login-client.html" class="btn  btn-responsive-primaryl mt-3">Continuer</a>
+                    <a href="{% url 'usercompte:adminclient'%}">Admin</a>
+                    <a href="{% url 'usercompte:registerclient'%}" class="btn  btn-responsive-primaryl mt-3">Continuer</a>
                 </div>
             </div>
 
@@ -32,7 +33,7 @@
                     <p class="text-muted small mt-2">
                         Partagez des prospects, gagnez des commissions & suivez vos dossiers.
                     </p>
-                    <a href="login-apporteur.html" class="btn  btn-responsive-primaryl text-white mt-3">Continuer</a>
+                    <a href="{% url 'usercompte:registerbusiness' %}" class="btn  btn-responsive-primaryl text-white mt-3">Continuer</a>
                 </div>
             </div>
 
@@ -46,7 +47,9 @@
                     <p class="text-muted small mt-2">
                         Encadrez les étudiants, attribuez des sessions & suivez leur progression.
                     </p>
-                    <a href="login-mentor.html" class="btn  btn-responsive-primaryl mt-3">Continuer</a>
+                                        <a href="{% url 'usercompte:adminmentor'%}">Admin</a>
+
+                    <a href="{% url 'usercompte:registermentor' %}" class="btn  btn-responsive-primaryl mt-3">Continuer</a>
                 </div>
             </div>
 

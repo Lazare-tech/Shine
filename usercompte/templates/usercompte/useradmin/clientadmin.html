@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% block title %}Espace Client{% endblock %}
+{% block content %}
+
+
+
+
+
+<section class="dashboard-container">
+
+    <h2 class="section-title mb-3">👋 Bienvenue, {{ user.first_name }} !</h2>
+    <p class="text-muted">Gérez vos informations & suivez l'évolution de votre parcours.</p>
+
+
+    <!-- ========= INFOS PERSONNELLES ========== -->
+    <div class="card-box mt-4">
+
+        <h4 class="section-title">🧾 Vos Informations</h4>
+
+        <div class="row mt-3">
+            <div class="col-md-4"><b>Nom :</b> {{ user.last_name }}</div>
+            <div class="col-md-4"><b>Prénom :</b> {{ user.first_name }}</div>
+            <div class="col-md-4"><b>Nationalité :</b> {{ user.profile.nationalite }}</div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-md-4"><b>Genre :</b> {{ user.profile.genre }}</div>
+            <div class="col-md-4"><b>Email :</b> {{ user.email }}</div>
+            <div class="col-md-4"><b>Téléphone :</b> {{ user.profile.phone }}</div>
+        </div>
+
+        <button class="edit-btn mt-3" onclick="document.getElementById('editModal').style.display='block'">
+            Modifier mes informations ✏
+        </button>
+    </div>
+
+
+<!-- 📌 SECTION SUIVI & EVALUATION DU DOSSIER -->
+<div class="card border-0 shadow-sm mt-4" style="border-left: 4px solid #c39d3b;">
+    <div class="card-body">
+        <h5 class="fw-bold mb-4" style="color:#122046;">📄 Suivi & Évaluation du Dossier</h5>
+
+        <!-- PROGRESSION GLOBALE -->
+        <div class="mb-4">
+            <label class="fw-semibold" style="color:#122046;">Progression générale :</label>
+            <div class="progress mt-2" style="height:10px;">
+                <div class="progress-bar" role="progressbar" style="width: 45%; background:#c39d3b"></div>
+            </div>
+            <small class="text-muted">45% du processus complété</small>
+        </div>
+
+        <!-- TABLEAU DES ETAPES -->
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead style="background:#122046;color:white;">
+                    <tr>
+                        <th>État</th>
+                        <th>Action / Phase</th>
+                        <th>Date début</th>
+                        <th>Date fin prévue</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td><span class="badge" style="background:#c39d3b;">1</span></td>
+                        <td>Soumission du dossier</td>
+                        <td><small class="text">12/12/2024</small></td>
+                                                <td><small class="text">12/12/2024</small></td>
+
+                        <td><span class="badge bg-success">Terminé</span></td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="badge" style="background:#c39d3b;">2</span></td>
+                        <td>Vérification & analyse</td>
+                                                <td><small class="text">12/12/2024</small></td>
+
+                        <td><small class="text">12/12/2024</small></td>
+                        <td><span class="badge bg-warning text-dark">En cours</span></td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="badge" style="background:#c39d3b;">3</span></td>
+                        <td>Validation administrative</td>
+                                              <td><small class="text">12/12/2024</small></td>
+
+                                                <td><small class="text">12/12/2024</small></td>
+
+                        <td><span class="badge bg-secondary">En attente</span></td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="badge" style="background:#c39d3b;">4</span></td>
+                        <td>Décision finale & attribution mentor</td>
+                       
+                                                <td><small class="text">12/12/2024</small></td>
+                        <td><small class="text">12/12/2024</small></td>
+
+                        <td><span class="badge bg-secondary">Non entamé</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- COMMENTAIRE & NOTES -->
+        <div class="mt-4">
+            <label style="color:#122046;" class="fw-semibold">Notes d'observation :</label>
+            <textarea class="form-control" rows="3" placeholder="Ajouter un commentaire sur l'évolution du dossier..."></textarea>
+            <button class="btn mt-3" style="background:#122046;color:white;">Enregistrer</button>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!-- ============= MODALE MODIFICATION PROFIL ============= -->
+<div id="editModal" 
+     style="position:fixed;top:0;left:0;width:100%;height:100%;
+         background:#0008;display:none;align-items:center;justify-content:center;">
+     
+    <form method="POST" class="card-box" style="width:600px;">
+        {% csrf_token %}
+        <h4 class="section-title mb-3">Modifier mon profil</h4>
+
+        <input name="nom" class="form-control" placeholder="Nom" value="{{ user.last_name }}" required><br>
+        <input name="prenom" class="form-control" placeholder="Prénom" value="{{ user.first_name }}" required><br>
+        <input name="phone" class="form-control" placeholder="Téléphone" value="{{ user.profile.phone }}"><br>
+        <input name="nationalite" class="form-control" placeholder="Nationalité" value="{{ user.profile.nationalite }}"><br>
+        
+        <select name="genre" class="form-control" required>
+            <option {% if profile.genre == "Homme" %}selected{% endif %}>Homme</option>
+            <option {% if profile.genre == "Femme" %}selected{% endif %}>Femme</option>
+        </select><br>
+
+        <button class="edit-btn w-100">Enregistrer ✔</button>
+        <p class="text-center mt-2" onclick="document.getElementById('editModal').style.display='none'" style="cursor:pointer;color:red">Fermer ✖</p>
+    </form>
+</div>
+
+{% endblock content %}

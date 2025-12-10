@@ -25,3 +25,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// step page form register 
+function nextStep(step){
+    ["step1","step2","step3","step4"].forEach(s=>document.getElementById(s).classList.add("hidden"));
+    document.getElementById("step"+step).classList.remove("hidden");
+
+    ["s1","s2","s3","s4"].forEach((id,i)=>{
+        let el=document.getElementById(id), index=i+1;
+        el.className="progress-step"+(index<step?" done":index==step?" active":"");
+    });
+    document.getElementById("l1").className="step-line"+(step>=2?" done":"");
+    document.getElementById("l2").className="step-line"+(step>=3?" done":"");
+    document.getElementById("l3").className="step-line"+(step>=4?" done":"");
+}
+function prevStep(step){ nextStep(step); }
