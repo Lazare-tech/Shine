@@ -154,68 +154,157 @@
 </section>
 
 </section>
-
 <section class="py-5 bg-white service-innovant-section">
     <div class="container">
         
-        <h3 class="text-center fw-bold  mb-5" style="color: var(--shine-blue);">
-            Notre Méthode d'Accompagnement Unique
+        <h3 class="text-center fw-bold mb-5" style="color: var(--shine-blue);">
+            Nos Services Premium Shine
         </h3>
 
         <div class="row">
             
+            <!-- 🔵 MENU DES SERVICES -->
             <div class="col-lg-4">
                 <div class="nav flex-column nav-pills custom-v-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                     
-                    <a class="nav-link active" id="v-pills-etape1-tab" data-bs-toggle="pill" data-bs-target="#v-pills-etape1" type="button" role="tab" aria-controls="v-pills-etape1" aria-selected="true">
+                    <!-- Service 1 -->
+                    <a class="nav-link active" id="v-pills-etape1-tab" data-bs-toggle="pill" data-bs-target="#v-pills-etape1"
+                       role="tab" aria-controls="v-pills-etape1" aria-selected="true">
                         <span class="step-num me-3">1</span> 
-                        <span class="step-title fw-bold">Orientation Personnalisée</span>
-                        <small class="d-block text-muted">Trouver la meilleure voie</small>
+                        <span class="step-title fw-bold">Études Internationales</span>
+                        <small class="d-block text-muted">Mobilité étudiante</small>
                     </a>
 
-                    <a class="nav-link" id="v-pills-etape2-tab" data-bs-toggle="pill" data-bs-target="#v-pills-etape2" type="button" role="tab" aria-controls="v-pills-etape2" aria-selected="false">
+                    <!-- Service 2 -->
+                    <a class="nav-link" id="v-pills-etape2-tab" data-bs-toggle="pill" data-bs-target="#v-pills-etape2"
+                       role="tab" aria-controls="v-pills-etape2" aria-selected="false">
                         <span class="step-num me-3">2</span> 
-                        <span class="step-title fw-bold">Gestion des Formalités</span>
-                        <small class="d-block text-muted">Toutes les démarches simplifiées</small>
+                        <span class="step-title fw-bold">Voyage - Mobilité Générale</span>
+                        <small class="d-block text-muted">Déplacements & assistance</small>
                     </a>
 
-                    <a class="nav-link" id="v-pills-etape3-tab" data-bs-toggle="pill" data-bs-target="#v-pills-etape3" type="button" role="tab" aria-controls="v-pills-etape3" aria-selected="false">
+                    <!-- Service 3 -->
+                    <a class="nav-link" id="v-pills-etape3-tab" data-bs-toggle="pill" data-bs-target="#v-pills-etape3"
+                       role="tab" aria-controls="v-pills-etape3" aria-selected="false">
                         <span class="step-num me-3">3</span> 
-                        <span class="step-title fw-bold">Installation et Logement</span>
-                        <small class="d-block text-muted">Aide à l'intégration locale</small>
+                        <span class="step-title fw-bold">Accompagnement des Établissements</span>
+                        <small class="d-block text-muted">Performance & gestion</small>
                     </a>
+
+                    <!-- Service 4 -->
+                    <a class="nav-link" id="v-pills-etape4-tab" data-bs-toggle="pill" data-bs-target="#v-pills-etape4"
+                       role="tab" aria-controls="v-pills-etape4" aria-selected="false">
+                        <span class="step-num me-3">4</span> 
+                        <span class="step-title fw-bold">Conseil & Orientation</span>
+                        <small class="d-block text-muted">Élèves & étudiants</small>
+                    </a>
+
                 </div>
             </div>
 
-            <div class="col-lg-8">
-                <div class="tab-content border-start ps-lg-5 ps-3" id="v-pills-tabContent">
-                    
-                    <div class="tab-pane fade show active" id="v-pills-etape1" role="tabpanel" aria-labelledby="v-pills-etape1-tab">
-                        <h3 class="fw-bold mb-3" style="color: var(--shine-blue);">Analyse de profil et Vision</h3>
-                        <div class="row align-items-center g-4">
-                            <div class="col-md-7">
-                                <p class="lead">
-                                    Nous commençons par un diagnostic complet de vos ambitions...
-                                </p>
-                                <ul class="list-unstyled">
-                                    <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i> Coaching personnalisé</li>
-                                    <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i> Simulation de parcours</li>
-                                    <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i> Accès à notre base de données</li>
-                                </ul>
-                                <a href="#" class="btn btn-responsive-warning mt-3">Commencer l'Orientation</a>
-                            </div>
-                            <div class="col-md-5">
-                                <img src="{% static 'images/orientation.jpg'%}" class="img-fluid rounded shadow" alt="Illustration Etape 1">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    </div>
+            <!-- 🟡 CONTENU DES SERVICES -->
+           <div class="col-lg-8">
+    <div class="tab-content border-start ps-lg-5 ps-3" id="v-pills-tabContent">
+
+        <!-- *************** SERVICE 1 — ÉTUDES INTERNATIONALES *************** -->
+        <div class="tab-pane fade show active" id="v-pills-etape1" role="tabpanel">
+            <h4 class="fw-bold mb-3 text-title-blue">Études Internationales</h4>
+            <p class="lead text-muted">Un accompagnement complet pour réussir votre mobilité étudiante.</p>
+
+            <div class="row g-4 align-items-center">
+                <div class="col-md-6">
+                    <ul class="list-unstyled mt-3">
+                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i> Inscription universitaire & orientation</li>
+                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i> Assistance Visa & formalités</li>
+                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i> Préparation au départ</li>
+                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i> Logement, accueil & installation</li>
+                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i> Insertion & intégration</li>
+                    </ul>
+                    <a href="#" class="btn btn-responsive-warning mt-3">Voir les détails</a>
+                </div>
+
+                <div class="col-md-6 text-center">
+                    <img src="{% static 'images/hero_f.jpg' %}" class="img-fluid rounded shadow service-image" alt="">
+                </div>
             </div>
+        </div>
+
+        <!-- *************** SERVICE 2 — VOYAGE *************** -->
+        <div class="tab-pane fade" id="v-pills-etape2" role="tabpanel">
+            <h4 class="fw-bold mb-3 text-title-blue">Voyage & Mobilité Générale</h4>
+            <p class="lead text-muted">Une assistance complète et personnalisée,au-delà des services proposés par les agences classiques
+</p>
+
+            <div class="row g-4 align-items-center">
+                <div class="col-md-6">
+                    <ul class="list-unstyled mt-3">
+                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i> Assistance administrative pour demande de VISA</li>
+                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i> Réservation & vente de billets d’avion</li>
+                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i> Assurance voyage & assistance personnalisée</li>
+                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i> Aide à l’hébergement & conseils pratiques</li>
+                    </ul>
+                    <a href="#" class="btn btn-responsive-warning mt-3">Voir les détails</a>
+                </div>
+
+                <div class="col-md-6 text-center">
+                    <img src="{% static 'images/travel.jpg' %}" class="img-fluid rounded shadow service-image" alt="">
+                </div>
+            </div>
+        </div>
+
+        <!-- *************** SERVICE 3 — ÉTABLISSEMENTS *************** -->
+        <div class="tab-pane fade" id="v-pills-etape3" role="tabpanel">
+            <h4 class="fw-bold mb-3 text-title-blue">Accompagnement des Établissements Scolaires</h4>
+            <p class="lead text-muted">Accompagnement des etablissements scolaires pour une meilleure performance.
+</p>
+
+            <div class="row g-4 align-items-center">
+                <div class="col-md-6">
+                    <ul class="list-unstyled mt-3">
+                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i> Diagnostic global & analyse de performance</li>
+                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i> Appui à la gestion administrative & organisationnelle</li>
+                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i> Renforcement pédagogique</li>
+                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i> Formation & coaching du personnel</li>
+                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i> Digitalisation & outils modernes de gestion</li>
+                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i> Suivi, accompagnement & résultats mesurables</li>
+                    </ul>
+                    <a href="#" class="btn btn-responsive-warning mt-3">Voir les détails</a>
+                </div>
+
+                <div class="col-md-6 text-center">
+                    <img src="{% static 'images/ecole.jpg' %}" class="img-fluid rounded shadow service-image" alt="">
+                </div>
+            </div>
+        </div>
+
+        <!-- *************** SERVICE 4 — CONSEIL & ORIENTATION *************** -->
+        <div class="tab-pane fade" id="v-pills-etape4" role="tabpanel">
+            <h4 class="fw-bold mb-3 text-title-blue">Conseil, Orientation & Accompagnement</h4>
+            <p class="lead text-muted">Un suivi adapté pour élèves, étudiants & parents.</p>
+
+            <div class="row g-4 align-items-center">
+                <div class="col-md-6">
+                    <ul class="list-unstyled mt-3">
+                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i> Orientation scolaire & professionnelle</li>
+                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i> Accompagnement académique & soutien aux élèves en difficulté</li>
+                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i> Coaching éducatif & développement personnel</li>
+                    </ul>
+                    <a href="#" class="btn btn-responsive-warning mt-3">Voir les détails</a>
+                </div>
+
+                <div class="col-md-6 text-center">
+                    <img src="{% static 'images/orientation.jpg' %}" class="img-fluid rounded shadow service-image" alt="">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 
         </div>
     </div>
 </section>
+
 
 <section class="py-5">
     <div class="container">
@@ -223,7 +312,7 @@
 
             <div class="col-lg-6 d-flex flex-column justify-content-center">
                 
-                <h4 class="fw-bold mb-3" style="color: var(--shine-blue);">
+                <h4 class="fw-bold mb-3 text-title-blue">
                     Rejoignez notre Communauté !
                 </h4>
                 <p class="lead mb-4 text-muted">
@@ -236,7 +325,7 @@
                 </div>
 
                 <div class="card p-4 shadow-sm bg-white">
-                    <h5 class="mb-3 fw-bold" style="color: var(--shine-blue);">Abonnez-vous à la Newsletter</h5>
+                    <h5 class="mb-3 fw-bold text-title-blue" >Abonnez-vous à la Newsletter</h5>
                     <div class="input-group">
                         <input type="email" class="form-control form-control-lg" placeholder="Votre adresse email" aria-label="Adresse email newsletter">
                         <button class="btn btn-responsive-warning" type="button">S'abonner</button>
@@ -249,7 +338,7 @@
             </div>
             
             <div class="col-lg-6">
-                <h2 class="fw-bold mb-4 text-center text-lg-start" style="color: var(--shine-blue);">Blog / Actualités Récentes</h2>
+                <h2 class="fw-bold mb-4 text-center text-lg-start text-title-blue">Blog / Actualités Récentes</h2>
                 
                 <div class="d-grid gap-4">
 
@@ -278,7 +367,7 @@
 <section class="py-5 bg-light testimonial-section">
     <div class="container">
         
-        <h2 class="text-center fw-bold mb-5" style="color: var(--shine-blue);">Ce que nos utilisateurs disent de nous</h2>
+        <h2 class="text-center fw-bold mb-5 text-title-blue" >Ce que nos utilisateurs disent de nous</h2>
 
         <div class="row justify-content-center g-4">
             

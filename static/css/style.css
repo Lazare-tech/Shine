@@ -136,6 +136,8 @@
 .text-title-gold {
     color: var(--shine-gold);
 }
+
+
 .text-title-blue {
     color: var(--shine-dark-blue);
 }
@@ -163,6 +165,7 @@
 .list-group-item {
     border-left: 4px solid #eee; /* Style base pour les listes et nav-links */
     transition: all 0.3s;
+    
 }
 
 .custom-v-pills .nav-link {
@@ -170,17 +173,21 @@
     padding: 15px;
     text-align: left;
     color: #343a40;
+
 }
 
 .custom-v-pills .nav-link:hover {
     border-left-color: var(--shine-gold);
     background-color: #f8f9fa;
+            cursor: pointer;
+
 }
 
 .custom-v-pills .nav-link.active {
     border-left-color: var(--shine-blue);
     background-color: #eaf1f8;
     color: var(--shine-blue);
+    flex-direction: row;
 }
 
 .custom-v-pills .step-num {
@@ -479,3 +486,61 @@ color:white !important;
 .edit-btn:hover{background:#b48b32;}
 
 input,select{padding:10px;border-radius:6px;}
+/* SERVICES DETAILS PAGES  */
+/* ETUDES INTERNATIONALES */
+.premium-card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border: 1px solid #E5E9F5;
+    transition: all .3s ease;
+}
+
+.premium-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+}
+
+.card-icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.tarif {
+    font-size: 17px;
+    color: var(--shine-blue);
+    font-weight: 600;
+}
+
+.tarif span {
+    color: var(--shine-gold);
+    font-weight: 700;
+    font-size: 22px;
+}
+/* accompagnement etablissement scolaire */
+.edu-card {
+    background: #ffffff;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.edu-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    border-left: 5px solid #122046;
+}
+/* education  */
+.edu-card-light {
+    background: #ffffff;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.edu-card-light:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+    border-left: 5px solid #122046;
+}
