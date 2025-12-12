@@ -302,6 +302,18 @@
 }
 /* infos bourses */
 
+.bourse-card {
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+.bourse-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+}
+.badge {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
 
 .bourse-card:hover {
     transform: translateY(-4px);
@@ -495,6 +507,7 @@ input,select{padding:10px;border-radius:6px;}
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     border: 1px solid #E5E9F5;
     transition: all .3s ease;
+    height: 500px;
 }
 
 .premium-card:hover {

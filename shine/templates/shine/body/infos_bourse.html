@@ -81,84 +81,90 @@
     </div>
 </section>
 
-
-
 <!-- BOURSES -->
 <section class="py-5">
     <div class="container">
-                <h4 class="fw-bold mb-3">Bourses du Moment</h4>
+        <h4 class="fw-bold mb-4">Bourses du Moment</h4>
 
-        <div class="row gy-4">
+        <div class="row g-4">
 
-            <!-- LISTE BOURSE -->
-
-
-                    <!-- CARD BOURSE -->
-                    <div class="col-lg-4">
-                        <div class="card bourse-card p-3 h-100 shadow-sm">
-                            <div class="d-flex align-items-center gap-3 mb-3">
-                                <img src="FR_FLAG.png" width="40">
-                                <span class="badge bg-primaryl">Première</span>
-                            </div>
-                            <h6 class="fw-bold">Bourse d'Excellence Eiffel – France</h6>
-                            <p class="small text-muted mb-1">Université Paris-Saclay</p>
-                            <p class="small text-muted mb-2">Montant : 1 900€/mois</p>
-                            <div class="d-flex justify-content-between align-items-center mt-3">
-                                <span class="badge bg-success">Ouvert</span>
-                                <a href="#" class="btn btn-outline-agen-colr btn-sm">En savoir plus</a>
-                            </div>
+            <!-- CARD BOURSE 1 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card bourse-card shadow-sm h-100">
+                    <div class="d-flex align-items-center gap-3 p-3">
+                        <img src="{% static 'images/france.jpg'%}" width="50" alt="France">
+                        <span class="badge bg-primary">Excellence</span>
+                    </div>
+                    <div class="p-3">
+                        <h6 class="fw-bold">Bourse d'Excellence Eiffel – France</h6>
+                        <p class="small text-muted mb-1">Université Paris-Saclay</p>
+                        <p class="small text-muted mb-2">Montant : 1 900€/mois</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span class="badge bg-success">Ouvert</span>
+                            <a href="#" class="btn btn-outline-agen-colr btn-sm">En savoir plus</a>
                         </div>
                     </div>
-
-                    <div class="col-lg-4">
-                        <div class="card bourse-card p-3 h-100 shadow-sm">
-                            <div class="d-flex align-items-center gap-3 mb-3">
-                                <img src="CA_FLAG.png" width="40">
-                                <span class="badge bg-warning">Résidence</span>
-                            </div>
-                            <h6 class="fw-bold">Bourse d'Excellence – Canada</h6>
-                            <p class="small text-muted mb-1">Université Montréal</p>
-                            <p class="small text-muted mb-2">Frais couverts + Allocation</p>
-                            <div class="d-flex justify-content-between align-items-center mt-3">
-                                <span class="badge bg-success">Ouvert</span>
-                                <a href="#" class="btn btn-outline-agen-colr btn-sm">Détails</a>
-                            </div>
-                        </div>
-                    </div>
-                       <!-- CARD BOURSE -->
-                    <div class="col-lg-4">
-                        <div class="card bourse-card p-3 h-100 shadow-sm">
-                            <div class="d-flex align-items-center gap-3 mb-3">
-                                <img src="FR_FLAG.png" width="40">
-                                <span class="badge bg-primaryl">Première</span>
-                            </div>
-                            <h6 class="fw-bold">Bourse d'Excellence Eiffel – France</h6>
-                            <p class="small text-muted mb-1">Université Paris-Saclay</p>
-                            <p class="small text-muted mb-2">Montant : 1 900€/mois</p>
-                            <div class="d-flex justify-content-between align-items-center mt-3">
-                                <span class="badge bg-success">Ouvert</span>
-                                <a href="#" class="btn btn-outline-agen-colr btn-sm">En savoir plus</a>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
+            </div>
 
-                <!-- PAGINATION -->
-                <div class="text-center mt-4">
-                    <nav>
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">›</a></li>
-                        </ul>
-                    </nav>
-               
+            <!-- CARD BOURSE 2 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card bourse-card shadow-sm h-100">
+                    <div class="d-flex align-items-center gap-3 p-3">
+                        <img src="{% static 'images/canada.jpg' %}" width="50" alt="Canada">
+                        <span class="badge bg-warning text-dark">Résidence</span>
+                    </div>
+                    <div class="p-3">
+                        <h6 class="fw-bold">Bourse d'Excellence – Canada</h6>
+                        <p class="small text-muted mb-1">Université Montréal</p>
+                        <p class="small text-muted mb-2">Frais couverts + Allocation</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span class="badge bg-warning">Bientôt ouvert</span>
+                            <a href="#" class="btn btn-outline-agen-colr btn-sm">En savoir plus</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            <!-- CARD BOURSE 3 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card bourse-card shadow-sm h-100">
+                    <div class="d-flex align-items-center gap-3 p-3">
+                        <img src="{% static 'images/france.jpg'%}" width="50" alt="France">
+                        <span class="badge bg-primary">Excellence</span>
+                    </div>
+                    <div class="p-3">
+                        <h6 class="fw-bold">Bourse d'Excellence Eiffel – France</h6>
+                        <p class="small text-muted mb-1">Université Paris-Saclay</p>
+                        <p class="small text-muted mb-2">Montant : 1 900€/mois</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span class="badge bg-danger">Fermé</span>
+                            <a href="#" class="btn btn-outline-agen-colr btn-sm">En savoir plus</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- PAGINATION -->
+        <div class="text-center mt-4">
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">›</a></li>
+                </ul>
+            </nav>
         </div>
     </div>
 </section>
+
+<style>
+}
+</style>
+
 <section class="py-5 bg-light">
     <div class="container">
 
