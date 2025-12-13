@@ -160,11 +160,11 @@
 }
 
 /* --- ONGLET VERTICAUX / MÉTHODE / MENTORAT LISTE --- */
-
+/* 
 .custom-v-pills .nav-link,
 .list-group-item {
-    border-left: 4px solid #eee; /* Style base pour les listes et nav-links */
-    transition: all 0.3s;
+    border-left: 4px solid #eee; 
+        transition: all 0.3s;
     
 }
 
@@ -205,7 +205,7 @@
 
 .custom-v-pills .nav-link.active .step-title {
     color: var(--shine-blue);
-}
+} */
 
 /* Style de survol pour la liste de mentorat (unifié avec le style des onglets) */
 .list-group-item:hover {
@@ -556,4 +556,93 @@ input,select{padding:10px;border-radius:6px;}
     transform: translateY(-5px);
     box-shadow: 0 15px 35px rgba(0,0,0,0.12);
     border-left: 5px solid #122046;
+}
+/* acceuil destinations card  */
+.destination-section{
+    background:#f4f6fa;
+}
+
+.destination-card{
+    position:relative;
+    display:block;
+    border-radius:18px;
+    overflow:hidden;
+    height:260px;
+    box-shadow:0 12px 30px rgba(18,32,70,.12);
+    transition:.4s ease;
+}
+
+.destination-card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:.4s ease;
+}
+
+/* Overlay sombre au hover */
+.destination-card::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(18,32,70,.35);
+    opacity:0.5;
+    transition:.4s ease;
+}
+
+.destination-card:hover::after{
+    opacity:0.7;
+}
+
+.destination-card:hover img{
+    transform:scale(1.06);
+}
+
+/* Nom du pays */
+.destination-label{
+    position:absolute;
+    bottom:18px;
+    right:50%;
+    padding:8px 22px;
+ 
+    color:white;
+    font-weight:700;
+   
+    z-index:2;
+    font-size: 20px;
+}
+
+/* Mobile */
+@media(max-width:576px){
+    .destination-card{
+        height:200px;
+    }
+}
+/* cta after section destination  */
+.cta-study-section{
+    background:
+        linear-gradient(120deg, rgba(18,32,70,.95), rgba(18,32,70,.85)),
+        url("/static/images/world-map.jpg") center/cover no-repeat;
+    color:#fff;
+    position:relative;
+}
+
+.text-gold{
+    color:#c39d3b;
+}
+
+
+.modal-content .form-control,
+.modal-content .form-select{
+    border-radius:12px;
+    border:1px solid #e5e5e5;
+    padding:12px 14px;
+    box-shadow:0 8px 25px rgba(18,32,70,.08);
+    transition:.3s ease;
+}
+
+.modal-content .form-control:focus,
+.modal-content .form-select:focus{
+    border-color:#c39d3b;
+    box-shadow:0 10px 30px rgba(195,157,59,.35);
+    outline:none;
 }

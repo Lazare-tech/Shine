@@ -1,0 +1,15 @@
+.dashboard-container {
+    max-width:1100px;
+    margin:auto;
+    padding:25px;
+}
+
+.card-box {
+    background:#fff;
+    border-top:5px solid var(--shine-gold);
+    transition:.3s;
+}
+
+.card-box:hover {
+    transform:translateY(-4px);
+}

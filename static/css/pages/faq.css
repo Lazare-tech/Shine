@@ -1,0 +1,14 @@
+.btn-faq-filter {
+    border:1px solid var(--shine-blue);
+    color: var(--shine-blue);
+}
+
+.btn-faq-filter.active {
+    background: var(--shine-gold);
+    color:white;
+}
+
+.accordion-item {
+    border-radius:6px;
+    transition:.5s;
+}

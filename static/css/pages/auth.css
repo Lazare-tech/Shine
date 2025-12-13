@@ -1,0 +1,135 @@
+
+/* LOGIN PAGE  */
+.shine-card{
+        max-width:480px;
+        margin:auto;
+        background:white;
+        border-radius:14px;
+        padding:35px;
+        box-shadow:0 8px 25px rgba(0,0,0,0.12);
+    }
+
+    /* Sélection rôle */
+    .user-role-box{
+        display:flex;
+        gap:10px;
+        justify-content:center;
+        margin-bottom:22px;
+    }
+
+    .role-btn{
+        flex:1;
+        border:2px solid #C4A13A;
+        padding:5px 8px;
+        font-size:11px;
+        font-weight:600;
+        border-radius:8px;
+        background:white;
+        color:#C4A13A;
+        transition:.3s;
+    }
+
+    .role-btn.active, .role-btn:hover{
+        background:#C4A13A;
+        color:white;
+    }
+
+    .btn-shine{
+        background:#C4A13A;
+        border:none;
+        padding:12px;
+        font-size:17px;
+        font-weight:600;
+        border-radius:6px;
+        transition:.3s;
+    }
+    .btn-shine:hover{ background:#b18e26; }
+
+    .logo-area img{ width:170px; display:block; margin:auto; }
+
+    .input-custom{
+        border:1.8px solid #d1d1d1;
+        border-radius:7px;
+        height:48px;
+    }
+    .input-custom:focus{
+        border-color:#C4A13A;
+        box-shadow:0 0 4px rgba(196,161,58,.6);
+    }
+    .btn-toggle {
+    border-radius: 50rem !important;
+    transition: all .55s ease-in-out;
+}
+
+.active-btn {
+    background-color: var(--shine-dark-blue) !important; /* Couleur primaire BOOTSTRAP */
+    box-shadow: 0 3px 12px rgba(13,110,253,.45);
+    transform: scale(1.05);
+}
+
+.btn-toggle:hover:not(.active-btn) {
+    background-color: var(--shine-dark-blue);
+    transform: scale(1.03);
+color:white !important;
+}
+/* REGISTER PAGE  */
+
+.progress-step {
+    width:32px;height:32px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:#d7d7d7;color:#fff;font-weight:700;
+    transition:.4s;flex-shrink:0;
+}
+.progress-step.active{background:var(--shine-gold);}
+.progress-step.done{background:var(--shine-dark-blue);}
+
+.step-line{
+    flex:1;height:3px;background:#d7d7d7;margin:0 8px;border-radius:6px;
+    transition:.4s;
+}
+.step-line.active{background:var(--shine-gold);}
+.step-line.done{background:var(--shine-dark-blue);}
+
+.shine-box{
+    background:#fff;padding:35px;border-radius:14px;
+    border-top:6px solid var(--shine-gold);
+    box-shadow:0 6px 28px rgba(0,0,0,.08);
+}
+.btn-shine{
+    background:var(--shine-gold);color:#fff;border-radius:8px;
+    padding:14px;font-size:17px;font-weight:700;width:100%;
+}
+.btn-shine:hover{background:#b88e2e;}
+
+.hidden{display:none;}
+/* adminclient */
+
+.dashboard-container{
+    max-width:1100px;margin:auto;padding:25px;
+}
+
+.card-box{
+    background:#fff;padding:25px;border-radius:10px;
+    box-shadow:0 6px 22px rgba(0,0,0,.08);
+    border-top:5px solid var(--shine-gold);transition:.3s;
+}
+.card-box:hover{transform:translateY(-4px);}
+
+.section-title{font-weight:800;color:var(--shine-dark-blue);}
+
+.progress-tracker{margin-top:15px;}
+.step-track{
+    border-left:4px solid var(--shine-gold);padding:10px 15px;margin-bottom:12px;
+    background:#fff; border-radius:5px;
+}
+.step-track.done{background:#e8f5e1;border-color:#28a745;}
+.step-track.pending{background:#fffbe7;border-color:#ffc107;}
+.step-track.wait{background:#f1f3f6;border-color:#b9c3d1;}
+
+.edit-btn{
+    background:var(--shine-gold);border:none;color:#fff;font-weight:600;
+    padding:10px 20px;border-radius:8px;transition:.3s;
+}
+.edit-btn:hover{background:#b48b32;}
+
+input,select{padding:10px;border-radius:6px;}

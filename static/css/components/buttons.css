@@ -1,0 +1,31 @@
+.btn-agen-colr,
+.btn-responsive-warning {
+    background-color: var(--shine-gold);
+    color: white;
+    transition: 0.5s;
+}
+
+.btn-agen-colr:hover,
+.btn-responsive-warning:hover {
+    background-color: #a67c2e;
+}
+
+.btn-outline-agen-colr {
+    border-color: var(--shine-dark-blue);
+    color: var(--shine-dark-blue);
+    transition: 0.5s;
+}
+
+.btn-outline-agen-colr:hover {
+    background-color: var(--shine-dark-blue);
+    color: white;
+}
+
+.btn-responsive-primaryl {
+    background-color: var(--shine-dark-blue);
+    color: white !important;
+}
+
+.btn-responsive-primaryl:hover {
+    background-color: #0e1b34;
+}

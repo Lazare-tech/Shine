@@ -1,0 +1,32 @@
+.service-card,
+.mini-card,
+.premium-card,
+.bourse-card,
+.edu-card,
+.edu-card-light {
+    background: #fff;
+    transition: .3s;
+        border-radius: 8px;
+
+}
+
+.service-card {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.05);
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+}
+
+.premium-card {
+    border-radius: 18px;
+    padding: 25px;
+    height: 500px;
+}
+/* RESPONSIVE  */
+@media (max-width:768px) {
+    .btn-agen-colr, .btn-outline-agen-colr, .btn-responsive-warning, .btn-outline-light {
+        font-size: 12.7px;
+    }
+}

@@ -5,33 +5,7 @@
 {%  block title %}Shine Agency - Accueil{% endblock title %}
 
 {% block content %}
-{% load static %}
-{% comment %} <div id="carouselExampleDark" class="carousel carousel-dark slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
 
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"></button>
-        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1"></button>
-        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2"></button>
-    </div>
-
-    <div class="carousel-inner">
-        <div class="carousel-item active" data-bs-interval="5000">
-            <img src="{% static 'images/hero_one.jpg' %}" class="d-block w-100" alt="">
-            <div class="carousel-overlay"></div>
-
-            <div class="carousel-caption   infoherocontent" style="text-align:left">
-                <h1 class="fw-bold text-white">Découvrez votre partenaire idéale pour vos projets en génie électrique</h1>
-                <p>Des solutions innovantes pour propulser votre entreprise vers le succès.</p>
-                <div class="mt-4 d-flex flex-row justify-content-left flex-nowrap">
-                    <a href="#" class="btn btn-responsive-primaryl btn-lg me-2 btn-responsive">Découvrir nos services</a>
-                    <a href="#" class="btn btn-responsive-warning btn-lg btn-responsive">Contactez un conseiller</a>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div> {% endcomment %}
-{% load static %}
 
 <!-- HERO SECTION -->
 <section class="hero-banner">
@@ -56,7 +30,7 @@
                     Des solutions complètes pour réussir votre mobilité étudiante.
                 </p>
 
-                <div class="mt-4">
+                <div class="d-flex gap-3 mb-3">
                     <a href="#" class="btn btn-responsive-warning me-2">Découvrir nos services</a>
                     <a href="#" class="btn btn-outline-light">Contacter un conseiller</a>
                 </div>
@@ -146,15 +120,19 @@
         </div>
 
     </div>
-     <div class="container mt-5 p-2">
+     <div class="container mt-5">
+        <div class="d-flex">
             <a href="#" class="btn btn-responsive-warning btn-lg me-3 shadow-lg">Découvrir tous nos services</a>
             <a href="#" class="btn btn-outline-agen-colr btn-lg shadow">Contactez un expert</a>
-            <p class="mt-3"><a href="#" class="text-decoration-none" style="color: var(--shine-blue);">Voir le détail de chaque étape ici</a></p>
         </div>
+                <p class="mt-3"><a href="#" class="text-decoration-none text-center" style="color: var(--shine-blue);">Voir le détail de chaque étape ici</a></p>
+
+        </div>
+
 </section>
 
 </section>
-<section class="py-5 bg-white service-innovant-section">
+{% comment %} <section class="py-5 bg-white service-innovant-section">
     <div class="container">
         
         <h3 class="text-center fw-bold mb-5" style="color: var(--shine-blue);">
@@ -303,7 +281,144 @@
 
         </div>
     </div>
+</section> {% endcomment %}
+
+<section class="py-5 destination-section">
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <h2 class="fw-bold" style="color:#122046">Pays de destination</h2>
+            <p class="text-muted">
+                Choisissez votre pays et découvrez les opportunités académiques
+            </p>
+        </div>
+
+        <div class="row g-4">
+
+            <!-- Chine -->
+            <div class="col-md-3 col-sm-6">
+                <a href="#" class="destination-card">
+                    <img src="{% static 'images/chine.jpg' %}" alt="Chine">
+                    <span class="destination-label">Chine</span>
+                </a>
+            </div>
+
+            <!-- France -->
+            <div class="col-md-3 col-sm-6">
+                <a href="#" class="destination-card">
+                    <img src="{% static 'images/france.jpg' %}" alt="France">
+                    <span class="destination-label">France</span>
+                </a>
+            </div>
+
+            <!-- Belgique -->
+            <div class="col-md-3 col-sm-6">
+                <a href="#" class="destination-card">
+                    <img src="{% static 'images/belgique.jpg' %}" alt="Belgique">
+                    <span class="destination-label">Belgique</span>
+                </a>
+            </div>
+
+            <!-- Canada -->
+            <div class="col-md-3 col-sm-6">
+                <a href="#" class="destination-card">
+                    <img src="{% static 'images/canada.jpg' %}" alt="Canada">
+                    <span class="destination-label">Canada</span>
+                </a>
+            </div>
+
+        </div>
+    </div>
 </section>
+<section class="cta-study-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+
+                <h3 class="fw-bold mb-3">
+                    Tout votre projet d’études à l’international,
+                    <span class="text-gold">simplifié en un seul accompagnement</span>
+                </h3>
+
+                <p class="lead text-light opacity-75 mb-4">
+                    Orientation académique, bourses, visa et respect des délais —
+                    bénéficiez d’un suivi clair, structuré et personnalisé.
+                </p>
+
+                <h5 class="fw-semibold mb-4 text-white">
+                    Planifiez votre consultation gratuite pour étudier à l’étranger
+                </h5>
+
+                <button class="btn btn-agen-colr px-5 py-2"
+                        data-bs-toggle="modal"
+                        data-bs-target="#consultationModal">
+                    Réservez maintenant
+                </button>
+
+            </div>
+        </div>
+    </div>
+</section>
+{% comment %} MODAL  {% endcomment %}
+<div class="modal fade" id="consultationModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow">
+
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold" style="color:#122046">
+                    Réserver une consultation gratuite
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body px-4 pb-4">
+<form>
+    <div class="mb-3">
+        <label class="form-label">Nom complet</label>
+        <input type="text" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Numéro de téléphone</label>
+        <input type="tel" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Adresse email</label>
+        <input type="email" class="form-control" required>
+    </div>
+
+    <div class="mb-4">
+        <label class="form-label">Destination souhaitée</label>
+        <select class="form-select" required>
+            <option value="">Choisir une destination</option>
+            <option>France</option>
+            <option>Canada</option>
+            <option>Belgique</option>
+            <option>Chine</option>
+        </select>
+    </div>
+
+    <!-- Conditions -->
+    <div class="form-check mb-4">
+        <input class="form-check-input" type="checkbox" id="termsCheck" required>
+        <label class="form-check-label small text-muted" for="termsCheck">
+            J’accepte les <a href="#" class="text-gold text-decoration-none">conditions d’utilisation</a>
+            et la politique de confidentialité
+        </label>
+    </div>
+
+    <button type="submit" class="btn btn-agen-colr w-100 py-2">
+        Confirmer la réservation
+    </button>
+</form>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
 <section class="py-5">
     <div class="container">
         <div class="row g-5">
@@ -319,8 +434,8 @@
                 </p>
 
                 <div class="d-flex gap-3 mb-5">
-                    <button class="btn btn-responsive-warning btn-lg px-4">Devenir un mentor</button>
-                    <button class="btn btn-outline-agen-colr btn-lg px-4">Contactez-nous</button>
+                    <button class="btn btn-agen-colr  px-4">Devenir un mentor</button>
+                    <button class="btn btn-outline-agen-colr px-4">Contactez-nous</button>
                 </div>
 
                 <div class="card p-4 shadow-sm bg-white">

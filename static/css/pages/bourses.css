@@ -1,0 +1,63 @@
+
+.bourse-card {
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+.bourse-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+}
+.badge {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.bourse-card:hover {
+    transform: translateY(-4px);
+    transition: .3s;
+}
+
+.info-card {
+    border-radius: 10px;
+    background: #fff;
+}
+.info-card:hover {
+    transform: scale(1.05);
+    transition: .3s;
+}
+.bg-gray-searc {
+    background-color: rgb(243, 243, 243);
+}
+.mini-card{
+    background:#fff;
+    border-radius:10px;
+    box-shadow:0 3px 10px rgba(0,0,0,.1);
+    transition:.3s;
+}
+
+.mini-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+.bg-shine-gold {
+    background-color: var(--bg-shine-gold);
+}
+
+/* Icône ronde */
+.icon-round{
+    width:70px;
+    height:70px;
+    display:flex;
+    align-items:center;        /* Centre verticalement */
+    justify-content:center;    /* Centre horizontalement */
+    margin: 0 auto;            /* Centre le cercle dans la card */
+}
+.icon-round i{
+        color:var(--shine-gold);
+
+}
+
+.icon-round h5{
+        color: var(--shine-blue);
+
+}

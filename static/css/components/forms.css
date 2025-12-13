@@ -1,0 +1,16 @@
+.input-custom {
+    border:1.8px solid #d1d1d1;
+    border-radius:7px;
+    height:48px;
+}
+
+.input-custom:focus {
+    border-color: var(--shine-gold);
+    box-shadow: 0 0 4px rgba(196,161,58,.6);
+}
+
+.modal-content .form-control,
+.modal-content .form-select {
+    border-radius:12px;
+    padding:12px;
+}
