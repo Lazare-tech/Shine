@@ -22,6 +22,10 @@ def mentorat(request):
 def infos_bourses(request):
     return render(request,'shine/body/infos_bourse.html')    
 #............................................................................................ 
+
+def about_us(request):
+    return render(request,'shine/body/about.html')
+#............................................................................................
                                     # SERVICES PAGES
 #............................................................................................ 
 def etude(request):

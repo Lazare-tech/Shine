@@ -1,6 +1,6 @@
 .hero-banner {
     position: relative;
-    height: 450px;
+    height: 567px;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -182,4 +182,12 @@
 .testimonial-section .rating,
 .text-warning i {
     color: var(--shine-gold) !important; /* Utilisation de la variable Or pour les étoiles */
+}
+.text-title-gold {
+    color: var(--shine-gold);
+}
+
+
+.text-title-blue {
+    color: var(--shine-dark-blue);
 }
