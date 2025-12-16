@@ -191,3 +191,12 @@
 .text-title-blue {
     color: var(--shine-dark-blue);
 }
+@media (max-width: 767.98px) {
+  .carousel-single-mobile .carousel-item .row > div {
+    display: none;
+  }
+
+  .carousel-single-mobile .carousel-item .row > div:first-child {
+    display: block;
+  }
+}

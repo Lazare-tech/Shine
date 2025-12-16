@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{% endblock title %}
+
+{% block content %}
+
+
+
+<section class="hero-banner">
+
+    <!-- Image -->
+    <img src="{% static 'images/about.jpg' %}" 
+         alt="Étudiants à l'université"
+         class="hero-bg">
+
+    <!-- Overlay bleu foncé transparent -->
+    <div class="hero-overlay"></div>
+
+    <!-- Contenu du Hero -->
+    <div class="container hero-content">
+        <div class="row">
+            <div class="col-lg-6">
+                <h1 class="hero-title">
+                Blog Mobilité  <span class="text-title-gold">& Projets Internationaux</span>
+                </h1>
+                <p class="hero-text">
+                Conseils pratiques, analyses expertes et guides complets pour réussir
+          vos projets d’études, de visa et d’installation à l’international.
+     
+                </p>
+
+                <div class="mt-4">
+                    <a href="#" class="btn btn-responsive-warning me-2">Découvrir les articles</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+<!-- Catégories / Filtres -->
+<section class="py-4 bg-light">
+  <div class="container text-center">
+    <h5 class="fw-bold text-title-blue mb-3">Filtrer par catégorie</h5>
+    <div class="d-flex flex-wrap justify-content-center gap-2">
+      <a href="#" class="btn btn-outline-agen-colr btn-sm">Mobilité internationale</a>
+      <a href="#" class="btn btn-outline-agen-colr btn-sm">Visa & démarches</a>
+      <a href="#" class="btn btn-outline-agen-colr btn-sm">Études à l’étranger</a>
+      <a href="#" class="btn btn-outline-agen-colr btn-sm">Installation & logement</a>
+      <a href="#" class="btn btn-outline-agen-colr btn-sm">Carrière & opportunités</a>
+    </div>
+  </div>
+</section>
+
+
+<section class="py-5 bg-light" id="articles">
+  <div class="container">
+
+    <div class="row mb-4">
+      <div class="col text-center">
+        <h2 class="fw-bolder text-title-blue">Articles à la une</h2>
+        <p class="text-muted">
+          Nos contenus les plus consultés et les plus utiles.
+        </p>
+      </div>
+    </div>
+
+    <div class="row g-4">
+
+      <!-- ARTICLE 1 -->
+      <div class="col-md-6 col-lg-4">
+        <article class="card h-100 border-0 shadow-lg rounded-4">
+          <img src="{% static 'images/art3.jpg'%}"
+               class="card-img-top rounded-top-4"
+               alt="Réussir son projet à l'international">
+          <div class="card-body d-flex flex-column">
+            <span class="badge mb-2 text-white"
+                  style="background-color:#c39d3b;">
+              Mobilité internationale
+            </span>
+            <h3 class="h5 fw-bold text-title-blue">
+              Réussir son projet à l’international : les étapes clés
+            </h3>
+            <p class="text-muted flex-grow-1">
+              Découvrez les étapes indispensables pour structurer,
+              sécuriser et réussir votre projet de mobilité internationale.
+            </p>
+            <a href="#" class="fw-semibold text-decoration-none mt-auto"
+               style="color:#c39d3b;">
+              Lire l’article →
+            </a>
+          </div>
+        </article>
+      </div>
+
+      <!-- ARTICLE 2 -->
+      <div class="col-md-6 col-lg-4">
+        <article class="card h-100 border-0 shadow-lg rounded-4">
+          <img src="{% static 'images/art2.jpg'%}"
+               class="card-img-top rounded-top-4"
+               alt="Erreurs visa à éviter">
+          <div class="card-body d-flex flex-column">
+            <span class="badge mb-2 text-white"
+                  style="background-color:#c39d3b;">
+              Visa & démarches
+            </span>
+            <h3 class="h5 fw-bold text-title-blue">
+              Visa et admission : les erreurs à éviter absolument
+            </h3>
+            <p class="text-muted flex-grow-1">
+              Certaines erreurs peuvent compromettre votre projet.
+              Voici comment les éviter efficacement.
+            </p>
+            <a href="#" class="fw-semibold text-decoration-none mt-auto"
+               style="color:#c39d3b;">
+              Lire l’article →
+            </a>
+          </div>
+        </article>
+      </div>
+
+      <!-- ARTICLE 3 -->
+      <div class="col-md-6 col-lg-4">
+        <article class="card h-100 border-0 shadow-lg rounded-4">
+          <img src="{% static 'images/ar3.jpg'%}"
+               class="card-img-top rounded-top-4"
+               alt="Préparer son dossier d'étude à l'étranger">
+          <div class="card-body d-flex flex-column">
+            <span class="badge mb-2 text-white"
+                  style="background-color:#c39d3b;">
+              Études à l’étranger
+            </span>
+            <h3 class="h5 fw-bold text-title-blue">
+              Étudier à l’étranger : préparer un dossier solide
+            </h3>
+            <p class="text-muted flex-grow-1">
+              Un bon dossier augmente vos chances d’admission.
+              Voici comment le structurer efficacement.
+            </p>
+            <a href="#" class="fw-semibold text-decoration-none mt-auto"
+               style="color:#c39d3b;">
+              Lire l’article →
+            </a>
+          </div>
+        </article>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% include 'shine/body/newsletter.html' %}
+
+{% endblock content %}

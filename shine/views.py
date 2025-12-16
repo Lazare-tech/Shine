@@ -26,6 +26,8 @@ def infos_bourses(request):
 def about_us(request):
     return render(request,'shine/body/about.html')
 #............................................................................................
+def blog(request):
+    return render(request,'shine/body/blog.html')
                                     # SERVICES PAGES
 #............................................................................................ 
 def etude(request):

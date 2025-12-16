@@ -239,33 +239,33 @@
             </div>
         </div>
 
-        <div id="teamCarouselMulti" class="carousel slide" data-bs-ride="carousel">
+        <div id="teamCarouselMulti" class="carousel slide carousel-single-mobile" data-bs-ride="carousel">
             <div class="carousel-inner pb-5">
 
                 <div class="carousel-item active">
                     <div class="row g-4 justify-content-center">
                         
                         <div class="col-md-6 col-lg-4">
-                            <div class="card p-4 shadow-lg h-100 border-0 text-center">
-                                <img src="[URL_IMAGE_MEMBRE_1]" class="rounded-circle mx-auto mb-3" alt="[Nom du Membre 1]" style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #c39d3b;">
+                            <div class="card p-4 shadow-lg h-100 border-0 text-center  team-card">
+                                <img src="{% static 'images/profil1.jpg' %}" class="rounded-circle mx-auto mb-3" alt="[Nom du Membre 1]" style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #c39d3b;">
                                 <h5 class="fw-bold mb-0" style="color:#122046;">[Nom Prénom du Membre 1]</h5>
-                                <p class="small text-uppercase fw-semibold mb-3" style="color:#c39d3b;">[Directeur d'Orientation]</p>
+                                <p class="small text-uppercase fw-semibold mb-3 text-title-gold">[Nom du post]</p>
                             </div>
                         </div>
 
                         <div class="col-md-6 col-lg-4">
-                            <div class="card p-4 shadow-lg h-100 border-0 text-center">
-                                <img src="[URL_IMAGE_MEMBRE_2]" class="rounded-circle mx-auto mb-3" alt="[Nom du Membre 2]" style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #c39d3b;">
+                            <div class="card p-4 shadow-lg h-100 border-0 text-center  team-card">
+                                <img src="{% static 'images/profile3.jpg' %}" class="rounded-circle mx-auto mb-3" alt="[Nom du Membre 2]" style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #c39d3b;">
                                 <h5 class="fw-bold mb-0" style="color:#122046;">[Nom Prénom du Membre 2]</h5>
-                                <p class="small text-uppercase fw-semibold mb-3" style="color:#c39d3b;">[Conseiller Visa Europe]</p>
+                                <p class="small text-uppercase fw-semibold mb-3 text-title-gold">[Nom du post]</p>
                             </div>
                         </div>
 
                         <div class="col-md-6 col-lg-4">
                             <div class="card p-4 shadow-lg h-100 border-0 text-center">
-                                <img src="[URL_IMAGE_MEMBRE_3]" class="rounded-circle mx-auto mb-3" alt="[Nom du Membre 3]" style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #c39d3b;">
+                                <img src="{% static 'images/profil2.jpg' %}" class="rounded-circle mx-auto mb-3" alt="[Nom du Membre 3]" style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #c39d3b;">
                                 <h5 class="fw-bold mb-0" style="color:#122046;">[Nom Prénom du Membre 3]</h5>
-                                <p class="small text-uppercase fw-semibold mb-3" style="color:#c39d3b;">[Expert Installation Logistique]</p>
+                                <p class="small text-uppercase fw-semibold mb-3 text-title-gold">[Nom du post]</p>
                             </div>
                         </div>
 
@@ -279,7 +279,7 @@
                             <div class="card p-4 shadow-lg h-100 border-0 text-center">
                                 <img src="[URL_IMAGE_MEMBRE_4]" class="rounded-circle mx-auto mb-3" alt="[Nom du Membre 4]" style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #c39d3b;">
                                 <h5 class="fw-bold mb-0" style="color:#122046;">[Nom Prénom du Membre 4]</h5>
-                                <p class="small text-uppercase fw-semibold mb-3" style="color:#c39d3b;">[Coach Académique]</p>
+                                <p class="small text-uppercase fw-semibold mb-3" style="color:#c39d3b;">[Nom du post]</p>
                             </div>
                         </div>
 
@@ -287,15 +287,15 @@
                             <div class="card p-4 shadow-lg h-100 border-0 text-center">
                                 <img src="[URL_IMAGE_MEMBRE_5]" class="rounded-circle mx-auto mb-3" alt="[Nom du Membre 5]" style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #c39d3b;">
                                 <h5 class="fw-bold mb-0" style="color:#122046;">[Nom Prénom du Membre 5]</h5>
-                                <p class="small text-uppercase fw-semibold mb-3" style="color:#c39d3b;">[Responsable Partenariats]</p>
-                            </div>
-                        </div>
+                                <p class="small text-uppercase fw-semibold mb-3 text-title-gold">[Nom deu post]</p>
+                            </div>    
+                        </div>  
                         
                         <div class="col-md-6 col-lg-4">
                             <div class="card p-4 shadow-lg h-100 border-0 text-center">
                                 <img src="[URL_IMAGE_MEMBRE_6]" class="rounded-circle mx-auto mb-3" alt="[Nom du Membre 6]" style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #c39d3b;">
                                 <h5 class="fw-bold mb-0" style="color:#122046;">[Nom Prénom du Membre 6]</h5>
-                                <p class="small text-uppercase fw-semibold mb-3" style="color:#c39d3b;">[Service Client et Suivi]</p>
+                                <p class="small text-uppercase fw-semibold mb-3 tex-title-gold">[Nom du post]</p>
                             </div>
                         </div>
 
@@ -319,6 +319,7 @@
         </div>
         </div>
 </section>
+
 <!--FIN EQUIPE-->
 <section class="py-5 text-center" style="background:#122046;">
   <h4 class="fw-bold text-white mb-3">

@@ -19,6 +19,8 @@ urlpatterns = [
     etude_path := path('services/etude/', shine.views.etude, name='etude'),
     #APROPOS US PAGE
     about_us_path := path('about_us/', shine.views.about_us, name='about_us'),
+    #BLOG PAGES
+    blog_path := path('blog/', shine.views.blog, name='blog'),
 ] +   static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Serve static and media files during development
