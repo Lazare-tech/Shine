@@ -441,7 +441,7 @@
                 <div class="card p-4 shadow-sm bg-white">
                     <h5 class="mb-3 fw-bold text-title-blue">Abonnez-vous à la Newsletter</h5>
                     <div class="input-group">
-                        <input type="email" class="form-control form-control-lg" placeholder="Votre adresse email">
+                        <input type="email" class="form-control form-control-lg form-control-email-news" placeholder="Votre adresse email">
                         <button class="btn btn-responsive-warning" type="button">S'abonner</button>
                     </div>
                     <small class="form-text text-muted mt-2">
@@ -454,7 +454,7 @@
             <div class="col-lg-6">
                 <h4 class="fw-bold mb-4 text-center text-lg-start text-title-blue">Blog / Actualités Récentes</h4>
                 
-                <div class="d-flex  gap-3 flex-row">
+                <div class="d-flex  gap-3 flex-custom-card r">
 
                     <!-- CARD 1 -->
                     <div class="custom-blog-card shadow-sm">
@@ -499,60 +499,6 @@
     </div>
 </section>
 
-<style>
-.custom-blog-card {
-    width: 33%;
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    border-left: 5px solid var(--shine-gold);
-    transition: 0.3s ease;
-}
-
-.custom-blog-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-}
-
-.blog-img {
-    width: 100%;
-    height: 140px;
-    object-fit: cover;
-}
-
-/* Positionnement extrême des boutons carousel */
-#testimonialCarousel .carousel-control-prev,
-#testimonialCarousel .carousel-control-next {
-  width: 48px;
-  top: 50%;
-  transform: translateY(-50%);
-  opacity: 1;
-}
-
-/* Extrême gauche */
-#testimonialCarousel .carousel-control-prev {
-  left: -60px;
-}
-
-/* Extrême droite */
-#testimonialCarousel .carousel-control-next {
-  right: -60px;
-}
-
-/* Mobile : boutons légèrement rentrés */
-@media (max-width: 767.98px) {
-  #testimonialCarousel .carousel-control-prev {
-    left: -10px;
-  }
-
-  #testimonialCarousel .carousel-control-next {
-    right: -10px;
-  }
-}
-
-
-
-</style>
 
 <section class="py-5" style="background-color:#f8f9fa;">
   <div class="container">
@@ -580,7 +526,7 @@
 
             <!-- AVIS 1 -->
             <div class="col-md-6 col-lg-4">
-              <div class="card h-100 p-4 border-0 shadow-lg rounded-4 testimonial-card">
+              <div class="card  p-4 border-0 shadow-lg rounded-4 testimonial-card">
                 <div class="text-warning mb-3">★★★★★</div>
                 <p class="text-muted mb-4">
                   Un accompagnement structuré et humain.
@@ -588,9 +534,9 @@
                 </p>
                 <div class="d-flex align-items-center">
                   <img src="{% static 'images/profil1.jpg' %}"
-                       class="rounded-circle me-3"
+                       class="rounded-circle me-3 icon-user"
                        alt="Client 1"
-                       style="width:60px;height:60px;object-fit:cover;border:2px solid #c39d3b;">
+                       >
                   <div>
                     <h6 class="fw-bold mb-0" style="color:#122046;">Moussa Traoré</h6>
                     <small class="text-muted">Entrepreneur</small>
@@ -601,17 +547,17 @@
 
             <!-- AVIS 2 -->
             <div class="col-md-6 col-lg-4">
-              <div class="card h-100 p-4 border-0 shadow-lg rounded-4 testimonial-card">
+              <div class="card  p-4 border-0 shadow-lg rounded-4 testimonial-card">
                 <div class="text-warning mb-3">★★★★★</div>
                 <p class="text-muted mb-4">
                   Une équipe sérieuse et très professionnelle.
                   Je recommande sans hésitation.
                 </p>
                 <div class="d-flex align-items-center">
-                  <img src="https://via.placeholder.com/60"
-                       class="rounded-circle me-3"
+                  <img src="{% static 'images/profile3.jpg' %}"
+                       class="rounded-circle me-3 icon-user"
                        alt="Client 2"
-                       style="width:60px;height:60px;object-fit:cover;border:2px solid #c39d3b;">
+                       >
                   <div>
                     <h6 class="fw-bold mb-0" style="color:#122046;">Aïcha Koné</h6>
                     <small class="text-muted">Étudiante internationale</small>
@@ -622,16 +568,16 @@
 
             <!-- AVIS 3 -->
             <div class="col-md-6 col-lg-4">
-              <div class="card h-100 p-4 border-0 shadow-lg rounded-4">
+              <div class="card  p-4 border-0 shadow-lg rounded-4 testimonial-card">
                 <div class="text-warning mb-3">★★★★★</div>
                 <p class="text-muted mb-4">
                   J’ai gagné du temps, de la clarté et surtout de la confiance.
                 </p>
                 <div class="d-flex align-items-center">
-                  <img src="https://via.placeholder.com/60"
-                       class="rounded-circle me-3"
+                  <img src="{% static 'images/profil2.jpg' %}"
+                       class="rounded-circle me-3 icon-user"
                        alt="Client 3"
-                       style="width:60px;height:60px;object-fit:cover;border:2px solid #c39d3b;">
+                       >
                   <div>
                     <h6 class="fw-bold mb-0" style="color:#122046;">Sarah Diallo</h6>
                     <small class="text-muted">Porteuse de projet</small>
@@ -649,16 +595,16 @@
 
             <!-- AVIS 4 -->
             <div class="col-md-6 col-lg-4">
-              <div class="card h-100 p-4 border-0 shadow-lg rounded-4 ">
+              <div class="card  p-4 border-0 shadow-lg rounded-4  testimonial-card">
                 <div class="text-warning mb-3">★★★★★</div>
                 <p class="text-muted mb-4">
                   Un suivi personnalisé et des conseils concrets.
                 </p>
                 <div class="d-flex align-items-center">
-                  <img src="https://via.placeholder.com/60"
-                       class="rounded-circle me-3"
+                  <img src="{% static 'images/profil1.jpg' %}"
+                       class="rounded-circle me-3 icon-user"
                        alt="Client 4"
-                       style="width:60px;height:60px;object-fit:cover;border:2px solid #c39d3b;">
+                       >
                   <div>
                     <h6 class="fw-bold mb-0" style="color:#122046;">Issa Ouédraogo</h6>
                     <small class="text-muted">Consultant</small>
@@ -669,16 +615,16 @@
 
             <!-- AVIS 5 -->
             <div class="col-md-6 col-lg-4">
-              <div class="card h-100 p-4 border-0 shadow-lg rounded-4 ">
+              <div class="card  p-4 border-0 shadow-lg rounded-4  testimonial-card">
                 <div class="text-warning mb-3">★★★★★</div>
                 <p class="text-muted mb-4">
                   Une expérience fluide du début à la fin.
                 </p>
                 <div class="d-flex align-items-center">
-                  <img src="https://via.placeholder.com/60"
-                       class="rounded-circle me-3"
+                  <img src="{% static 'images/profile3.jpg' %}"
+                       class="rounded-circle me-3 icon-user"
                        alt="Client 5"
-                       style="width:60px;height:60px;object-fit:cover;border:2px solid #c39d3b;">
+                       >
                   <div>
                     <h6 class="fw-bold mb-0" style="color:#122046;">Nadia Fall</h6>
                     <small class="text-muted">Chargée de projet</small>
@@ -689,16 +635,16 @@
 
             <!-- AVIS 6 -->
             <div class="col-md-6 col-lg-4">
-              <div class="card h-100 p-4 border-0 shadow-lg rounded-4 ">
+              <div class="card  p-4 border-0 shadow-lg rounded-4  testimonial-card">
                 <div class="text-warning mb-3">★★★★★</div>
                 <p class="text-muted mb-4">
                   Sérieux, humain et très efficace.
                 </p>
                 <div class="d-flex align-items-center">
-                  <img src="https://via.placeholder.com/60"
-                       class="rounded-circle me-3"
+                  <img src="{% static 'images/profil2.jpg' %}"
+                       class="rounded-circle me-3 icon-user"
                        alt="Client 6"
-                       style="width:60px;height:60px;object-fit:cover;border:2px solid #c39d3b;">
+                       >
                   <div>
                     <h6 class="fw-bold mb-0" style="color:#122046;">Jean Kouassi</h6>
                     <small class="text-muted">Chef d’entreprise</small>
