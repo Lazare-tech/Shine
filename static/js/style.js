@@ -40,3 +40,25 @@ function nextStep(step){
     document.getElementById("l3").className="step-line"+(step>=4?" done":"");
 }
 function prevStep(step){ nextStep(step); }
+//Message success formulaire
+function showSuccessMessage(message) {
+    Swal.fire({
+        title: 'Félicitations !',
+        text: message,
+        icon: 'success',
+        confirmButtonColor: '#004aad' // Ta couleur primaire
+    });
+}
+
+//  <script>
+//     {% if messages %}
+//         {% for message in messages %}
+//             Swal.fire({
+//                 title: 'Félicitations !',
+//                 text: "{{ message }}",
+//                 icon: "{% if message.tags == 'success' %}success{% else %}info{% endif %}",
+//                 confirmButtonColor: '#004aad' // Ta couleur primaire
+//             });
+//         {% endfor %}
+//     {% endif %}
+// </script>

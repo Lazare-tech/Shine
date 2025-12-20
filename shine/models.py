@@ -1,10 +1,17 @@
 from django.db import models
 from django.utils.text import slugify
-# Create your models here.
+from django.core.validators import EmailValidator, RegexValidator
 
+# Create your models here.
+phone_validator = RegexValidator(
+    regex=r'^\+\d{9,15}$',
+    message="Le numéro doit inclure l'indicatif international (ex: +226...)"
+)
+##
 class News_letter(models.Model):
     slug = models.SlugField(unique=True, max_length=255, blank=True)
     email = models.EmailField(verbose_name="Email de l'utilisateur",unique=True)
+    email = models.EmailField(validators=[EmailValidator(message="Email invalide")])
     created_at = models.DateTimeField(auto_now_add=True,verbose_name='Date d\inscription de l\'utilisateur ')
     
     class Meta:
@@ -31,8 +38,9 @@ class News_letter(models.Model):
 class ContactMessage(models.Model):
     nom = models.CharField(verbose_name="Nom et prénom", max_length=255)
     objet = models.CharField(verbose_name="Objet du message", max_length=255)
-    numero_telephone = models.CharField(verbose_name="Numéro de téléphone", max_length=255)
-    email = models.EmailField(verbose_name="Email de l'entreprise")
+    numero_telephone = models.CharField(validators=[phone_validator], max_length=20,verbose_name="Numéro de téléphone")
+    email = models.EmailField(validators=[EmailValidator(message="Email invalide")],verbose_name="Email de l'utilisateur")
+
     contenu = models.TextField(verbose_name="Message")
     date_envoi = models.DateTimeField(verbose_name="Date d'envoi", auto_now=True)
     slug = models.SlugField(unique=True, max_length=255, blank=True)
@@ -61,8 +69,10 @@ class ContactMessage(models.Model):
     ##
 class DemandeDevis(models.Model):
         nom = models.CharField(verbose_name="Nom et prénom", max_length=255)
-        numero_telephone = models.CharField(verbose_name="Numéro de téléphone", max_length=255)
-        email = models.EmailField(verbose_name="Email de l'utilisateur")
+        numero_telephone = models.CharField(validators=[phone_validator], max_length=20,verbose_name="Numéro de téléphone")
+
+        email = models.EmailField(validators=[EmailValidator(message="Email invalide")],verbose_name="Email de l'utilisateur")
+
         contenu = models.TextField(verbose_name="Message")
         service_souhaite = models.TextField(verbose_name="Services souhaités")
 
@@ -243,4 +253,4 @@ class EntrepriseContact(models.Model):
 
     def __str__(self):
         return self.nom_entreprise  
-    
+##

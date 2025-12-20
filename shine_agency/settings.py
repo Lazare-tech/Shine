@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "shine",
+    "shine.apps.ShineConfig",
     "usercompte"
 ]
 
@@ -134,7 +134,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "assets/")
 # ----------------------------------------------------------------------
 # Django 5.2 Specific Changes (CRITICAL AND RECOMMENDED)
 # ----------------------------------------------------------------------
-
+AUTH_USER_MODEL = 'usercompte.User'
 # CRITICAL: Default primary key field type
 # Ensure this is set to BigAutoField for capacity assurance.
 # You already had this, but it's the main requirement for recent Django versions.

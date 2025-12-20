@@ -8,10 +8,10 @@ app_name = "shine"
 
 urlpatterns = [
     path('', shine.views.home, name='homepage'),
-    contact_path := path('contact/', shine.views.contact, name='contact'),
+    contact_path := path('contact/', shine.views.contact_view, name='contact'),
     faq_path := path('faq/', shine.views.faq, name='faq'),
     about_path := path('about/', shine.views.about, name='about'),
-    devis_path := path('devis/', shine.views.devis, name='devis'),
+    devis_path := path('devis/', shine.views.demande_devis_view, name='devis'),
     mentorat_path := path('mentorat/', shine.views.mentorat, name='mentorat'),
     infos_bourses_path := path('infos_bourses/', shine.views.infos_bourses, name='infos_bourses'),
     

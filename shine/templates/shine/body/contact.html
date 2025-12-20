@@ -91,58 +91,80 @@
                     <div class="alert alert-light text-center mb-4 small fw-bold" role="alert" style="border-left: 4px solid #e2b740; background-color: #fff9e6; color: #004aad;">
                         Besoin d'aide ? On est là ! des experts à l'écoute. 👋
                     </div>
+                            {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-success">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                      {% if form.email.errors %}
+                                            {% for error in form.email.errors %}
+                                                <div class="text-danger small mt-1 animate__animated animate__shakeX">
+                                                    <i class="fas fa-exclamation-triangle me-1"></i> {{ error }}
+                                                </div>
+                                            {% endfor %}
+                                                        {% endif %}
+                    
+                                                    <form method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        
+                                        {% if form.non_field_errors %}
+                                            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                                        {% endif %}
 
-                    <form method="post" enctype="multipart/form-data">
-                        
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label class="form-label" for="nom">
-                                    <i class="fas fa-user icon-color me-1 text-title-gold"></i> Nom <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" id="nom" name="nom" class="form-control" placeholder="Votre nom" required>
-                            </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="{{ form.nom.id_for_label }}">
+                                                    <i class="fas fa-user icon-color me-1 text-title-gold"></i> {{ form.nom.label }} <span class="text-danger">*</span>
+                                                </label>
+                                                {{ form.nom }}
+                                                {{ form.nom.errors }}
+                                            </div>
 
-                            <div class="col-md-6">
-                                <label class="form-label" for="email">
-                                    <i class="fas fa-envelope icon-color me-1 text-title-gold"></i> Email <span class="text-danger">*</span>
-                                </label>
-                                <input type="email" id="email" name="email" class="form-control" placeholder="Votre email" required>
-                            </div>
-                        </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="{{ form.email.id_for_label }}">
+                                                    <i class="fas fa-envelope icon-color me-1 text-title-gold"></i> {{ form.email.label }} <span class="text-danger">*</span>
+                                                </label>
+                                                {{ form.email }}
+                                              
+                                            </div>
+                                        </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label class="form-label" for="telephone">
-                                    <i class="fas fa-phone-alt icon-color me-1 text-title-gold"></i> Téléphone <span class="text-danger">*</span>
-                                </label>
-                                <input type="tel" id="telephone" name="telephone" class="form-control" placeholder="ex:+226numéro" required>
-                            </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="{{ form.numero_telephone.id_for_label }}">
+                                                    <i class="fas fa-phone-alt icon-color me-1 text-title-gold"></i> {{ form.numero_telephone.label }} <span class="text-danger">*</span>
+                                                </label>
+                                                {{ form.numero_telephone }}
+                                                {{ form.numero_telephone.errors }}
+                                            </div>
 
-                            <div class="col-md-6">
-                                <label class="form-label" for="objet">
-                                    <i class="fas fa-tag icon-color me-1 text-title-gold"></i> Objet <span class="text-danger">*</span>
-                                </label>
-                                <input type="text" id="objet" name="objet" class="form-control" placeholder="Objet de votre message" required>
-                            </div>
-                        </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="{{ form.objet.id_for_label }}">
+                                                    <i class="fas fa-tag icon-color me-1 text-title-gold"></i> {{ form.objet.label }} <span class="text-danger">*</span>
+                                                </label>
+                                                {{ form.objet }}
+                                                {{ form.objet.errors }}
+                                            </div>
+                                        </div>
 
-                        <div class="row mb-3">
-                            <div class="col-12">
-                                <label class="form-label" for="message">
-                                    <i class="fas fa-comment-alt icon-color me-1 text-title-gold"></i> Message <span class="text-danger">*</span>
-                                </label>
-                                <textarea id="message" name="message" class="form-control" rows="4" placeholder="Votre message" required></textarea>
-                            </div>
-                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12">
+                                                <label class="form-label" for="{{ form.contenu.id_for_label }}">
+                                                    <i class="fas fa-comment-alt icon-color me-1 text-title-gold"></i> {{ form.contenu.label }} <span class="text-danger">*</span>
+                                                </label>
+                                                {{ form.contenu }}
+                                                {{ form.contenu.errors }}
+                                            </div>
+                                        </div>
 
-                        <div class="col-12 mt-4">
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-responsive-primaryl btn-lg ">
-                                    <i class="fas fa-paper-plane me-2"></i> Envoyer
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                                        <div class="col-12 mt-4">
+                                            <div class="d-grid">
+                                                <button type="submit" class="btn btn-responsive-primaryl btn-lg">
+                                                    <i class="fas fa-paper-plane me-2"></i> Envoyer
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
 
                 </div>
             </div>
