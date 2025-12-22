@@ -130,14 +130,22 @@
                                         </div>
 
                                         <div class="row mb-3">
+                                           
                                             <div class="col-md-6">
-                                                <label class="form-label" for="{{ form.numero_telephone.id_for_label }}">
-                                                    <i class="fas fa-phone-alt icon-color me-1 text-title-gold"></i> {{ form.numero_telephone.label }} <span class="text-danger">*</span>
-                                                </label>
-                                                {{ form.numero_telephone }}
-                                                {{ form.numero_telephone.errors }}
-                                            </div>
-
+    <label class="form-label" for="telephone">
+        <i class="fas fa-phone-alt icon-color me-1 text-title-gold"></i> Téléphone <span class="text-danger">*</span>
+    </label>
+    
+    <div class="input-group">
+        {{ form.pays }}
+        
+        {{ form.numero_telephone }}
+    </div>
+    
+    {% if form.numero_telephone.errors %}
+        <div class="text-danger small">{{ form.numero_telephone.errors }}</div>
+    {% endif %}
+</div>
                                             <div class="col-md-6">
                                                 <label class="form-label" for="{{ form.objet.id_for_label }}">
                                                     <i class="fas fa-tag icon-color me-1 text-title-gold"></i> {{ form.objet.label }} <span class="text-danger">*</span>

@@ -21,6 +21,8 @@ urlpatterns = [
     about_us_path := path('about_us/', shine.views.about_us, name='about_us'),
     #BLOG PAGES
     blog_path := path('blog/', shine.views.blog, name='blog'),
+    # NEWSLETTER SUBSCRIPTION ENDPOINT
+    path('newsletter/subscribe/', shine.views.newsletter_subscribe, name='newsletter'),
 ] +   static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Serve static and media files during development

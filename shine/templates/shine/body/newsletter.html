@@ -17,19 +17,26 @@
                     Contactez-nous
                 </button>
             </div>
-
-            <div class="card p-3 shadow-lg bg-white w-100 " style="max-width: 550px;">
-                <h5 class="mb-3 fw-bold" style="color:#122046;">Abonnez-vous à la Newsletter</h5>
-                <div class="input-group">
-                    <input type="email" class="form-control form-control-lg form-control-email-news" placeholder="Votre adresse email">
-                    <button class="btn btn-sm" type="button" style="background-color: #c39d3b; color: white;">
-                        S'abonner
-                    </button>
-                </div>
-                <small class="form-text text-muted mt-2 text-start">
-                    Promis, nous ne spammerons pas votre boîte de réception.
-                </small>
-            </div>
+<div class="card p-4 shadow-sm bg-white" style="width:550px">
+    <h5 class="mb-3 fw-bold text-title-blue">Abonnez-vous à la Newsletter</h5>
+    
+    <form id="newsletter-form" method="post" action="{% url 'shine:newsletter' %}">
+        {% csrf_token %}
+        <div class="input-group">
+            <input type="email" name="email" required
+                   class="form-control form-control-lg form-control-email-news" 
+                   placeholder="Votre adresse email">
+            
+            <button class="btn btn-responsive-warning" type="submit">S'abonner</button>
+        </div>
+        
+        <div id="newsletter-message" class="mt-2"></div>
+        
+        <small class="form-text text-muted mt-2 d-block">
+            Promis, nous ne spammerons pas votre boîte de réception.
+        </small>
+    </form>
+</div>
             </div>
     </div>
 </section>

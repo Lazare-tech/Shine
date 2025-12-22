@@ -1,16 +1,19 @@
 from django.db import models
 from django.utils.text import slugify
-from django.core.validators import EmailValidator, RegexValidator
+from django.core.validators import EmailValidator
+from phonenumber_field.modelfields import PhoneNumberField
 
-# Create your models here.
-phone_validator = RegexValidator(
-    regex=r'^\+\d{9,15}$',
-    message="Le numéro doit inclure l'indicatif international (ex: +226...)"
-)
+class ContactMessage(models.Model):
+    nom = models.CharField(max_length=255)
+    # Ce champ gère TOUT : la validation, l'indicatif, et le formatage
+    numero_telephone = PhoneNumberField(
+        verbose_name="Numéro de téléphone",
+        region=None # Permet de détecter automatiquement le pays si l'indicatif est mis
+    )
+    # ..
 ##
 class News_letter(models.Model):
     slug = models.SlugField(unique=True, max_length=255, blank=True)
-    email = models.EmailField(verbose_name="Email de l'utilisateur",unique=True)
     email = models.EmailField(validators=[EmailValidator(message="Email invalide")])
     created_at = models.DateTimeField(auto_now_add=True,verbose_name='Date d\inscription de l\'utilisateur ')
     
@@ -38,7 +41,10 @@ class News_letter(models.Model):
 class ContactMessage(models.Model):
     nom = models.CharField(verbose_name="Nom et prénom", max_length=255)
     objet = models.CharField(verbose_name="Objet du message", max_length=255)
-    numero_telephone = models.CharField(validators=[phone_validator], max_length=20,verbose_name="Numéro de téléphone")
+    numero_telephone = PhoneNumberField(
+        verbose_name="Numéro de téléphone",
+        region=None # Permet de détecter automatiquement le pays si l'indicatif est mis
+    )
     email = models.EmailField(validators=[EmailValidator(message="Email invalide")],verbose_name="Email de l'utilisateur")
 
     contenu = models.TextField(verbose_name="Message")
@@ -69,8 +75,10 @@ class ContactMessage(models.Model):
     ##
 class DemandeDevis(models.Model):
         nom = models.CharField(verbose_name="Nom et prénom", max_length=255)
-        numero_telephone = models.CharField(validators=[phone_validator], max_length=20,verbose_name="Numéro de téléphone")
-
+        numero_telephone = PhoneNumberField(
+        verbose_name="Numéro de téléphone",
+        region=None # Permet de détecter automatiquement le pays si l'indicatif est mis
+    )
         email = models.EmailField(validators=[EmailValidator(message="Email invalide")],verbose_name="Email de l'utilisateur")
 
         contenu = models.TextField(verbose_name="Message")
@@ -89,6 +97,8 @@ class DemandeDevis(models.Model):
 class Service(models.Model):
     titre = models.CharField(verbose_name="Titre du service", max_length=255)
     description = models.TextField(verbose_name="Description du service",blank=True,null=True)
+    prix = models.DecimalField(verbose_name="Prix du pack", max_digits=10, decimal_places=2)
+
     image= models.ImageField(upload_to='services/images/', verbose_name="Image du service",blank=True,null=True)
     slug = models.SlugField(unique=True, max_length=255, blank=True)
 
@@ -114,12 +124,22 @@ class Service(models.Model):
         return self.titre
 ##
 class PackService(models.Model):
-    titre = models.CharField(verbose_name="Titre du pack", max_length=255)
-    prix = models.DecimalField(verbose_name="Prix du pack", max_digits=10, decimal_places=2)
-    liste_services_inclus = models.CharField(verbose_name="Liste des services inclus dans le pack", max_length=255)
-    slug = models.SlugField(unique=True, max_length=255, blank=True)
-    pack=models.ForeignKey(Service, on_delete=models.CASCADE, related_name='packs', verbose_name="Service associé au pack")
+    # Changé 'pack' en 'service' pour plus de clarté
+    service = models.ForeignKey(
+        'Service', 
+        on_delete=models.CASCADE, 
+        related_name='packs', 
+        verbose_name="Service associé au pack"
+    )
     
+   
+    # Changé en TextField pour permettre les retours à la ligne (liste à puces)
+    liste_services_inclus = models.TextField(
+        verbose_name="Liste des services inclus", 
+        help_text="Écrivez chaque avantage sur une nouvelle ligne."
+    )
+    
+    slug = models.SlugField(unique=True, max_length=255, blank=True)
 
     class Meta:
         verbose_name = 'Pack de service'
@@ -131,16 +151,19 @@ class PackService(models.Model):
         super().save(*args, **kwargs)
 
     def generate_unique_slug(self):
-        slug = slugify(self.titre)
-        unique_slug = slug
+        # On se base sur le titre du service associé puisqu'il n'y a plus de titre de pack
+        base_slug = slugify(self.service.titre)
+        unique_slug = base_slug
         num = 1
+        # Boucle pour garantir l'unicité du slug
         while PackService.objects.filter(slug=unique_slug).exists():
-            unique_slug = f'{slug}-{num}'
+            unique_slug = f'{base_slug}-{num}'
             num += 1
         return unique_slug
 
     def __str__(self):
-        return self.titre
+        # Affiche le nom du service et le prix dans l'admin
+        return f"Pack {self.service.titre} - {self.prix} €"
     ####
 class Blog(models.Model):
         titre = models.CharField(verbose_name="Titre du blog", max_length=255)

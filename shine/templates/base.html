@@ -49,7 +49,42 @@
 
   <!--links rel-->
 <!-- MDB JS -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const newsForm = document.querySelector('#newsletter-form');
+    const newsMessage = document.querySelector('#newsletter-message');
 
+    if (newsForm) {
+        newsForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // Succès : Texte vert et on vide le champ
+                    newsMessage.innerHTML = `<span class="text-success small fw-bold"><i class="fas fa-check-circle me-1"></i> ${data.message}</span>`;
+                    newsForm.reset();
+                } else {
+                    // Erreur : Texte rouge
+                    newsMessage.innerHTML = `<span class="text-danger small fw-bold"><i class="fas fa-exclamation-circle me-1"></i> ${data.message}</span>`;
+                }
+            })
+            .catch(error => {
+                newsMessage.innerHTML = `<span class="text-danger small">Une erreur technique est survenue.</span>`;
+            });
+        });
+    }
+});
+</script>
 </body>
 
 </html>

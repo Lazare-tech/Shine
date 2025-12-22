@@ -1,93 +1,73 @@
 from django import forms
-from .models import DemandeDevis,ContactMessage
+from .models import DemandeDevis, ContactMessage,News_letter
+from django_countries.widgets import CountrySelectWidget
+from django_countries.fields import CountryField
 
-#############################
 class DemandeDevisForm(forms.ModelForm):
-    
-    # On définit les choix ici pour une meilleure maintenance
-    SERVICE_CHOICES = [
-        ('Etudes Internationales', 'Etudes Internationales'),
-        ('Mobilité Générale (Hors Études)', 'Mobilité Générale (Hors Études)'),
-        ('Accompagnement des Établissements Scolaires', 'Accompagnement des Établissements Scolaires'),
-        ('Soutien Scolaire', 'Soutien Scolaire'),
-        ('Logement & Accueil & Installation', 'Logement & Accueil & Installation'),
-    ]
-
-    service_souhaite = forms.ChoiceField(
-        choices=SERVICE_CHOICES,
-        widget=forms.Select(attrs={'class': 'form-select'}),
-        label="Service souhaité"
-    )
-
-    email = forms.EmailField(
-        error_messages={
-            'invalid': "Oups ! Cette adresse email ne semble pas correcte (ex: nom@domaine.com).",
-            'required': "L'adresse email est obligatoire pour que nous puissions vous répondre."
-        },
-        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'votre@email.com'})
-    )
+    # (Tes autres champs restent identiques...)
+    # ...
     class Meta:
         model = DemandeDevis
-        # On mappe les champs du modèle aux champs du formulaire
         fields = ['nom', 'numero_telephone', 'email', 'service_souhaite', 'contenu']
-        
-        widgets = {
-            'nom': forms.TextInput(attrs={
-                'class': 'form-control', 
-                'placeholder': 'Votre nom et prénom'
-            }),
-            'numero_telephone': forms.TextInput(attrs={
-                'class': 'form-control', 
-                'placeholder': 'Votre numéro de téléphone',
-                'type': 'tel'
-            }),
-            'email': forms.EmailInput(attrs={
-                'class': 'form-control', 
-                'placeholder': 'Votre adresse email'
-            }),
-            'contenu': forms.Textarea(attrs={
-                'class': 'form-control', 
-                'placeholder': 'Décrivez votre projet en quelques mots...',
-                'rows': 4
-            }),
-        }
-####
+        # ... widgets ...
+
 class ContactMessageForm(forms.ModelForm):
     email = forms.EmailField(
         error_messages={
-            'invalid': "Oups ! Cette adresse email ne semble pas correcte (ex: nom@domaine.com).",
-            'required': "L'adresse email est obligatoire pour que nous puissions vous répondre."
+            'invalid': "L'adresse email est incorrecte.",
+            'required': "L'adresse email est obligatoire."
         },
         widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'votre@email.com'})
     )
+
+    # 1. On définit le champ pays explicitement
+    pays = CountryField(blank_label='Pays').formfield(
+        widget=forms.Select(attrs={
+            'class': 'form-select',
+            'style': 'max-width: 120px; border-radius: 8px 0 0 8px;'
+        })
+    )
+
     class Meta:
         model = ContactMessage
-        # On exclut le slug car il est généré automatiquement dans le save() du modèle
-        fields = ['nom', 'email', 'numero_telephone', 'objet', 'contenu']
+        # 2. IMPORTANT: Il FAUT ajouter 'pays' dans la liste des fields ici
+        fields = ['nom', 'email', 'pays', 'numero_telephone', 'objet', 'contenu']
         
         widgets = {
-            'nom': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Votre nom',
-                'id': 'nom'
-            }),
-          
-            
+            'nom': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Votre nom'}),
+            'objet': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Objet'}),
+            'contenu': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+            # 3. Simple TextInput pour éviter la validation automatique "PhoneNumber"
             'numero_telephone': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'ex:+226numéro',
-                'id': 'telephone',
-                'type': 'tel'
-            }),
-            'objet': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Objet de votre message',
-                'id': 'objet'
-            }),
-            'contenu': forms.Textarea(attrs={
-                'class': 'form-control',
-                'placeholder': 'Votre message',
-                'id': 'message',
-                'rows': 4
+                'class': 'form-control', 
+                'placeholder': '70112233',
+                'style': 'border-radius: 0 8px 8px 0;'
             }),
         }
+#............................................................................................
+class NewsLetterForm(forms.ModelForm):
+    email = forms.EmailField(
+        label="Votre adresse email",
+        error_messages={
+            'invalid': "Veuillez entrer une adresse email valide (ex: contact@domaine.com).",
+            'required': "L'email est nécessaire pour s'abonner.",
+            'unique': "Cette adresse email est déjà inscrite à notre newsletter."
+        },
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Entrez votre email...',
+            'id': 'newsletter-email'
+        })
+    )
+
+    class Meta:
+        model = News_letter
+        # On ne demande que l'email, le slug et la date sont gérés automatiquement
+        fields = ['email']
+
+    def clean_email(self):
+        """Vérifie si l'email existe déjà pour éviter les doublons proprement"""
+        email = self.cleaned_data.get('email').lower() # On passe tout en minuscule
+        if News_letter.objects.filter(email=email).exists():
+            raise forms.ValidationError("Vous êtes déjà inscrit à notre newsletter !")
+        return email
