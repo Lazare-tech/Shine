@@ -3,15 +3,7 @@ from django.utils.text import slugify
 from django.core.validators import EmailValidator
 from phonenumber_field.modelfields import PhoneNumberField
 
-class ContactMessage(models.Model):
-    nom = models.CharField(max_length=255)
-    # Ce champ gère TOUT : la validation, l'indicatif, et le formatage
-    numero_telephone = PhoneNumberField(
-        verbose_name="Numéro de téléphone",
-        region=None # Permet de détecter automatiquement le pays si l'indicatif est mis
-    )
-    # ..
-##
+
 class News_letter(models.Model):
     slug = models.SlugField(unique=True, max_length=255, blank=True)
     email = models.EmailField(validators=[EmailValidator(message="Email invalide")])
@@ -97,11 +89,26 @@ class DemandeDevis(models.Model):
 class Service(models.Model):
     titre = models.CharField(verbose_name="Titre du service", max_length=255)
     description = models.TextField(verbose_name="Description du service",blank=True,null=True)
-    prix = models.DecimalField(verbose_name="Prix du pack", max_digits=10, decimal_places=2)
-
-    image= models.ImageField(upload_to='services/images/', verbose_name="Image du service",blank=True,null=True)
+    titre_blanc= models.CharField(verbose_name="Titre blanc du service", max_length=255,blank=True,null=True)
+    titre_shine= models.CharField(verbose_name="Titre shine du service", max_length=255,blank=True,null=True)
+    text_hero= models.TextField(verbose_name="Texte de l'image principale",blank=True,null=True)
+    button_hero_fist= models.CharField(verbose_name="Texte du premier bouton de l'image principale", max_length=255,blank=True,null=True)
+    button_hero_second= models.CharField(verbose_name="Texte du second bouton de l'image principale", max_length=255,blank=True,null=True)
+    image_service= models.ImageField(upload_to='services/images/', verbose_name="Image du service",blank=True,null=True)
     slug = models.SlugField(unique=True, max_length=255, blank=True)
 
+    # --- Champs de Style ---
+    # Couleur de fond (ex: #122046 ou #F7F9FE)
+    bg_color = models.CharField(max_length=20, default="#F7F9FE")
+    # Couleur du texte du titre (ex: #FFFFFF ou #122046)
+    title_color = models.CharField(max_length=20, default="#122046")
+    # Couleur du texte de description
+    text_color = models.CharField(max_length=20, default="#6c757d")
+    # Pour savoir s'il faut afficher le cercle décoratif doré
+    show_decor = models.BooleanField(default=False)
+    # Type de bouton (warning, primary, etc.)
+    btn_class = models.CharField(max_length=50, default="btn-responsive-primaryl")
+    
     class Meta:
         verbose_name = 'Service'
         verbose_name_plural = 'Services'
@@ -132,13 +139,14 @@ class PackService(models.Model):
         verbose_name="Service associé au pack"
     )
     
-   
+    prix = models.DecimalField(verbose_name="Prix du pack", max_digits=10, decimal_places=2)
+    titre_pack=models.CharField(verbose_name="Titre du pack", max_length=255,blank=True,null=True)
     # Changé en TextField pour permettre les retours à la ligne (liste à puces)
+  
     liste_services_inclus = models.TextField(
-        verbose_name="Liste des services inclus", 
-        help_text="Écrivez chaque avantage sur une nouvelle ligne."
+        verbose_name="Services inclus",
+        help_text="Écrivez chaque service inclus du pack sur une nouvelle ligne."
     )
-    
     slug = models.SlugField(unique=True, max_length=255, blank=True)
 
     class Meta:

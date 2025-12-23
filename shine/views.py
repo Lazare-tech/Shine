@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib import messages
 from .forms import DemandeDevisForm, ContactMessageForm, NewsLetterForm
+from .models import PackService, Service, News_letter
 from django.http import JsonResponse
 import phonenumbers
 # Create your views here.
@@ -107,8 +108,40 @@ def blog(request):
     return render(request,'shine/body/blog.html')
                                     # SERVICES PAGES
 #............................................................................................ 
-def etude(request):
-    return render(request,'shine/services/etude.html')
+def services(request, slug):
+    services=get_object_or_404(Service, slug=slug)
+    print("slug",slug)
+    services_hero=Service.objects.get(titre=services)
+    pack_principal=Service.objects.exclude(id=services.id)
+    #autres services sans leprincipal
+    autres = Service.objects.exclude(id=services_hero.id)
+
+    print("services",services)
+    
+#     # On crée une liste avec le Hero en premier, puis les autres
+#     all_services_ordered = [service_hero] + list(autres)
+    pack=services.packs.all()
+    print("pack",pack)
+    context={
+        'pack':pack,
+        'services_hero':services_hero,
+    }
+    return render(request,'shine/services/services.html',context)
+
+# def services(request, slug):
+#     service_hero = get_object_or_404(Service, slug=slug)
+#     autres = Service.objects.exclude(id=service_hero.id)
+    
+#     # On crée une liste avec le Hero en premier, puis les autres
+#     all_services_ordered = [service_hero] + list(autres)
+
+#     return render(request, 'shine/services/services.html', {
+#         'service_hero': service_hero,
+#         'all_services_ordered': all_services_ordered
+#     })
+# def services(request):
+   
+#     return render(request,'shine/services/etude.html',context)
 #............................................................................................
 def newsletter_subscribe(request):
     if request.method == 'POST':

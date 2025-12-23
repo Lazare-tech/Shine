@@ -65,6 +65,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "shine.context_processors.social_media_links_processor",
+                "shine.context_processors.services_list_processor",
             ],
         },
     },

@@ -111,32 +111,34 @@ class NewsLetterAdmin(admin.ModelAdmin):
         return False
 #######
 # 1. Gestion des packs directement dans la page du Service
-class PackServiceInline(admin.TabularInline):
+# 1. On définit comment les packs s'affichent à l'intérieur du service
+# On utilise 'StackedInline' pour que chaque pack prenne toute la largeur (comme un grand titre)
+class PackServiceInline(admin.StackedInline):
     model = PackService
-    extra = 1  # Permet d'ajouter un pack rapidement
-    # On retire 'titre' et 'prepopulated_fields' car le titre n'existe plus
-    fields = ['liste_services_inclus', 'slug']
-    readonly_fields = ['slug'] # Le slug est automatique, on le met en lecture seule
+    extra = 1  # Permet d'avoir un formulaire vide pour ajouter un pack
+    # On définit les champs à afficher
+    fields = ('titre_pack', 'prix', 'liste_services_inclus', 'slug')
+    readonly_fields = ('slug',)
+    
+    # On peut personnaliser le titre de chaque bloc de pack
+    verbose_name = "Configuration du Pack"
+    verbose_name_plural = "Packs associés à ce Service"
 
+# 2. On configure l'admin du Service pour inclure les packs
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ('titre', 'slug','prix', 'image_preview')
+    list_display = ('titre', 'slug','titre_blanc','titre_shine','text_hero','button_hero_fist','button_hero_second','image_service')
     search_fields = ('titre',)
-    prepopulated_fields = {'slug': ('titre',)} # Le titre existe toujours ici
+    
+    # C'est ici que la magie opère : 
+    # En ouvrant un Service, tu verras le titre du Service en haut, 
+    # et tous ses packs listés juste en dessous.
     inlines = [PackServiceInline]
 
-    # Version moderne pour l'aperçu de l'image
-    def image_preview(self, obj):
-        if obj.image:
-            return format_html('<img src="{}" style="width: 50px; height: auto; border-radius: 5px;" />', obj.image.url)
-        return "Pas d'image"
-    
-    image_preview.short_description = 'Aperçu'
-
+# 3. (Optionnel) Si tu veux quand même garder la liste globale des packs 
+# mais avec un tri par service
 @admin.register(PackService)
 class PackServiceAdmin(admin.ModelAdmin):
-    # On affiche 'service' au lieu de 'pack' et on retire 'titre'
-    list_display = ('service',  'slug')
-    list_filter = ('service',) 
-    search_fields = ('service__titre', 'liste_services_inclus')
-    readonly_fields = ['slug'] # On ne peut pas pré-remplir un slug sans le champ titre
+    list_display = ('titre_pack', 'service', 'prix')
+    list_filter = ('service',)
+    ordering = ('service',)  # Regroupe les packs par service dans la liste

@@ -25,15 +25,14 @@
             data-bs-toggle="dropdown" aria-expanded="false">
             Nos services
           </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="{% url 'shine:etude'%}">Études Internationales</a></li>
-            <li><a class="dropdown-item" href="#">Mobilité Générale (Hors Études)</a></li>
-            <li><a class="dropdown-item" href="#">Accompagnement des Établissements Scolaires</a></li>
-            <li><a class="dropdown-item" href="#">Soutien Scolaire</a></li>
-                        <li><a class="dropdown-item" href="#">Logement & Accueil & Installation</a></li>
-
-
-          </ul>
+         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+    {% for s in services %} <li>
+            <a class="dropdown-item" href="{% url 'shine:services' s.slug %}">
+                {{ s.titre }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
         </li>
 
         <li class="nav-item me-3">

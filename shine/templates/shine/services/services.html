@@ -15,11 +15,11 @@
         <div class="row ">
 
             <div class="col-lg-6">
-            <h1 class="fw-bold display-5">Programme d’<span class="text-title-gold">Études Internationales</span></h1>
-        <p class="lead">Un accompagnement premium pour réussir votre mobilité académique à l'étranger.</p>
-    
+            <h1 class="fw-bold display-5">{{ services_hero.titre_blanc }}<span class="text-title-gold">{{ services_hero.titre_shine }}</span></h1>
+        <p class="lead">{{ services_hero.text_hero }}</p>
+
                         <a href="#" class="btn btn-warning btn-lg px-4 py-2 fw-bold">
-            Commencer votre démarche
+            {{ services_hero.button_hero_fist }}
         </a>
             </div>
 
@@ -28,6 +28,7 @@
         </div>
     </div>
 </section>
+
 <section class="py-5 position-relative" style="
     background: linear-gradient(135deg, #122046 60%, #c39d3b33);
     overflow: hidden;
@@ -43,11 +44,11 @@
         <!-- TITRE -->
         <div class="text-center mb-5">
             <h3 class="fw-bold text-light">
-            Logement<span class="text-title-gold"> Accueil & Installation </span>
+            <span class="text-title-gold"> {{ services_hero.titre }} </span>
             </h3>
             <p class="text-light opacity-75" style="max-width:750px; margin:auto;">
-                Un accompagnement sécurisé et structuré pour garantir votre installation sereine
-                dès votre arrivée.
+            {{ services_hero.text_hero }}
+             
             </p>
         </div>
 
@@ -55,71 +56,31 @@
         <div class="row g-4 justify-content-center">
 
             <!-- CARD 1 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="premium-card h-100 p-4 shadow-sm">
-                    <h6 class="fw-bold mb-3 text-title-blue">
-                        Aide au logement universitaire (CROUS)
-                    </h6>
+           {% for p in pack %}
+    <div class="col-md-6 col-lg-4 mb-4">
+        <div class="premium-card h-100 p-4 shadow-sm border-0 bg-white">
+            <h6 class="fw-bold mb-3 text-title-blue">
+                {{ p.titre_pack }}
+            </h6>
 
-                    <ul class="list-unstyled text-muted small mb-3">
-                        <li><i class="fas fa-check-circle me-2" style="color:var(--shine-gold);"></i>
-                            Recherche de logement universitaire</li>
-                        <li><i class="fas fa-check-circle me-2" style="color:var(--shine-gold);"></i>
-                            Assistance aux procédures CROUS</li>
-                        <li><i class="fas fa-check-circle me-2" style="color:var(--shine-gold);"></i>
-                            Constitution et suivi du dossier</li>
-                    </ul>
+            <ul class="list-unstyled text-muted small mb-4">
+                {% for item in p.liste_services_inclus.splitlines %}
+                    {% if item %}
+                    <li class="mb-2 d-flex align-items-start">
+                        <i class="fas fa-check-circle me-2 mt-1" style="color:var(--shine-gold);"></i>
+                        <span>{{ item }}</span>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
 
-                    <p class="tarif mb-3">Tarif : <span>200 €</span></p>
-                    <a href="#" class="btn btn-responsive-warning w-100">Souscrire</a>
-                </div>
+            <div class="mt-auto">
+                <p class="tarif mb-3 fw-bold">Tarif : <span>{{ p.prix }} €</span></p>
+                <a href="#" class="btn btn-responsive-warning w-100">Souscrire</a>
             </div>
-
-            <!-- CARD 2 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="premium-card h-100 p-4 shadow-sm">
-                    <h6 class="fw-bold mb-3 text-title-blue">
-                        Accueil & Installation complète
-                    </h6>
-
-                    <ul class="list-unstyled text-muted small mb-3">
-                        <li><i class="fas fa-check-circle me-2" style="color:var(--shine-gold);"></i>
-                            Recherche de maison ou logement privé</li>
-                        <li><i class="fas fa-check-circle me-2" style="color:var(--shine-gold);"></i>
-                            Attestation d’hébergement</li>
-                        <li><i class="fas fa-check-circle me-2" style="color:var(--shine-gold);"></i>
-                            Accueil à l’aéroport</li>
-                        <li><i class="fas fa-check-circle me-2" style="color:var(--shine-gold);"></i>
-                            Installation & aide aux procédures locales</li>
-                    </ul>
-
-                    <p class="tarif mb-3">Tarif : <span>500 €</span></p>
-                    <a href="#" class="btn btn-responsive-warning w-100">Souscrire</a>
-                </div>
-            </div>
-
-            <!-- CARD 3 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="premium-card h-100 p-4 shadow-sm">
-                    <h6 class="fw-bold mb-3 text-title-blue">
-                        Accueil & Installation simplifiée
-                    </h6>
-
-                    <ul class="list-unstyled text-muted small mb-3">
-                        <li><i class="fas fa-check-circle me-2" style="color:var(--shine-gold);"></i>
-                            Recherche de maison</li>
-                        <li><i class="fas fa-check-circle me-2" style="color:var(--shine-gold);"></i>
-                            Attestation d’hébergement</li>
-                        <li><i class="fas fa-check-circle me-2" style="color:var(--shine-gold);"></i>
-                            Accueil à l’aéroport</li>
-                        <li><i class="fas fa-check-circle me-2" style="color:var(--shine-gold);"></i>
-                            Installation sur place</li>
-                    </ul>
-
-                    <p class="tarif mb-3">Tarif : <span>300 €</span></p>
-                    <a href="#" class="btn btn-responsive-warning w-100">Souscrire</a>
-                </div>
-            </div>
+        </div>
+    </div>
+{% endfor %}
 
         </div>
 

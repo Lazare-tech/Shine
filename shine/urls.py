@@ -16,7 +16,7 @@ urlpatterns = [
     infos_bourses_path := path('infos_bourses/', shine.views.infos_bourses, name='infos_bourses'),
     
     # SERVICES PAGES
-    etude_path := path('services/etude/', shine.views.etude, name='etude'),
+    etude_path := path('services/<slug:slug>/', shine.views.services, name='services'),
     #APROPOS US PAGE
     about_us_path := path('about_us/', shine.views.about_us, name='about_us'),
     #BLOG PAGES
