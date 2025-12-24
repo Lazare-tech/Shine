@@ -15,10 +15,10 @@
         <div class="row ">
 
             <div class="col-lg-6">
-            <h1 class="fw-bold display-5">{{ services_hero.titre_blanc }}<span class="text-title-gold">{{ services_hero.titre_shine }}</span></h1>
+            <h2 class="fw-bold ">{{ services_hero.titre_blanc }}<span class="text-title-gold">{{ services_hero.titre_shine }}</span></h2>
         <p class="lead">{{ services_hero.text_hero }}</p>
 
-                        <a href="#" class="btn btn-warning btn-lg px-4 py-2 fw-bold">
+                        <a href="#" class="btn btn-agen-colr  btn-sm px-4 py-2 fw-bold">
             {{ services_hero.button_hero_fist }}
         </a>
             </div>
@@ -87,452 +87,42 @@
     </div>
 </section>
 
-<section class="py-5" style="background:#F7F9FE;">
-    <div class="container">
-
-        <h2 class="fw-bold text-center mb-4 text-title-blue">
-            Études Internationales
-        </h2>
-
-        <p class="text-center text-muted mb-5">
-            Un accompagnement complet, étape par étape, pour garantir votre succès à l’étranger.
-        </p>
-
-        <div class="row g-4">
-
-            <!-- CARD 1 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="premium-card h-100 shadow-sm">
-                   
-                    <h6 class="fw-bold mb-3 text-title-blue">Inscription Universitaire & Orientation</h6>
-
-                    <ul class="list-unstyled text-muted small">
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Conseil en orientation académique</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Sélection des universités adaptées</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Préparation des dossiers (CV, lettres...)</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Suivi admission & aide aux bourses</li>
-                    </ul>
-
-                    <p class="tarif mb-3">Tarif : <span>430 €</span></p>
-
-                    <a href="#" class="btn btn-responsive-primaryl w-100">Souscrire</a>
-                </div>
-            </div>
-
-            <!-- CARD 2 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="premium-card h-100 shadow-sm">
-
-                    <h6 class="fw-bold mb-3 text-title-blue">Assistance Visa & Formalités</h6>
-
-                    <ul class="list-unstyled text-muted small">
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Dossier complet visa étudiant</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        RDV ambassade & accompagnement</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Assurance santé internationale</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Conseils réglementaires</li>
-                    </ul>
-
-                    <p class="tarif mb-3">Tarif : <span>350 €</span></p>
-
-                    <a href="#" class="btn btn-responsive-primaryl w-100">Souscrire</a>
-                </div>
-            </div>
-
-            <!-- CARD 3 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="premium-card h-100 shadow-sm">
-
-                    <h6 class="fw-bold mb-3 text-title-blue">Préparation au Départ</h6>
-
-                    <ul class="list-unstyled text-muted small">
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Billets d’avion & réservations</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Informations pré-départ</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Compte bancaire international</li>
-                    </ul>
-
-                    <p class="tarif mb-3">Tarif : <span>100 €</span></p>
-
-                    <a href="#" class="btn btn-responsive-primaryl w-100">Souscrire</a>
-                </div>
-            </div>
-
-            <!-- CARD 4 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="premium-card h-100 shadow-sm">
-
-                    <h6 class="fw-bold mb-3 text-title-blue">Insertion & Intégration</h6>
-
-                    <ul class="list-unstyled text-muted small">
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Réseaux étudiants & entraide</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Recherche de stages/emplois</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Suivi & renouvellement de séjour</li>
-                    </ul>
-
-                    <p class="tarif mb-3">Tarif : <span>100 €</span></p>
-
-                    <a href="#" class="btn btn-responsive-primaryl w-100">Souscrire</a>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-<!-- SECTION SERVICE VOYAGE -->
-<section class="py-5 position-relative" style="
-    background:#c39d3b;;">
-
-    {% comment %} <!-- Décor circulaire -->
-    <div class="position-absolute rounded-circle"
-         style="width: 420px; height: 420px; background:#c39d3b22; top:-120px; right:-120px;">
-    </div> {% endcomment %}
-
-    <div class="container position-relative" style="z-index:2;">
-
-        <!-- TITRE -->
-        <div class="text-center mb-5">
-            <h3 class="fw-bold text-light">
-                Service voyage <span style="color:#122046;">Mobilité Générale (hors études)</span>
-            </h3>
-            <p class="text-light opacity-75" style="max-width:750px; margin:auto;">
-                Une assistance complète, personnalisée et premium pour tous vos projets de mobilité.
-            </p>
-        </div>
-
-        <!-- SERVICES LIST -->
-        <div class="row g-4 justify-content-center">
-
-            <!-- CARD 1 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="premium-card h-100 p-4 shadow-sm">
-                    <h6 class="fw-bold mb-3 text-title-blue">Assistance administrative pour VISA</h6>
-
-                    <ul class="list-unstyled text-muted small mb-3">
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Analyse complète du profil du voyageur</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Constitution + correction du dossier</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Rédaction de lettres d’attestation</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Préparation entretien consulaire</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Alertes risques de refus & corrections</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Suivi du dossier jusqu'à décision</li>
-                    </ul>
-
-                    <p class="tarif mb-3">Tarif : <span>350 €</span></p>
-                    <a href="#" class="btn btn-responsive-primaryl w-100">Souscrire</a>
-                </div>
-            </div>
-
-            <!-- CARD 2 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="premium-card h-100 p-4 shadow-sm">
-                    <h6 class="fw-bold mb-3 text-title-blue">Réservation & Vente de billets</h6>
-
-                    <ul class="list-unstyled text-muted small mb-3">
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Recherche d’itinéraires optimisés</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Négociation via nos partenaires</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Assistance après-vente (modif, annulation…)</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Conseils sur le meilleur moment pour réserver</li>
-                    </ul>
-
-                    <p class="tarif mb-3">Tarif : <span>350 €</span></p>
-                    <a href="#" class="btn btn-responsive-primaryl w-100">Souscrire</a>
-                </div>
-            </div>
-
-            <!-- CARD 3 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="premium-card h-100 p-4 shadow-sm">
-                    <h6 class="fw-bold mb-3 text-title-blue">Assurance voyage & assistance</h6>
-
-                    <ul class="list-unstyled text-muted small mb-3">
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Explication claire des différentes assurances</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Orientation vers l’option la plus adaptée</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Compréhension des droits en cas d’incident</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Accompagnement en cas de problème</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Retards, bagages perdus, sinistres…</li>
-                    </ul>
-
-                    <p class="tarif mb-3">Tarif : <span>350 €</span></p>
-                    <a href="#" class="btn btn-responsive-primaryl w-100">Souscrire</a>
-                </div>
-            </div>
-
-            <!-- CARD 4 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="premium-card h-100 p-4 shadow-sm">
-                    <h6 class="fw-bold mb-3 text-title-blue">Aide à l’hébergement & conseils</h6>
-
-                    <ul class="list-unstyled text-muted small mb-3">
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Recherche d’hébergement selon budget</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Analyse sécurité & localisation</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Infos pratiques & conseils culturels</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Transport, coûts, points à éviter</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Support permanent avant & pendant le voyage</li>
-                    </ul>
-
-                    <p class="tarif mb-3">Tarif : <span>100 €</span></p>
-                    <a href="#" class="btn btn-responsive-primaryl w-100">Souscrire</a>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-</section>
-
-
-<!-- SECTION ACCOMPAGNEMENT ÉTABLISSEMENTS SCOLAIRES -->
-<section class="py-5 position-relative" style="
-    background: linear-gradient(135deg, #122046 60%, #c39d3b33);
-    overflow: hidden;
-">
-  <div class="position-absolute rounded-circle"
-         style="width: 420px; height: 420px; background:#c39d3b22; top:-120px; right:-120px;">
-    </div>
-
-    <div class="container">
-
-        <!-- TITRE -->
-        <div class="text-center mb-5">
-            <h3 class="fw-bold text-light">
-                Accompagnement des <span style="color:#c39d3b;">Établissements Scolaires</span>
-            </h3>
-            <p class="text-light opacity-75" style="max-width:750px; margin:auto;">
-                Pour une meilleure performance et un pilotage moderne et efficace.
-            </p>
-        </div>
-
-        <!-- CARDS -->
-        <div class="row g-4 justify-content-center">
-
-            <!-- CARD 1 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="edu-card h-100 p-4 shadow-sm">
-                    <h6 class="fw-bold mb-3 text-title-blue">Diagnostic global & analyse de performance</h6>
-                    <ul class="list-unstyled text-muted small mb-3">
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Analyse du fonctionnement administratif et pédagogique</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Évaluation du climat scolaire et de la discipline</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Étude des performances scolaires (résultats, assiduité, progression)</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Analyse de la gestion des ressources humaines et matérielles</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Identification des blocages organisationnels ou pédagogiques</li>
-                    </ul>
-                    <p class="tarif mb-3">Tarif : <span>150 €</span></p>
-                    <a href="#" class="btn btn-responsive-warning  w-100">Souscrire</a>
-                </div>
-            </div>
-
-            <!-- CARD 2 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="edu-card h-100 p-4 shadow-sm">
-                    <h6 class="fw-bold mb-3 text-title-blue">Appui à la gestion administrative & organisationnelle</h6>
-                    <ul class="list-unstyled text-muted small mb-3">
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Amélioration des procédures administratives</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Appui à la planification scolaire</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Mise en place d’outils de suivi (notes, absences, rapports)</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Organisation et structuration des équipes pédagogiques</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Accompagnement dans la gestion du personnel</li>
-                    </ul>
-                    <p class="tarif mb-3">Tarif : <span>150 €</span></p>
-                    <a href="#" class="btn btn-responsive-warning  w-100">Souscrire</a>
-                </div>
-            </div>
-
-            <!-- CARD 3 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="edu-card h-100 p-4 shadow-sm">
-                    <h6 class="fw-bold mb-3 text-title-blue">Renforcement pédagogique</h6>
-                    <ul class="list-unstyled text-muted small mb-3">
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Suivi pédagogique des enseignants</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Harmonisation des progressions et programmes</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Appui à la mise en place d’évaluations cohérentes</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Introduction de méthodes pédagogiques modernes</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Coaching pour la gestion de classe</li>
-                    </ul>
-                    <p class="tarif mb-3">Tarif : <span>150 €</span></p>
-                    <a href="#" class="btn btn-responsive-warning  w-100">Souscrire</a>
-                </div>
-            </div>
-
-            <!-- CARD 4 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="edu-card h-100 p-4 shadow-sm">
-                    <h6 class="fw-bold mb-3 text-title-blue">Formation & coaching du personnel</h6>
-                    <ul class="list-unstyled text-muted small mb-3">
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Formation des enseignants (pédagogie active, discipline, évaluation)</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Formation du personnel administratif (gestion, communication, organisation)</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Coaching des responsables (leadership, pilotage d’établissement, prise de décision)</li>
-                    </ul>
-                    <p class="tarif mb-3">Tarif : <span>150 €</span></p>
-                    <a href="#" class="btn btn-responsive-warning  w-100">Souscrire</a>
-                </div>
-            </div>
-
-            <!-- CARD 5 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="edu-card h-100 p-4 shadow-sm">
-                    <h6 class="fw-bold mb-3 text-title-blue">Digitalisation & outils modernes de gestion</h6>
-                    <ul class="list-unstyled text-muted small mb-3">
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Mise en place d’outils numériques de gestion scolaire</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Suivi digital des élèves et communication avec les parents</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Appui pour la transition digitale des processus internes</li>
-                    </ul>
-                    <p class="tarif mb-3">Tarif : <span>150 €</span></p>
-                    <a href="#" class="btn btn-responsive-warning  w-100">Souscrire</a>
-                </div>
-            </div>
-
-            <!-- CARD 6 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="edu-card h-100 p-4 shadow-sm">
-                    <h6 class="fw-bold mb-3 text-title-blue">Suivi, accompagnement & résultats mesurables</h6>
-                    <ul class="list-unstyled text-muted small mb-3">
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Suivi régulier de l’implémentation des recommandations</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Accompagnement continu sur 6 à 12 mois</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Ateliers de correction et d'ajustement</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>
-                        Mesure de l’évolution des résultats scolaires et organisationnels</li>
-                        
-                    </ul>
-                    <p class="tarif mb-3">Tarif : <span>150 €</span></p>
-                                        <a href="#" class="btn btn-responsive-warning  w-100">Souscrire</a>
-
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-</section>
-
-<!-- SECTION CONSEIL, ORIENTATION & ACCOMPAGNEMENT -->
-<section class="py-5" style="background-color: #f4f6fa;">
-
-    <div class="container">
-
-        <!-- TITRE -->
-        <div class="text-center mb-5">
-            <h3 class="fw-bold text-dark">
-            Conseil, Orientation & Accompagnement des Élèves et Étudiants
-            </h3>
-            <p class="text-muted" style="max-width:750px; margin:auto;">
-                Pour accompagner les élèves et étudiants vers la réussite scolaire et personnelle.
-            </p>
-        </div>
-
-        <!-- CARDS -->
-        <div class="row g-4 justify-content-center">
-
-            <!-- CARD 1 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="edu-card-light h-100 p-4 shadow-sm">
-                    <h6 class="fw-bold mb-3 text-title-blue">Orientation scolaire et professionnelle</h6>
-                    <ul class="list-unstyled text-muted small mb-3">
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>Identifier les compétences, motivations et intérêts</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>Conseiller sur les filières adaptées (BAC, BTS, Licence, Master)</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>Orienter vers les métiers porteurs</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>Accompagner les projets de réorientation</li>
-                    </ul>
-                    <p class="tarif mb-3">Tarif : <span>100 €</span></p>
-         <a href="#" class="btn btn-responsive-primaryl  w-100">Souscrire</a>
-
-                </div>
-            </div>
-
-            <!-- CARD 2 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="edu-card-light h-100 p-4 shadow-sm">
-                    <h6 class="fw-bold mb-3 text-title-blue">Accompagnement académique & soutien</h6>
-                    <ul class="list-unstyled text-muted small mb-3">
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>Aide aux devoirs et soutien individualisé</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>Remédiation des lacunes</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>Coaching méthodologique (organisation, mémorisation, gestion du temps)</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>Préparation aux examens (BEPC, BAC, concours)</li>
-                    </ul>
-                    <p class="tarif mb-3">Tarif : <span>40 €</span></p>
-        
-         <a href="#" class="btn btn-responsive-primaryl  w-100">Souscrire</a>
-
-                </div>
-            </div>
-
-            <!-- CARD 3 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="edu-card-light h-100 p-4 shadow-sm">
-                    <h6 class="fw-bold mb-3 text-title-blue">Coaching éducatif et développement personnel</h6>
-                    <ul class="list-unstyled text-muted small mb-3">
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>Confiance en soi</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>Motivation et discipline</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>Gestion du stress et préparation mentale</li>
-                        <li><i class="fas fa-check-circle me-2" style="color: var(--shine-gold);"></i>Techniques de prise de notes et concentration</li>
-                    </ul>
-                    <p class="tarif mb-3">Tarif : <span>100 €</span></p>
-            <a href="#" class="btn btn-responsive-primaryl  w-100">Souscrire</a>
-
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-</section>
-
+{% for s in autres_services %}
+    
+    {% if forloop.counter == 1 %}
+        <section class="py-5" style="background:#F7F9FE;">
+            {% comment %} Variables de style pour cette itération {% endcomment %}
+            {% with text_class="text-title-blue" btn_class="btn-responsive-primaryl" decor=False %}
+                {% include "shine/services/partial_services.html" with service=s %}
+            {% endwith %}
+        </section>
+
+    {% elif forloop.counter == 2 %}
+        <section class="py-5" style="background:#c39d3b;">
+            {% with text_class="text-title-blue" btn_class="btn-responsive-primaryl" decor=False %}
+                {% include "shine/services/partial_services.html" with service=s %}
+            {% endwith %}
+        </section>
+
+    {% elif forloop.counter == 3 %}
+        <section class="py-5 position-relative" style="background: linear-gradient(135deg, #122046 60%, #c39d3b33); overflow: hidden;">
+             <div class="position-absolute rounded-circle" style="width: 420px; height: 420px; background:#c39d3b22; top:-120px; right:-120px;"></div>
+
+            {% with text_class="text-title-gold" btn_class="btn-responsive-warning" decor=True %}
+                {% include "shine/services/partial_services.html" with service=s %}
+            {% endwith %}
+        </section>
+
+    {% elif forloop.counter == 4 %}
+        <section class="py-5" style="background:#f4f6fa;">
+            {% with text_class="text-dark" btn_class="btn-responsive-primaryl" decor=False %}
+                {% include "shine/services/partial_services.html" with service=s %}
+            {% endwith %}
+        </section>
+
+    {% endif %}
+
+{% endfor %}
 
 
 

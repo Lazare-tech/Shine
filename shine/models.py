@@ -174,32 +174,31 @@ class PackService(models.Model):
         return f"Pack {self.service.titre} - {self.prix} €"
     ####
 class Blog(models.Model):
-        titre = models.CharField(verbose_name="Titre du blog", max_length=255)
-        contenu = models.TextField(verbose_name="Contenu du blog")
-        image = models.ImageField(upload_to='blogs/images/', verbose_name="Image du blog", blank=True, null=True)
-        date_publication = models.DateTimeField(verbose_name="Date de publication", auto_now=True)
-        slug = models.SlugField(unique=True, max_length=255, blank=True)
+    titre = models.CharField(verbose_name="Titre du blog", max_length=255)
+    contenu = models.TextField(verbose_name="Contenu du blog")
+    image = models.ImageField(upload_to='blogs/images/', verbose_name="Image du blog", blank=True, null=True)
+    
+    # auto_now_add pour fixer la date à la création, auto_now pour la mise à jour
+    date_publication = models.DateTimeField(verbose_name="Date de publication", auto_now_add=True)
+    
+    # Ajout du on_delete (obligatoire) et null=True si un blog n'est pas forcément lié à un service
+    services_associes = models.ForeignKey('Service', on_delete=models.SET_NULL, verbose_name="Services associés", blank=True, null=True)
+    
+    slug = models.SlugField(unique=True, max_length=255, blank=True)
 
-        class Meta:
-            verbose_name = 'Blog'
-            verbose_name_plural = 'Blogs'
+    def save(self, *args, **kwargs):
+        # Génération automatique du slug si vide
+        if not self.slug:
+            self.slug = slugify(self.titre)
+        super().save(*args, **kwargs)
 
-        def save(self, *args, **kwargs):
-            if not self.slug:
-                self.slug = self.generate_unique_slug()
-            super().save(*args, **kwargs)
+    class Meta:
+        verbose_name = "Article de Blog"
+        verbose_name_plural = "Articles de Blog"
+        ordering = ['-date_publication']
 
-        def generate_unique_slug(self):
-            slug = slugify(self.titre)
-            unique_slug = slug
-            num = 1
-            while Blog.objects.filter(slug=unique_slug).exists():
-                unique_slug = f'{slug}-{num}'
-                num += 1
-            return unique_slug
-
-        def __str__(self):
-            return self.titre
+    def __str__(self):
+        return self.titre
 ##
 class PaysDestination(models.Model):
     nom = models.CharField(verbose_name="Nom du pays", max_length=255)

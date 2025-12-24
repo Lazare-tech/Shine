@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib import messages
 from .forms import DemandeDevisForm, ContactMessageForm, NewsLetterForm
-from .models import PackService, Service, News_letter
+from .models import PackService, Service, News_letter,Blog
 from django.http import JsonResponse
 import phonenumbers
 # Create your views here.
@@ -105,6 +105,23 @@ def about_us(request):
     return render(request,'shine/body/about.html')
 #............................................................................................
 def blog(request):
+    # On récupère tous les articles du plus récent au plus ancien
+    articles = Blog.objects.all().order_by('-date_publication')
+    context={
+        'articles':articles,
+    }
+    return render(request, 'shine/blog/blog.html',context)
+#
+def detail_blog(request, slug):
+    article = get_object_or_404(Blog, slug=slug)
+    # On récupère 3 articles récents sauf celui en cours de lecture
+    articles_recents = Blog.objects.exclude(id=article.id).order_by('-date_publication')[:3]
+    
+    context = {
+        'article': article,
+        'articles_recents': articles_recents
+    }
+    return render(request, 'shine/blog/detail.html', context)
     return render(request,'shine/body/blog.html')
                                     # SERVICES PAGES
 #............................................................................................ 
@@ -117,14 +134,14 @@ def services(request, slug):
     autres = Service.objects.exclude(id=services_hero.id)
 
     print("services",services)
-    
-#     # On crée une liste avec le Hero en premier, puis les autres
-#     all_services_ordered = [service_hero] + list(autres)
+    #REQUÊTE 2 : Tous les autres services sauf le principal
+    autres_services = Service.objects.exclude(id=services.id).prefetch_related('packs')
     pack=services.packs.all()
     print("pack",pack)
     context={
         'pack':pack,
         'services_hero':services_hero,
+        'autres_services':autres_services,
     }
     return render(request,'shine/services/services.html',context)
 

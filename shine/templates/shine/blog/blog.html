@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{% endblock title %}
+
+{% block content %}
+
+
+
+<section class="hero-banner">
+
+    <!-- Image -->
+    <img src="{% static 'images/about.jpg' %}" 
+         alt="Étudiants à l'université"
+         class="hero-bg">
+
+    <!-- Overlay bleu foncé transparent -->
+    <div class="hero-overlay"></div>
+
+    <!-- Contenu du Hero -->
+    <div class="container hero-content">
+        <div class="row">
+            <div class="col-lg-6">
+                <h1 class="hero-title">
+                Blog Mobilité  <span class="text-title-gold">& Projets Internationaux</span>
+                </h1>
+                <p class="hero-text">
+                Conseils pratiques, analyses expertes et guides complets pour réussir
+          vos projets d’études, de visa et d’installation à l’international.
+     
+                </p>
+
+                <div class="mt-4">
+                    <a href="#" class="btn btn-responsive-warning me-2">Découvrir les articles</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+<!-- Catégories / Filtres -->
+<section class="py-4 bg-light">
+  <div class="container text-center">
+    <h5 class="fw-bold text-title-blue mb-3">Filtrer par catégorie</h5>
+    <div class="d-flex flex-wrap justify-content-center gap-2">
+      <a href="#" class="btn btn-outline-agen-colr btn-sm">Mobilité internationale</a>
+      <a href="#" class="btn btn-outline-agen-colr btn-sm">Visa & démarches</a>
+      <a href="#" class="btn btn-outline-agen-colr btn-sm">Études à l’étranger</a>
+      <a href="#" class="btn btn-outline-agen-colr btn-sm">Installation & logement</a>
+      <a href="#" class="btn btn-outline-agen-colr btn-sm">Carrière & opportunités</a>
+    </div>
+  </div>
+</section>
+<section class="py-5 bg-light" id="articles">
+  <div class="container">
+
+    <div class="row mb-4">
+      <div class="col text-center">
+        <h2 class="fw-bolder text-title-blue">Articles à la une</h2>
+        <p class="text-muted">Nos contenus les plus consultés et les plus utiles.</p>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      {% for art in articles %}
+      <div class="col-md-6 col-lg-4">
+        <article class="card h-100 border-0 shadow-lg rounded-4 overflow-hidden">
+          
+          {% if art.image %}
+            <img src="{{ art.image.url }}"
+                 class="card-img-top"
+                 alt="{{ art.titre }}"
+                 style="height: 220px; object-fit: cover;">
+          {% else %}
+            <div style="height: 220px; background: #eee; display: flex; align-items: center; justify-content: center;">
+                <span class="text-muted">Pas d'image</span>
+            </div>
+          {% endif %}
+
+          <div class="card-body d-flex flex-column">
+            {% if art.services_associes %}
+            <span class="badge mb-2 text-white align-self-start"
+                  style="background-color:#c39d3b;">
+              {{ art.services_associes.titre }}
+            </span>
+            {% endif %}
+
+            <h3 class="h5 fw-bold text-title-blue">
+              {{ art.titre }}
+            </h3>
+
+            <p class="text-muted flex-grow-1">
+              {{ art.contenu|truncatewords:20 }}
+            </p>
+
+            <a href="{% url 'shine:detail_blog' art.slug %}" 
+               class="fw-semibold text-decoration-none mt-auto"
+               style="color:#c39d3b;">
+              Lire l’article →
+            </a>
+          </div>
+        </article>
+      </div>
+      {% empty %}
+      <p class="text-center">Aucun article disponible pour le moment.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% include 'shine/body/newsletter.html' %}
+
+{% endblock content %}

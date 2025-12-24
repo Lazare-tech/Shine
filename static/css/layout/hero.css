@@ -327,4 +327,45 @@
     height: 140px;
     object-fit: cover;
 }
+/* blog bouton partager  */
+/* Style de base pour les boutons de partage */
+.btn-share {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: white !important;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border: none;
+    text-decoration: none;
+}
 
+
+.btn-share:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.1);
+}
+.btn-facebook:hover,.btn-linkedin:hover{
+    background-color: #1877F2;
+} 
+.btn-whatsapp:hover{
+    background-color: #25D366;
+}
+.btn-x:hover{
+    background-color: #000000;
+}
+/* Couleurs Officielles */
+.btn-facebook { background-color: #1877F2; }
+.btn-x        { background-color: #000000; 
+        }
+.btn-linkedin { background-color: #0077B5; }
+.btn-whatsapp { background-color: #25D366; }
+.btn-tiktok   { background-color: #000000; border: 1px solid #ff0050; } /* TikTok utilise souvent du noir avec des accents */
+
+/* Icône spécifique TikTok si besoin de l'effet bicolore */
+.btn-tiktok i {
+    filter: drop-shadow(2px 0px 0px #fd3e3e) drop-shadow(-2px 0px 0px #4de8f4);
+}

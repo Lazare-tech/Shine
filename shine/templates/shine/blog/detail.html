@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% load static %}
+<style>
+/* Espacement optimal pour la lecture */
+.article-content p {
+    margin-bottom: 1.5rem;
+}
+
+/* Style pour les citations dans le blog */
+.article-content blockquote {
+    border-left: 5px solid #c39d3b;
+    padding-left: 1.5rem;
+    font-style: italic;
+    color: #122046;
+    margin: 2rem 0;
+}
+
+/* Effet pour l'image qui remonte sur le header */
+.mt-n5 {
+    margin-top: -5rem !important;
+}
+
+@media (max-width: 992px) {
+    .mt-n5 { margin-top: -2rem !important; }
+}
+</style>
+{% block content %}
+<section class="py-5" style="background: #F7F9FE;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 text-center">
+                <nav aria-label="breadcrumb" class="mb-3">
+                    <ol class="breadcrumb justify-content-center bg-transparent p-0">
+                        <li class="breadcrumb-item"><a href="{% url 'shine:blog' %}" style="color:#c39d3b;">Blog</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ article.services_associes.titre|default:"Actualités" }}</li>
+                    </ol>
+                </nav>
+
+                <h1 class="display-4 fw-bold text-title-blue mb-4">{{ article.titre }}</h1>
+
+                <div class="d-flex align-items-center justify-content-center text-muted mb-4">
+                    <span class="me-3"><i class="far fa-calendar-alt me-2"></i>{{ article.date_publication|date:"d F Y" }}</span>
+                    <span><i class="far fa-clock me-2"></i> 5 min de lecture</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container mt-n5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            {% if article.image %}
+            <img src="{{ article.image.url }}" class="img-fluid rounded-4 shadow-lg w-100" 
+                 style="max-height: 500px; object-fit: cover;" alt="{{ article.titre }}">
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                
+                <div class="article-content" style="font-size: 1.15rem; line-height: 1.8; color: #444;">
+                    {{ article.contenu|linebreaks }}
+                </div>
+
+                <hr class="my-5">
+
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                    <div class="tags">
+                        <span class="fw-bold text-title-blue me-2">Service lié :</span>
+                        <a href="#" class="badge p-2 px-3 text-white text-decoration-none" style="background-color:#c39d3b;">
+                            {{ article.services_associes.titre }}
+                        </a>
+                    </div>
+<div class="share-buttons d-flex align-items-center gap-2">
+    <span class="me-2 fw-bold text-title-blue">Partager :</span>
+    
+    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" 
+       target="_blank" class="btn btn-share btn-facebook" title="Partager sur Facebook">
+        <i class="fab fa-facebook-f"></i>
+    </a>
+
+    <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ article.titre }}" 
+       target="_blank" class="btn btn-share btn-x" title="Partager sur X">
+        <i class="fab fa-x-twitter"></i>
+    </a>
+
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" 
+       target="_blank" class="btn btn-share btn-linkedin" title="Partager sur LinkedIn">
+        <i class="fab fa-linkedin-in"></i>
+    </a>
+
+    <a href="https://api.whatsapp.com/send?text={{ article.titre }}%20{{ request.build_absolute_uri }}" 
+       target="_blank" class="btn btn-share btn-whatsapp" title="Partager sur WhatsApp">
+        <i class="fab fa-whatsapp "></i>
+    </a>
+
+
+    
+</div>
+                </div>
+            </div>
+
+           <div class="col-lg-3 offset-lg-1 mt-5 mt-lg-0">
+    
+    <div class="sticky-lg-top" style="top: 100px; z-index: 1;">
+        
+        <div class="p-4 rounded-4 shadow-sm border-0 bg-white mb-4">
+            <h5 class="fw-bold text-title-blue mb-3">Besoin d'aide ?</h5>
+            <p class="small text-muted">Nos experts vous accompagnent dans vos démarches de mobilité.</p>
+            <a href="{% url 'shine:contact' %}" class="btn btn-agen-colr w-100">Nous contacter</a>
+        </div>
+        
+        <div class="p-4 rounded-4 shadow-sm border-0 bg-white">
+            <h5 class="fw-bold text-title-blue mb-3">À lire aussi</h5>
+            <ul class="list-unstyled">
+                {% for recent in articles_recents %}
+                <li class="mb-3 d-flex align-items-center gap-2">
+                    <i class="fas fa-chevron-right text-title-gold small"></i>
+                    <div>
+                        <a href="{% url 'shine:detail_blog' recent.slug %}" class="text-decoration-none text-dark small fw-semibold link-hover-gold">
+                            {{ recent.titre|truncatechars:50 }}
+                        </a>
+                        <div class="text-muted" style="font-size: 0.75rem;">{{ recent.date_publication|date:"d M Y" }}</div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+</div>
+        </div>
+    </div>
+</section>
+
+{% include 'shine/body/newsletter.html' %}
+
+{% endblock content %}

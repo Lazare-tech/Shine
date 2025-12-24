@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from django.contrib import admin
-from .models import ContactMessage, DemandeDevis, News_letter,Service,PackService
+from .models import ContactMessage, DemandeDevis, News_letter,Service,PackService,Blog
 from django.utils.html import format_html
 @admin.register(ContactMessage)
 class ContactMessageAdmin(admin.ModelAdmin):
@@ -142,3 +142,36 @@ class PackServiceAdmin(admin.ModelAdmin):
     list_display = ('titre_pack', 'service', 'prix')
     list_filter = ('service',)
     ordering = ('service',)  # Regroupe les packs par service dans la liste
+####
+@admin.register(Blog)
+class BlogAdmin(admin.ModelAdmin):
+    # Colonnes affichées dans la liste des articles
+    list_display = ('titre', 'services_associes', 'date_publication', 'get_image_preview')
+    
+    # Filtres sur le côté droit
+    list_filter = ('services_associes', 'date_publication')
+    
+    # Barre de recherche (titre et contenu)
+    search_fields = ('titre', 'contenu')
+    
+    # Génération automatique du slug pendant la saisie du titre
+    prepopulated_fields = {'slug': ('titre',)}
+    
+    # Organisation du formulaire d'édition
+    fieldsets = (
+        ("Informations principales", {
+            'fields': ('titre', 'slug', 'services_associes')
+        }),
+        ("Contenu de l'article", {
+            'fields': ('image', 'contenu')
+        }),
+    )
+
+    # Fonction pour afficher un petit aperçu de l'image dans la liste
+    def get_image_preview(self, obj):
+        if obj.image:
+            from django.utils.html import format_html
+            return format_html('<img src="{}" style="width: 50px; height: auto; border-radius: 5px;" />', obj.image.url)
+        return "Pas d'image"
+    
+    get_image_preview.short_description = "Aperçu"

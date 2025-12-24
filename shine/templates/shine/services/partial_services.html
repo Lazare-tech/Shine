@@ -1,0 +1,36 @@
+{% if decor %}
+<div class="position-absolute rounded-circle"
+     style="width: 420px; height: 420px; background:#c39d3b22; top:-120px; right:-120px;">
+</div>
+{% endif %}
+
+<div class="container position-relative" style="z-index:2;">
+    <div class="text-center mb-5">
+        <h3 class="fw-bold {{ text_class }}">{{ service.titre }}</h3>
+        <p class="{{ text_class }} opacity-75" style="max-width:750px; margin:auto;">
+            {{ service.description }}
+        </p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+        {% for p in service.packs.all %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="premium-card h-100 p-4 shadow-sm border-0 bg-white">
+                <h6 class="fw-bold mb-3 text-title-blue">{{ p.titre_pack }}</h6>
+                <ul class="list-unstyled text-muted small mb-4">
+                    {% for item in p.liste_services_inclus.splitlines %}
+                        <li class="mb-2 d-flex align-items-start">
+                            <i class="fas fa-check-circle me-2 mt-1" style="color:var(--shine-gold);"></i>
+                            <span>{{ item }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div class="mt-auto">
+                    <p class="tarif mb-3 fw-bold">Tarif : <span>{{ p.prix }} €</span></p>
+                    <a href="#" class="btn {{ btn_class }} w-100">Souscrire</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
