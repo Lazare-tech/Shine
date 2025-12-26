@@ -204,11 +204,14 @@ class PaysDestination(models.Model):
     nom = models.CharField(verbose_name="Nom du pays", max_length=255)
     description = models.TextField(verbose_name="Description du pays", blank=True, null=True)
     image = models.ImageField(upload_to='pays_destinations/images/', verbose_name="Image du pays", blank=True, null=True)
+    is_active = models.BooleanField(default=False, verbose_name="Visible sur le site")
     slug = models.SlugField(unique=True, max_length=255, blank=True)
 
+         
     class Meta:
         verbose_name = 'Pays de destination'
         verbose_name_plural = 'Pays de destination'
+        ordering = ['nom']
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -229,14 +232,16 @@ class PaysDestination(models.Model):
     ##
 class Equipe(models.Model):
         nom = models.CharField(verbose_name="Nom du membre", max_length=255)
-        poste = models.CharField(verbose_name="Poste du membre", max_length=255)
+        poste = models.CharField(verbose_name="Poste du membre", max_length=255,blank=True,null=True)
         photo = models.ImageField(upload_to='equipe/photos/', verbose_name="Photo du membre", blank=True, null=True)
+        is_active = models.BooleanField(default=False, verbose_name="Membre actif / visible")
         slug = models.SlugField(unique=True, max_length=255, blank=True)
-
+        
         class Meta:
             verbose_name = 'Membre de l\'équipe'
             verbose_name_plural = 'Membres de l\'équipe'
-
+            ordering = ['nom'] # Tri alphabétique par défaut
+            
         def save(self, *args, **kwargs):
             if not self.slug:
                 self.slug = self.generate_unique_slug()
@@ -284,3 +289,33 @@ class EntrepriseContact(models.Model):
     def __str__(self):
         return self.nom_entreprise  
 ##
+class AvisClient(models.Model):
+        nom_client = models.CharField(verbose_name="Nom du client", max_length=255)
+        poste_client = models.CharField(verbose_name="Poste du client", max_length=255)
+        photo_client = models.ImageField(upload_to='avis_clients/photos/', verbose_name="Photo du client", blank=True, null=True)
+        avis = models.TextField(verbose_name="Avis du client")
+        is_published = models.BooleanField(default=False, verbose_name="Est validé / publié")
+        slug = models.SlugField(unique=True, max_length=255, blank=True)
+
+        class Meta:
+            verbose_name = 'Avis client'
+            verbose_name_plural = 'Avis clients'
+            # On affiche les plus récents en premier par défaut
+            ordering = ['-id']
+        
+        def save(self, *args, **kwargs):
+            if not self.slug:
+                self.slug = self.generate_unique_slug()
+            super().save(*args, **kwargs)
+
+        def generate_unique_slug(self):
+            slug = slugify(self.nom_client)
+            unique_slug = slug
+            num = 1
+            while AvisClient.objects.filter(slug=unique_slug).exists():
+                unique_slug = f'{slug}-{num}'
+                num += 1
+            return unique_slug
+
+        def __str__(self):
+            return self.nom_client

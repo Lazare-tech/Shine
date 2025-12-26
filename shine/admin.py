@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from django.contrib import admin
-from .models import ContactMessage, DemandeDevis, News_letter,Service,PackService,Blog
+from .models import ContactMessage, DemandeDevis, News_letter,Service,PackService,Blog,AvisClient,Equipe,PaysDestination
 from django.utils.html import format_html
 @admin.register(ContactMessage)
 class ContactMessageAdmin(admin.ModelAdmin):
@@ -175,3 +175,116 @@ class BlogAdmin(admin.ModelAdmin):
         return "Pas d'image"
     
     get_image_preview.short_description = "Aperçu"
+####
+@admin.register(AvisClient)
+class AvisClientAdmin(admin.ModelAdmin):
+    # On ajoute 'is_published' dans la liste
+    list_display = ('get_photo_preview', 'nom_client', 'poste_client', 'is_published', 'get_avis_short')
+    
+    # On permet de modifier le statut directement depuis la liste sans ouvrir l'article
+    list_editable = ('is_published',)
+    
+    # Filtre latéral pour voir les avis non validés
+    list_filter = ('is_published', 'poste_client')
+    
+    search_fields = ('nom_client', 'avis')
+    readonly_fields = ('slug',)
+    
+    # Action personnalisée pour valider en masse
+    actions = ['make_published', 'make_unpublished']
+
+    @admin.action(description="Valider les avis sélectionnés")
+    def make_published(self, request, queryset):
+        queryset.update(is_published=True)
+
+    @admin.action(description="Masquer les avis sélectionnés")
+    def make_unpublished(self, request, queryset):
+        queryset.update(is_published=False)
+
+    # 1. Aperçu de la photo dans la liste
+    def get_photo_preview(self, obj):
+        if obj.photo_client:
+            return format_html('<img src="{}" style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover;" />', obj.photo_client.url)
+        return format_html('<div style="width: 45px; height: 45px; border-radius: 50%; background: #ddd; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #666;">No pic</div>')
+    get_photo_preview.short_description = "Photo"
+
+    # 2. Aperçu court de l'avis pour ne pas encombrer la table
+    def get_avis_short(self, obj):
+        if len(obj.avis) > 80:
+            return f"{obj.avis[:80]}..."
+        return obj.avis
+    get_avis_short.short_description = "Extrait de l'avis"
+##########
+@admin.register(Equipe)
+class EquipeAdmin(admin.ModelAdmin):
+    # Affichage en colonnes avec aperçu photo
+    list_display = ('get_photo_preview', 'nom', 'poste', 'is_active')
+    
+    # Modification rapide du statut sans ouvrir la fiche
+    list_editable = ('is_active',)
+    
+    # Filtres et recherche
+    list_filter = ('is_active', 'poste')
+    search_fields = ('nom', 'poste')
+    
+    # Le slug est géré par le modèle, on le protège
+    readonly_fields = ('slug',)
+
+    # Organisation du formulaire
+    fieldsets = (
+        ("Informations Personnelles", {
+            'fields': ('nom', 'poste', 'photo')
+        }),
+        ("Paramètres d'affichage", {
+            'fields': ('is_active', 'slug'),
+            'description': "Cochez 'Membre actif' pour que le profil apparaisse sur le site."
+        }),
+    )
+
+    # Fonction d'aperçu de la photo
+    def get_photo_preview(self, obj):
+        if obj.photo:
+            return format_html('<img src="{}" style="width: 40px; height: 40px; border-radius: 5px; object-fit: cover;" />', obj.photo.url)
+        return format_html('<span style="color: #999;">Pas de photo</span>')
+    
+    get_photo_preview.short_description = "Aperçu"
+###
+@admin.register(PaysDestination)
+class PaysDestinationAdmin(admin.ModelAdmin):
+    # Colonnes de la liste
+    list_display = ('get_image_preview', 'nom', 'is_active', 'get_description_short')
+    
+    # Activation/Désactivation rapide
+    list_editable = ('is_active',)
+    
+    # Recherche et Filtres
+    search_fields = ('nom', 'description')
+    list_filter = ('is_active',)
+    
+    # Slug en lecture seule
+    readonly_fields = ('slug',)
+
+    # Organisation du formulaire
+    fieldsets = (
+        ("Informations Générales", {
+            'fields': ('nom', 'slug', 'is_active')
+        }),
+        ("Contenu Visuel & Texte", {
+            'fields': ('image', 'description'),
+            'description': "L'image doit être de haute qualité pour illustrer la destination."
+        }),
+    )
+
+    # Aperçu de l'image de destination
+    def get_image_preview(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" style="width: 80px; height: 50px; border-radius: 4px; object-fit: cover;" />', obj.image.url)
+        return format_html('<span style="color: #999;">Pas d\'image</span>')
+    get_image_preview.short_description = "Aperçu"
+
+    # Extrait de la description
+    def get_description_short(self, obj):
+        if obj.description:
+            return obj.description[:100] + "..."
+        return "-"
+    get_description_short.short_description = "Description"

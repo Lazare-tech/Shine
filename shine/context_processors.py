@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Service
+from .models import Service,AvisClient,Equipe
 ##
 def social_media_links_processor(request):
     context={
@@ -19,3 +19,18 @@ def info_contact_processor(request):
 def services_list_processor(request):
     services = Service.objects.all()
     return {'services': services}
+###
+def avis_clients_processor(request):
+    avis = AvisClient.objects.filter(is_published=True).order_by('-id')
+    
+    context={
+        'avis':avis,
+    }
+    return context
+###
+def equipe_list_processor(request):
+    membres = Equipe.objects.filter(is_active=True).order_by('nom')
+    context={
+        'membres':membres,
+    }
+    return context

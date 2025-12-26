@@ -67,6 +67,8 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "shine.context_processors.social_media_links_processor",
                 "shine.context_processors.services_list_processor",
+                'shine.context_processors.avis_clients_processor',
+                'shine.context_processors.equipe_list_processor',
             ],
         },
     },

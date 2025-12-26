@@ -1,12 +1,19 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib import messages
 from .forms import DemandeDevisForm, ContactMessageForm, NewsLetterForm
-from .models import PackService, Service, News_letter,Blog
+from .models import PackService, Service, News_letter,Blog,PaysDestination
 from django.http import JsonResponse
 import phonenumbers
 # Create your views here.
 def home(request):
-    return render(request,'shine/body/index.html')
+    articles = Blog.objects.all().order_by('-date_publication')[:3]
+    pays_destinations = PaysDestination.objects.filter(is_active=True).order_by('nom')
+    
+    context={
+        'articles':articles,
+        'pays_destinations':pays_destinations,
+    }
+    return render(request,'shine/body/index.html',context)
 #............................................................................................
 
 # def contact_view(request):

@@ -282,7 +282,6 @@
         </div>
     </div>
 </section> {% endcomment %}
-
 <section class="py-5 destination-section">
     <div class="container">
 
@@ -294,39 +293,27 @@
         </div>
 
         <div class="row g-4">
-
-            <!-- Chine -->
+            {% for pays in pays_destinations %}
             <div class="col-md-3 col-sm-6">
-                <a href="#" class="destination-card">
-                    <img src="{% static 'images/chine.jpg' %}" alt="Chine">
-                    <span class="destination-label">Chine</span>
+                <a href="#" class="destination-card shadow-sm">
+                    <div class="destination-img-container">
+                        {% if pays.image %}
+                            <img src="{{ pays.image.url }}" alt="{{ pays.nom }}" class="img-fluid">
+                        {% else %}
+                            <div class="d-flex align-items-center justify-content-center bg-secondary text-white h-100" style="min-height: 200px;">
+                                {{ pays.nom }}
+                            </div>
+                        {% endif %}
+                        <div class="destination-overlay"></div>
+                    </div>
+                    <span class="destination-label">{{ pays.nom }}</span>
                 </a>
             </div>
-
-            <!-- France -->
-            <div class="col-md-3 col-sm-6">
-                <a href="#" class="destination-card">
-                    <img src="{% static 'images/france.jpg' %}" alt="France">
-                    <span class="destination-label">France</span>
-                </a>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">Nos destinations seront bientôt disponibles.</p>
             </div>
-
-            <!-- Belgique -->
-            <div class="col-md-3 col-sm-6">
-                <a href="#" class="destination-card">
-                    <img src="{% static 'images/belgique.jpg' %}" alt="Belgique">
-                    <span class="destination-label">Belgique</span>
-                </a>
-            </div>
-
-            <!-- Canada -->
-            <div class="col-md-3 col-sm-6">
-                <a href="#" class="destination-card">
-                    <img src="{% static 'images/canada.jpg' %}" alt="Canada">
-                    <span class="destination-label">Canada</span>
-                </a>
-            </div>
-
+            {% endfor %}
         </div>
     </div>
 </section>
@@ -349,7 +336,7 @@
                     Planifiez votre consultation gratuite pour étudier à l’étranger
                 </h5>
 
-                <button class="btn btn-agen-colr px-5 py-2"
+                <button class="btn btn-agen-colr px-5 py-2 shadow-2"
                         data-bs-toggle="modal"
                         data-bs-target="#consultationModal">
                     Réservez maintenant
@@ -432,10 +419,14 @@
                     Restez informé de toutes nos actualités, événements exclusifs et conseils d'experts...
                 </p>
 
-                <div class="d-flex gap-3 mb-5">
-                    <button class="btn btn-agen-colr  px-4">Devenir un mentor</button>
-                    <button class="btn btn-outline-agen-colr px-4">Contactez-nous</button>
-                </div>
+              
+                 <div class="container mt-5">
+        <div class="d-flex gap-3 mb-5">
+            <a href="{% url 'shine:mentorat' %}" class="btn btn-agen-colr  px-4 btn-md ">Devenir un mentor</a>
+            <a href="{% url 'shine:contact' %}" class="btn btn-outline-agen-colr btn-md ">Contactez-nous</a>
+        </div>
+
+        </div>
 <div class="card p-4 shadow-sm bg-white">
     <h5 class="mb-3 fw-bold text-title-blue">Abonnez-vous à la Newsletter</h5>
     
@@ -464,41 +455,32 @@
                 
                 <div class="d-flex  gap-3 flex-custom-card ">
 
-                    <!-- CARD 1 -->
-                    <div class="custom-blog-card shadow-sm">
-                        <img src="{% static 'images/hero_two.jpg' %}" alt="blog image 1" class="blog-img">
-                        <div class="p-3">
-                            <h6 class="fw-bold text-title-blue mb-2">Titre de l’actualité récente</h6>
-                            <p class="text-muted small mb-2">
-                                Une brève description de l'article ou de l'actualité en quelques lignes...
-                            </p>
-                            <a href="#" class="btn btn-sm btn-responsive-warning w-100">Lire plus</a>
-                        </div>
-                    </div>
+                   {% for art in articles %}
+<div class="custom-blog-card shadow-sm h-100 border-0">
+    
+    {% if art.image %}
+        <img src="{{ art.image.url }}" alt="{{ art.titre }}" class="blog-img" style="height: 190px; object-fit: cover; width: 100%;">
+    {% else %}
+        <div class="d-flex align-items-center justify-content-center p-4 text-center" 
+             style="height: 200px; background: linear-gradient(135deg, #122046 0%, #1c356d 100%); color: white;">
+            <h5 class="fw-bold mb-0" style="opacity: 0.9;">{{ art.titre|truncatechars:50 }}</h5>
+        </div>
+    {% endif %}
 
-                    <!-- CARD 2 -->
-                    <div class="custom-blog-card shadow-sm">
-                        <img src="{% static 'images/hero_three.jpg' %}" alt="blog image 2" class="blog-img">
-                        <div class="p-3">
-                            <h6 class="fw-bold text-title-blue mb-2">Nouvel article du blog</h6>
-                            <p class="text-muted small mb-2">
-                                Un petit résumé clair, utile pour donner envie de cliquer…
-                            </p>
-                            <a href="#" class="btn btn-sm btn-responsive-warning w-100">Lire plus</a>
-                        </div>
-                    </div>
-
-                    <!-- CARD 3 -->
-                    <div class="custom-blog-card shadow-sm">
-                        <img src="{% static 'images/bourse.jpg' %}" alt="blog image 3" class="blog-img">
-                        <div class="p-3">
-                            <h6 class="fw-bold text-title-blue mb-2">Annonce ou événement</h6>
-                            <p class="text-muted small mb-2">
-                                Une annonce importante ou un événement à venir mis en avant.
-                            </p>
-                            <a href="#" class="btn btn-sm btn-responsive-warning w-100">Lire plus</a>
-                        </div>
-                    </div>
+    <div class="p-3 d-flex flex-column justify-content-between" style="min-height: 180px;">
+        <div>
+            <h6 class="fw-bold text-title-blue mb-2">{{ art.titre }}</h6>
+            <p class="text-muted small mb-2">
+                {{ art.contenu|truncatewords:15 }}
+            </p>
+        </div>
+        
+        <div class="mt-auto">
+            <a href="{% url 'shine:detail_blog' art.slug %}" class="btn btn-sm btn-responsive-warning w-100">Lire plus</a>
+        </div>
+    </div>
+</div>
+{% endfor %}
 
                 </div>
             </div>
@@ -523,177 +505,64 @@
     </div> 
     
 
-    <!-- CAROUSEL -->
     <div id="testimonialCarousel" class="carousel slide carousel-single-mobile" data-bs-ride="carousel">
-      <div class="carousel-inner pb-5">
+    <div class="carousel-inner pb-5">
 
-        <!-- SLIDE 1 -->
-        <div class="carousel-item active">
-          <div class="row g-4 justify-content-center">
+        {% for av in avis %}
+            {# Ouvre un nouveau slide tous les 3 avis #}
+            {% if forloop.counter0|divisibleby:3 %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="row g-4 justify-content-center">
+            {% endif %}
 
-            <!-- AVIS 1 -->
             <div class="col-md-6 col-lg-4">
-              <div class="card  p-4 border-0 shadow-lg rounded-4 testimonial-card">
-                <div class="text-warning mb-3">★★★★★</div>
-                <p class="text-muted mb-4">
-                  Un accompagnement structuré et humain.
-                  J’ai été rassuré à chaque étape du processus.
-                </p>
-                <div class="d-flex align-items-center">
-                  <img src="{% static 'images/profil1.jpg' %}"
-                       class="rounded-circle me-3 icon-user"
-                       alt="Client 1"
-                       >
-                  <div>
-                    <h6 class="fw-bold mb-0" style="color:#122046;">Moussa Traoré</h6>
-                    <small class="text-muted">Entrepreneur</small>
-                  </div>
+                <div class="card p-4 border-0 shadow-lg rounded-4 testimonial-card h-100">
+                    <div class="text-warning mb-3">★★★★★</div>
+                    <p class="text-muted mb-4">
+                        {{ av.avis }}
+                    </p>
+                    <div class="d-flex align-items-center mt-auto">
+                        {% if av.photo_client %}
+                            <img src="{{ av.photo_client.url }}"
+                                 class="rounded-circle me-3 icon-user"
+                                 alt="{{ av.nom_client }}"
+                                 >
+                        {% else %}
+                            <div class="rounded-circle me-3 d-flex align-items-center justify-content-center text-white fw-bold" 
+                                >
+                                {{ av.nom_client|slice:":1" }}
+                            </div>
+                        {% endif %}
+                        <div>
+                            <h6 class="fw-bold mb-0 user-name">{{ av.nom_client }}</h6>
+                            <small class="text-muted">{{ av.poste_client }}</small>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
 
-            <!-- AVIS 2 -->
-            <div class="col-md-6 col-lg-4">
-              <div class="card  p-4 border-0 shadow-lg rounded-4 testimonial-card">
-                <div class="text-warning mb-3">★★★★★</div>
-                <p class="text-muted mb-4">
-                  Une équipe sérieuse et très professionnelle.
-                  Je recommande sans hésitation.
-                </p>
-                <div class="d-flex align-items-center">
-                  <img src="{% static 'images/profile3.jpg' %}"
-                       class="rounded-circle me-3 icon-user"
-                       alt="Client 2"
-                       >
-                  <div>
-                    <h6 class="fw-bold mb-0" style="color:#122046;">Aïcha Koné</h6>
-                    <small class="text-muted">Étudiante internationale</small>
-                  </div>
+            {# Ferme le slide après le 3ème avis ou à la fin de la boucle #}
+            {% if forloop.counter|divisibleby:3 or forloop.last %}
                 </div>
-              </div>
             </div>
-
-            <!-- AVIS 3 -->
-            <div class="col-md-6 col-lg-4">
-              <div class="card  p-4 border-0 shadow-lg rounded-4 testimonial-card">
-                <div class="text-warning mb-3">★★★★★</div>
-                <p class="text-muted mb-4">
-                  J’ai gagné du temps, de la clarté et surtout de la confiance.
-                </p>
-                <div class="d-flex align-items-center">
-                  <img src="{% static 'images/profil2.jpg' %}"
-                       class="rounded-circle me-3 icon-user"
-                       alt="Client 3"
-                       >
-                  <div>
-                    <h6 class="fw-bold mb-0" style="color:#122046;">Sarah Diallo</h6>
-                    <small class="text-muted">Porteuse de projet</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- SLIDE 2 -->
-        <div class="carousel-item">
-          <div class="row g-4 justify-content-center">
-
-            <!-- AVIS 4 -->
-            <div class="col-md-6 col-lg-4">
-              <div class="card  p-4 border-0 shadow-lg rounded-4  testimonial-card">
-                <div class="text-warning mb-3">★★★★★</div>
-                <p class="text-muted mb-4">
-                  Un suivi personnalisé et des conseils concrets.
-                </p>
-                <div class="d-flex align-items-center">
-                  <img src="{% static 'images/profil1.jpg' %}"
-                       class="rounded-circle me-3 icon-user"
-                       alt="Client 4"
-                       >
-                  <div>
-                    <h6 class="fw-bold mb-0" style="color:#122046;">Issa Ouédraogo</h6>
-                    <small class="text-muted">Consultant</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- AVIS 5 -->
-            <div class="col-md-6 col-lg-4">
-              <div class="card  p-4 border-0 shadow-lg rounded-4  testimonial-card">
-                <div class="text-warning mb-3">★★★★★</div>
-                <p class="text-muted mb-4">
-                  Une expérience fluide du début à la fin.
-                </p>
-                <div class="d-flex align-items-center">
-                  <img src="{% static 'images/profile3.jpg' %}"
-                       class="rounded-circle me-3 icon-user"
-                       alt="Client 5"
-                       >
-                  <div>
-                    <h6 class="fw-bold mb-0" style="color:#122046;">Nadia Fall</h6>
-                    <small class="text-muted">Chargée de projet</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- AVIS 6 -->
-            <div class="col-md-6 col-lg-4">
-              <div class="card  p-4 border-0 shadow-lg rounded-4  testimonial-card">
-                <div class="text-warning mb-3">★★★★★</div>
-                <p class="text-muted mb-4">
-                  Sérieux, humain et très efficace.
-                </p>
-                <div class="d-flex align-items-center">
-                  <img src="{% static 'images/profil2.jpg' %}"
-                       class="rounded-circle me-3 icon-user"
-                       alt="Client 6"
-                       >
-                  <div>
-                    <h6 class="fw-bold mb-0" style="color:#122046;">Jean Kouassi</h6>
-                    <small class="text-muted">Chef d’entreprise</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-
-      <!-- CONTROLS -->
-    <button class="carousel-control-prev avis-carousel-btn"
-        type="button"
-        data-bs-target="#testimonialCarousel"
-        data-bs-slide="prev">
-  <span class="p-3 rounded-circle d-flex align-items-center justify-content-center shadow"
-        style="background-color: #c39d3b; width: 40px; height: 40px;">
-    <span class="carousel-control-prev-icon"
-          aria-hidden="true"
-          style="filter: brightness(0) invert(1);"></span>
-  </span>
-  <span class="visually-hidden">Précédent</span>
-</button>
-
-<button class="carousel-control-next avis-carousel-btn"
-        type="button"
-        data-bs-target="#testimonialCarousel"
-        data-bs-slide="next">
-  <span class="p-3 rounded-circle d-flex align-items-center justify-content-center shadow"
-        style="background-color: #c39d3b; width: 40px; height: 40px;">
-    <span class="carousel-control-next-icon"
-          aria-hidden="true"
-          style="filter: brightness(0) invert(1);"></span>
-  </span>
-  <span class="visually-hidden">Suivant</span>
-</button>
-
+            {% endif %}
+        {% empty %}
+            <p class="text-center">Aucun témoignage pour le moment.</p>
+        {% endfor %}
 
     </div>
+
+    <button class="carousel-control-prev avis-carousel-btn" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+        <span class="p-3 rounded-circle d-flex align-items-center justify-content-center shadow" style="background-color: #c39d3b; width: 40px; height: 40px;">
+            <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: brightness(0) invert(1);"></span>
+        </span>
+    </button>
+    <button class="carousel-control-next avis-carousel-btn" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+        <span class="p-3 rounded-circle d-flex align-items-center justify-content-center shadow" style="background-color: #c39d3b; width: 40px; height: 40px;">
+            <span class="carousel-control-next-icon" aria-hidden="true" style="filter: brightness(0) invert(1);"></span>
+        </span>
+    </button>
+</div>
   </div>
 </section>
 
