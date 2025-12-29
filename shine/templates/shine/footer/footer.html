@@ -5,16 +5,16 @@
         <span class="text-white">Suivez-nous sur les réseaux sociaux:</span>
       </div>
       <div>
-        <a href="#" class="me-4 text-reset text-decoration-none" target="_blank">
+        <a href="{{ facebook_url }}" class="me-4 text-reset text-decoration-none" target="_blank">
           <i class="fab fa-facebook-f fa-2x"></i>
         </a>
-       
-        <a href="#" class="me-4 text-reset text-decoration-none" target="_blank">
+
+        <a href="{{ instagram_url }}" class="me-4 text-reset text-decoration-none" target="_blank">
           <i class="fab fa-instagram fa-2x"></i>
           
         </a>
-          <a href="#" class="me-4 text-reset" target="_blank">
-          <i class="fab fa-tiktok fa-2x"></i>          
+          <a href="{{ tiktok_url }}" class="me-4 text-reset" target="_blank">
+          <i class="fab fa-tiktok fa-2x"></i>
         </a>
       </div>
       </section>
@@ -44,37 +44,34 @@ que l’accompagnement à l’insertion et à l’intégration.
             <h6 class="text-uppercase fw-bold mb-4">
               Services
             </h6>
-            <p><a href="#" class="text-reset text-decoration-none">Études Internationales</a></p>
-            <p><a href="#" class="text-reset text-decoration-none">Bourses d'Études</a></p>
-            <p><a href="#" class="text-reset text-decoration-none">Mobilité Générale</a></p>
-            <p><a href="#" class="text-reset text-decoration-none">Accompagnement des Etablissements scolaires</a></p>
-            <p><a href="#" class="text-reset text-decoration-none">Soutien Scolaire</a></p>
-            <p><a href="#" class="text-reset text-decoration-none">  Logement & Accueil & Installation</a></p>
-          </div>
+            {% for services in services_proc %}
+            <p><a href="{% url 'shine:services' services.slug %}" class="text-reset text-decoration-none">{{services.titre}}</a></p>
+            {% endfor %}
+                </div>
 
           <div class="col-md-4 col-lg-4 col-xl-3 mx-auto mb-md-0 mb-4 text-center">
             <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
             
             <p class="mb-3">
               <i class="fas fa-home me-2"></i>
-              Burkina-Faso, Bobo-Dioulasso, secteur 5 face à megamonde
+              {{ location }}
             </p>
             
             <p class="mb-3">
               <i class="fas fa-envelope me-2"></i>
-              shineagency226@gmail.com
+              {{ email_address }}
             </p>
 
  <h6 class="text-uppercase fw-bold small"><i class="fas fa-phone   fa-rotate-90"></i><span class="ms-3">Téléphones</span></h6>
             <ul class="list-unstyled">
                 <li>
-                    Bobo-Dioulasso: +226 74 59 90 48
+                    {{ phone_number_bobo }}
                 </li>
                 <li>
-                    Ouagadougou: +226 60 79 78 31
+                    {{ phone_number_ouaga }}
                 </li>
                 <li>
-                    France: +33 7 59 86 92 56
+                    {{ phone_number_france }}
                 </li>
             </ul>
           </div>

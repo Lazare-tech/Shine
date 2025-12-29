@@ -26,3 +26,49 @@
     
 
 }
+/* Barre de progression améliorée */
+.progress-step {
+    width: 35px; height: 35px;
+    border-radius: 50%;
+    background: #e0e0e0;
+    color: #6c757d;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: bold; transition: all 0.4s ease;
+    border: 2px solid transparent;
+}
+
+.progress-step.active {
+    background: #122046; /* Ton bleu foncé */
+    color: white;
+    transform: scale(1.15);
+    box-shadow: 0 0 10px rgba(18, 32, 70, 0.2);
+}
+
+.progress-step.completed {
+    background: #c39d3b; /* Ton doré */
+    color: white;
+}
+
+.step-line {
+    height: 3px; width: 50px;
+    background: #e0e0e0; transition: 0.4s;
+}
+
+.step-line.active { background: #c39d3b; }
+
+/* Transitions de pages */
+.hidden { display: none !important; }
+
+.fade-in {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Validation visuelle */
+.is-invalid {
+    border-color: #dc3545 !important;
+}

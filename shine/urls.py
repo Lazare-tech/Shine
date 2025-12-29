@@ -13,18 +13,24 @@ urlpatterns = [
     about_path := path('about/', shine.views.about, name='about'),
     devis_path := path('devis/', shine.views.demande_devis_view, name='devis'),
     mentorat_path := path('mentorat/', shine.views.mentorat, name='mentorat'),
-    infos_bourses_path := path('infos_bourses/', shine.views.infos_bourses, name='infos_bourses'),
     
     # SERVICES PAGES
     etude_path := path('services/<slug:slug>/', shine.views.services, name='services'),
+    
     #APROPOS US PAGE
     about_us_path := path('about_us/', shine.views.about_us, name='about_us'),
 
     # NEWSLETTER SUBSCRIPTION ENDPOINT
     path('newsletter/subscribe/', shine.views.newsletter_subscribe, name='newsletter'),
+    
     # DETAIL BLOG PAGE
     detail_blog_path := path('blog/<slug:slug>/', shine.views.detail_blog, name='detail_blog'),
     blog_path := path('blog/', shine.views.blog, name='blog'),
+    
+    #BOURSE PAGE
+    bourse_path := path('bourses/<slug:slug>/', shine.views.detail_bourse, name='bourse'),
+    liste_bourses_path := path('bourses/', shine.views.liste_bourses, name='liste_bourses'),
+
 ] +   static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Serve static and media files during development

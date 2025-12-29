@@ -1,0 +1,46 @@
+/* Force le texte à être lisible dans l'éditeur */
+.django-ckeditor-widget iframe {
+    background-color: white !important;
+}
+
+/* Si tu es en mode sombre Django, on force le texte interne */
+:root {
+    --ck-color-text: #333;
+}
+/* Styling du contenu venant de CKEditor */
+.description-style {
+    font-size: 1.1rem;
+    color: #444;
+    line-height: 1.8;
+}
+
+.description-style h2, .description-style h3 {
+    color: #122046;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.description-style ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.description-style ul li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.description-style ul li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #c39d3b;
+    font-weight: bold;
+}
+
+/* Sidebar collante */
+.sticky-top {
+    z-index: 10;
+}

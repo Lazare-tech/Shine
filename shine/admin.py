@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from django.contrib import admin
-from .models import ContactMessage, DemandeDevis, News_letter,Service,PackService,Blog,AvisClient,Equipe,PaysDestination
+from .models import ContactMessage, DemandeDevis, News_letter,Service,PackService,Blog,AvisClient,Equipe,PaysDestination,StatutBourse,Bourse
 from django.utils.html import format_html
 @admin.register(ContactMessage)
 class ContactMessageAdmin(admin.ModelAdmin):
@@ -288,3 +288,41 @@ class PaysDestinationAdmin(admin.ModelAdmin):
             return obj.description[:100] + "..."
         return "-"
     get_description_short.short_description = "Description"
+##
+@admin.register(StatutBourse)
+class StatutBourseAdmin(admin.ModelAdmin):
+    list_display = ('libelle', 'get_color_badge')
+
+    def get_color_badge(self, obj):
+        return format_html(
+            '<span class="badge bg-{}" style="padding: 5px 10px;">{}</span>',
+            obj.couleur_classe,
+            obj.libelle
+        )
+    get_color_badge.short_description = "Aperçu visuel"
+##
+@admin.register(Bourse)
+class BourseAdmin(admin.ModelAdmin):
+    list_display = ('titre', 'get_image_pays_preview', 'universite', 'statut', 'is_active')
+    list_filter = ('statut', 'pays', 'is_active')
+    search_fields = ('titre', 'universite')
+    list_editable = ('statut', 'is_active')
+    readonly_fields = ('slug',)
+    
+    fieldsets = (
+        ("Informations Principales", {
+            'fields': ('titre', 'slug', 'pays', 'universite', 'is_active')
+        }),
+        ("Détails financiers & Statut", {
+            'fields': ('montant_info', 'badge_type', 'statut')
+        }),
+        ("Contenu détaillé", {
+            'fields': ('description_detaillee',),
+            'description': "Utilisez cet éditeur pour structurer les critères d'éligibilité, les documents requis, etc."
+        }),
+    )
+
+    def get_image_pays_preview(self, obj):
+        if obj.pays:
+            return format_html('<img src="{}" style="width: 80px; height: 50px; border-radius: 4px; object-fit: cover;" />', obj.pays.url)
+        return format_html('<span style="color: #999;">Pas d\'image</span>')

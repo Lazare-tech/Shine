@@ -1,13 +1,10 @@
 {% extends "base.html" %}
-{% block title %}Devenir Mentor - Multi Step{% endblock %}
 {% block content %}
 
 <section class="container py-5" style="max-width:760px">
-
-    <h2 class="text-center fw-bold" style="color:var(--shine-dark-blue)">Devenir Mentor SHINE</h2>
+    <h2 class="text-center fw-bold" style="color:#122046">Devenir Mentor SHINE</h2>
     <p class="text-center text-muted">Complétez les étapes pour valider votre candidature</p>
 
-    <!-- Progression -->
     <div class="d-flex align-items-center justify-content-center my-4">
         <div class="progress-step active" id="s1">1</div>
         <div class="step-line" id="l1"></div>
@@ -18,147 +15,141 @@
         <div class="progress-step" id="s4">4</div>
     </div>
 
-    <form class="shine-box">
+    <form class="shine-box p-4 bg-white shadow-lg rounded-4" method="POST">
+        {% csrf_token %}
 
-        <!-- ▬▬▬▬▬▬▬▬▬ STEP 1 — INFORMATIONS PERSONNELLES ▬▬▬▬▬▬▬▬▬ -->
         <div id="step1">
-            <h5 class="fw-bold mb-3 text-title-gold">Informations personnelles</h5>
-
+            <h5 class="fw-bold mb-4 text-title-gold">1. Informations personnelles</h5>
             <div class="row g-3">
                 <div class="col-md-6">
                     <label class="form-label">Nom *</label>
-                    <input type="text" class="form-control" required>
+                    <input name="nom" type="text" class="form-control" required>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Prénom *</label>
-                    <input type="text" class="form-control" required>
+                    <input name="prenom" type="text" class="form-control" required>
                 </div>
-
                 <div class="col-md-6">
                     <label class="form-label">Nationalité *</label>
-                    <input type="text" class="form-control" placeholder="Ivoirienne" required>
+                    <input name="nationalite" type="text" class="form-control" required>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Date de naissance *</label>
-                    <input type="date" class="form-control" required>
+                    <input name="dob" type="date" class="form-control" required>
                 </div>
-                                <div class="col-md-6">
-
-                 <select class="form-select" required>
-                        <option selected>Genre</option>
+                <div class="col-12">
+                    <label class="form-label">Genre *</label>
+                    <select name="genre" class="form-select" required>
+                        <option value="" disabled selected>Sélectionner...</option>
                         <option>Homme</option>
                         <option>Femme</option>
                     </select>
                 </div>
             </div>
-
-            <button type="button" class="btn-shine mt-4" onclick="nextStep(2)">Continuer →</button>
+            <button type="button" class="btn-shine mt-4 w-100" onclick="nextStep(2)">Continuer →</button>
         </div>
 
-        <!-- ▬▬▬▬▬▬▬▬▬ STEP 2 — ADRESSE ▬▬▬▬▬▬▬▬▬ -->
         <div id="step2" class="hidden">
-            <h5 class="fw-bold mb-3 text-title-gold">Adresse</h5>
+            <h5 class="fw-bold mb-4 text-title-gold">2. Coordonnées & Adresse</h5>
             <div class="row g-3">
-                <div class="col-md-6"><input class="form-control" placeholder="Téléphone" required></div>
-                <div class="col-md-6"><input type="email" class="form-control" placeholder="Email" required></div>
-        
-                                <div class="col-md-6"><input class="form-control" placeholder="Pays" required></div>
-
-                <div class="col-md-6"><input class="form-control" placeholder="Ville" required></div>
+                <div class="col-md-6">
+                    <label class="form-label">Téléphone *</label>
+                    <input name="tel" type="tel" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Email *</label>
+                    <input name="email" type="email" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Pays de résidence *</label>
+                    <input name="pays" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Ville *</label>
+                    <input name="ville" class="form-control" required>
+                </div>
+                <div class="col-md-8">
+                    <label class="form-label">Nom de rue</label>
+                    <input name="rue" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">N° Rue</label>
+                    <input name="rue_no" class="form-control">
+                </div>
             </div>
-
-            <div class="row g-3 mt-3">
-                            <div class="col-md-6"><input class="form-control" placeholder="Nom de rue"></div>
-
-                            <div class="col-md-6"><input class="form-control" placeholder="N° Rue"></div>
-                <div class="col-md-6"><input class="form-control" placeholder="Code postal"></div>
-
-                    </div>
-
-            <div class="d-flex justify-content-between gap-3 mt-3">
+            <div class="d-flex gap-3 mt-4">
                 <button type="button" class="btn btn-outline-secondary w-50" onclick="prevStep(1)">← Retour</button>
                 <button type="button" class="btn-shine w-50" onclick="nextStep(3)">Continuer →</button>
             </div>
         </div>
 
-        <!-- ▬▬▬▬▬▬▬▬▬ STEP 3 — PROFIL MENTOR ▬▬▬▬▬▬▬▬▬ -->
         <div id="step3" class="hidden">
-            <h5 class="fw-bold mb-3 text-title-gold">Profil Mentor</h5>
+            <h5 class="fw-bold mb-4 text-title-gold">3. Expertise & Mission</h5>
+            
+            <label class="form-label">Métier / Poste actuel *</label>
+            <input name="poste" class="form-control mb-3" required>
 
-            <div class="mb-3"><input class="form-control" placeholder="Métier / Poste actuel" required></div>
-
-            <select class="form-select mb-3" required>
-                <option>Domaine d’activité</option>
+            <label class="form-label">Domaine d’activité *</label>
+            <select name="domaine" class="form-select mb-3" required>
+                <option value="" disabled selected>Choisir un domaine...</option>
                 <option>Informatique & Tech</option>
                 <option>Finance</option>
                 <option>Médecine</option>
-                <option>Recherche</option>
                 <option>Management</option>
-                <option>Autre</option>
             </select>
 
-            <input class="form-control mb-3" placeholder="Votre RIB bancaire" required>
+            <label class="form-label">RIB Bancaire (pour les rémunérations) *</label>
+            <input name="rib" class="form-control mb-3" required>
 
-            <select class="form-select mb-3" required>
-                <option>Type de mission souhaitée</option>
+            <label class="form-label">Type de mission souhaitée *</label>
+            <select name="mission" class="form-select mb-3" required>
+                <option value="" disabled selected>Sélectionner une mission...</option>
                 <option>Logement</option>
                 <option>Campus France</option>
-                <option>Orientation carrière</option>
                 <option>Visa & Admission</option>
             </select>
 
-            <textarea class="form-control mb-3" rows="4" placeholder="Pourquoi voulez-vous devenir mentor ?" required></textarea>
+            <label class="form-label">Votre motivation *</label>
+            <textarea name="motivation" class="form-control" rows="4" required></textarea>
 
-            <div class="d-flex justify-content-between gap-3 mt-3">
+            <div class="d-flex gap-3 mt-4">
                 <button type="button" class="btn btn-outline-secondary w-50" onclick="prevStep(2)">← Retour</button>
                 <button type="button" class="btn-shine w-50" onclick="nextStep(4)">Continuer →</button>
             </div>
         </div>
 
-        <!-- ▬▬▬▬▬▬▬▬▬ STEP 4 — COMPTE & VALIDATION ▬▬▬▬▬▬▬▬▬ -->
         <div id="step4" class="hidden">
-
-            <h5 class="fw-bold mb-3 text-title-gold">Sécurité du compte</h5>
-
-            <div class="row g-3 mb-3">
-                <div class="col-md-6"><input type="password" class="form-control" placeholder="Mot de passe" required></div>
-                <div class="col-md-6"><input type="password" class="form-control" placeholder="Confirmer" required></div>
+            <h5 class="fw-bold mb-4 text-title-gold">4. Sécurité & Finalisation</h5>
+            
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Mot de passe *</label>
+                    <input name="pwd" type="password" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Confirmer *</label>
+                    <input name="pwd_conf" type="password" class="form-control" required>
+                </div>
             </div>
 
-            <div class="form-check mb-2">
-                <input type="checkbox" class="form-check-input" required>
-                <label class="form-check-label">J’accepte les conditions *</label>
-            </div>
-            <div class="form-check mb-4">
-                <input type="checkbox" class="form-check-input">
-                <label class="form-check-label">Recevoir les notifications</label>
+            <div class="card bg-light border-0 p-3 mt-4 mb-4">
+                <div class="form-check mb-2">
+                    <input type="checkbox" class="form-check-input" id="c1" required>
+                    <label class="form-check-label small" for="c1">J’accepte les conditions de mentorat *</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="c2">
+                    <label class="form-check-label small" for="c2">Accepter de recevoir des missions par email</label>
+                </div>
             </div>
 
-            <div class="d-flex justify-content-between gap-3">
+            <div class="d-flex gap-3">
                 <button type="button" class="btn btn-outline-secondary w-50" onclick="prevStep(3)">← Retour</button>
-                <button class="btn-shine w-50">Soumettre ma candidature</button>
+                <button type="submit" class="btn-shine w-50">Soumettre</button>
             </div>
         </div>
 
     </form>
 </section>
 
-<script>
-function nextStep(step){
-    ["step1","step2","step3","step4"].forEach(s=>document.getElementById(s).classList.add("hidden"));
-    document.getElementById("step"+step).classList.remove("hidden");
-
-    ["s1","s2","s3","s4"].forEach((id,i)=>{ 
-        let el=document.getElementById(id), idx=i+1;
-        el.className="progress-step"+(idx<step?" done":idx==step?" active":"");
-    });
-
-    document.getElementById("l1").className="step-line"+(step>=2?" done":"");
-    document.getElementById("l2").className="step-line"+(step>=3?" done":"");
-    document.getElementById("l3").className="step-line"+(step==4?" done":"");
-}
-
-function prevStep(step){ nextStep(step); }
-</script>
-
-{% endblock content %}
+{% endblock %}

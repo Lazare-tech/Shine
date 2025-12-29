@@ -31,28 +31,37 @@
     </button>
 </div>
         <!------------- FORMULAIRE (TOUJOURS VISIBLE)-->
-        <form>
-            <div class="mb-3">
-                <input type="text" class="form-control input-custom"
-                       placeholder="E-mail ou Nom d'utilisateur">
-            </div>
-            <div class="mb-2">
-                <input type="password" class="form-control input-custom"
-                       placeholder="Mot de passe">
-            </div>
+<form method="POST">
+    {% csrf_token %}
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-danger small py-2">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
 
-            <div class="d-flex justify-content-between mb-3 small">
-                <label><input type="checkbox"> Se souvenir de moi</label>
-                <a href="#" class="text-title-blue fw-bold">Mot de passe oublié ?</a>
-            </div>
+    <div class="mb-3">
+        {{ form.username }}
+        {{ form.username.errors }}
+    </div>
+    
+    <div class="mb-2">
+        {{ form.password }}
+        {{ form.password.errors }}
+    </div>
 
-            <button class="btn-shine w-100 text-white">Continuer</button>
+    <div class="d-flex justify-content-between mb-3 small">
+        <label><input type="checkbox" name="remember_me"> Se souvenir de moi</label>
+        <a href="#" class="text-title-blue fw-bold">Mot de passe oublié ?</a>
+    </div>
 
-            <p class="text-center mt-3">
-                Vous n'avez pas encore de compte ? 
-                <a href="{% url 'usercompte:register' %}" class="text-title-blue fw-bold">Créer un compte</a>
-            </p>
-        </form>
+    <button type="submit" class="btn-shine w-100 text-white py-2">Continuer</button>
+
+    <p class="text-center mt-3 small">
+        Vous n'avez pas encore de compte ? 
+        <a href="{% url 'usercompte:register' %}" class="text-title-blue fw-bold">Créer un compte</a>
+    </p>
+</form>
     </div>
 </div>
 

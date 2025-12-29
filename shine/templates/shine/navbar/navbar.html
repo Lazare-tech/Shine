@@ -36,7 +36,7 @@
         </li>
 
         <li class="nav-item me-3">
-          <a class="nav-link text-dark" href="{% url 'shine:infos_bourses' %}">Infos Bourses d'Études</a>
+          <a class="nav-link text-dark" href="{% url 'shine:liste_bourses' %}">Infos Bourses d'Études</a>
         </li>
         <li class="nav-item me-3">
           <a class="nav-link text-dark" href="{% url 'shine:mentorat'%}">Dévenir mentor</a>
@@ -65,9 +65,18 @@
         <a class="fw-bold text-white btn btn-agen-colr btn-sm me-2 px-2 py-1" href="{% url 'shine:devis'%}">
           Demander un devis
         </a>
-        <a class=" btn btn-outline-agen-colr btn-sm px-2 py-1" href="{% url 'usercompte:login'%}">
-          Connexion
-        </a>
+        {% comment %} {% if user.is_authenticated %}
+    <span class="fw-bold me-2" style="color: #122046;">
+        Bonjour, {{ user.first_name|default:user.username|slice:":10" }}
+    </span>
+    <a class="btn btn-sm btn-outline-danger px-2 py-1" href="{% url 'usercompte:logout' %}">
+        Déconnexion
+    </a>
+{% else %}
+    <a class="btn btn-outline-agen-colr btn-sm px-2 py-1" href="{% url 'usercompte:login' %}">
+        Connexion
+    </a>
+{% endif %} {% endcomment %}
       </span>
     </div>
 

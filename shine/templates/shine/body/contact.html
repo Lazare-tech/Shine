@@ -27,7 +27,12 @@
 
                 <div class="mt-4">
                     <a href="#" class="btn btn-responsive-warning me-2">Remplir le formulaire</a>
-                    <a href="#" class="btn btn-outline-light">Discutez avec nous sur WhatsApp </a>
+                      <a href="https://wa.me/{{ whatsapp_number }}?text=Bonjour,%20je%20souhaite%20en%20savoir%20plus%20sur%20la%20bourse%20:%20{{ bourse.titre|urlencode }}" 
+                    class="btn btn-outline-light" 
+                    target="_blank"
+                    rel="noopener noreferrer">
+                        Discutez avec nous sur WhatsApp
+                    </a>
                 </div>
             </div>
         </div>
@@ -62,12 +67,12 @@
                         <div class="mb-4">
                             <p class="mb-3">
                                 <i class="fas fa-home me-3 text-title-gold"></i> 
-                                **Siège Bobo-Dioulasso** : Secteur 5 face à Megamonde
+                                {{ location }}
                             </p>
                             
                             <p class="mb-3">
                                 <i class="fas fa-envelope me-3 text-title-gold"></i> 
-                                **Email Général** : shineagency226@gmail.com
+                                **Email Général** : {{ email_address }}
                             </p>
                         </div>
                         
@@ -75,9 +80,10 @@
                             <i class="fas fa-phone-alt fa-rotate-90 me-2 text-title-gold"></i> Téléphones Directs
                         </h6>
                         <ul class="list-unstyled contact-list">
-                            <li><strong class="text-title-blue">Bobo-Dioulasso:</strong> <span class="fw-bold">+226 74 59 90 48</span></li>
-                            <li><strong class="text-title-blue">Ouagadougou:</strong> <span class="fw-bold">+226 60 79 78 31</span></li>
-                            <li><strong class="text-title-blue">France (Support Europe):</strong> <span class="fw-bold">+33 7 59 86 92 56</span></li>
+                            <li><strong class="text-title-blue">{{ phone_number_bobo }}</strong></li>
+
+                            <li><strong class="text-title-blue">{{ phone_number_ouaga }}</strong></li>
+                            <li><strong class="text-title-blue">{{ phone_number_france }}</strong></li>
                         </ul>
                     </div>
                 </div>

@@ -1,16 +1,9 @@
 {% extends "base.html" %}
-{% block title %}Inscription Client - Multi Step{% endblock %}
 {% block content %}
-
-
-
 <section class="container py-4" style="max-width:760px">
+    <h2 class="text-center fw-bold" style="color:#122046">Inscription Client</h2>
+    <p class="text-center text-muted">Rejoignez Shine Agency en quelques étapes</p>
 
-    <h2 class="text-center fw-bold" style="color:var(--dark)">Inscription Client</h2>
-    <p class="text-center text-muted">Créez votre espace en quelques étapes simples</p>
-
-
-    <!-- Progression identique mentor -->
     <div class="d-flex align-items-center justify-content-center my-4">
         <div class="progress-step active" id="s1">1</div>
         <div class="step-line" id="l1"></div>
@@ -20,123 +13,137 @@
         <div class="step-line" id="l3"></div>
         <div class="progress-step" id="s4">4</div>
     </div>
+<form class="shine-box p-4 bg-white shadow rounded-4" method="POST">
+        {% csrf_token %}
 
-
-
-<form class="shine-box">
-
-<!-- ▬▬▬ STEP 1 — INFORMATIONS ▬▬▬ -->
-<div id="step1">
-
-    <h5 class="fw-bold text-title-gold">Informations personnelles</h5>
-
-    <label class="form-label mt-2">Statut *</label>
-    <select class="form-select mb-3" required>
-        <option>Étudiant</option><option>Salarié</option>
-        <option>Apprenti(e)</option><option>Sans emploi</option>
-    </select>
-
-    <div class="row g-3 mt-2">
-        <div class="col-md-6"><input class="form-control" placeholder="Nom *" required></div>
-        <div class="col-md-6"><input class="form-control" placeholder="Prénom *" required></div>
-    </div>
-    
-
-    <div class="row g-3 mt-2">
-        <div class="col-md-6"><input class="form-control" placeholder="Nationalité *" required></div>
-        
-        <div class="col-md-6"><input type="date" class="form-control" required></div>
-         
-
-    </div>
- <select class="form-select mt-3" required>
-                <option selected>Genre</option>
-                <option>Homme</option><option>Femme</option>
-            </select>
-    <button type="button" class="btn-shine mt-4" onclick="nextStep(2)">Continuer →</button>
-</div>
-
-
-
-<!-- ▬▬▬ STEP 2 — ADRESSE ▬▬▬ -->
-<div id="step2" class="hidden">
-
-    <h5 class="fw-bold text-title-gold">Adresse complète</h5>
-
-     <div class="row g-3 mt-2">
-        <div class="col-md-6"><input class="form-control" placeholder="Téléphone" required></div>
-        <div class="col-md-6"><input type="email" class="form-control" placeholder="Email" required></div>
-         </div>
-    <div class="row g-3 mt-2">
-        <div class="col-md-6"><input class="form-control" placeholder="Ville *" required></div>
-                <div class="col-md-6"><input class="form-control" placeholder="Pays *" required></div>
-
-    </div>
-
-    <div class="d-flex gap-3 mt-4">
-        <button type="button" class="btn btn-outline-secondary w-50" onclick="prevStep(1)">← Retour</button>
-        <button type="button" class="btn-shine w-50" onclick="nextStep(3)">Continuer →</button>
-    </div>
-</div>
-
-
-
-<!-- ▬▬▬ STEP 3 — CONTACT & SECURITE ▬▬▬ -->
-<div id="step3" class="hidden">
-
-    <h5 class="fw-bold text-title-gold">Informations</h5>
-
-     <div class="row g-3 mt-2">
-    
-        <div class="col-md-6"><input class="form-control" placeholder="N° Rue"></div>
-        <div class="col-md-6"><input class="form-control" placeholder="Nom de rue"></div>
-                <div class="col-md-5"><input class="form-control" placeholder="Code Postal"></div>
-
-
-    </div>
-
-
-    <input class="form-control mt-3" placeholder="Code parrainage (optionnel)">
-
-    <div class="d-flex gap-3 mt-4">
-        <button type="button" class="btn btn-outline-secondary w-50" onclick="prevStep(2)">← Retour</button>
-        <button type="button" class="btn-shine w-50" onclick="nextStep(4)">Continuer →</button>
-    </div>
-</div>
-
-
-
-<!-- ▬▬▬ STEP 4 — CONFIRMATION ▬▬▬ -->
-<div id="step4" class="hidden">
-
-        <h5 class="fw-bold text-title-gold">Sécurité & Contact</h5>
-            <div class="row g-3 mt-2">
-
-    <div class="col-md-6"><input type="password" class="form-control" placeholder="Mot de passe" required></div>
-        <div class="col-md-6"><input type="password" class="form-control" placeholder="Confirmer" required></div>
-    
+        <div id="step1" class="fade-in">
+            <h5 class="fw-bold text-title-gold mb-4">1. Informations personnelles</h5>
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Statut actuel *</label>
+                {{ form.statut }}
+                {{ form.statut.errors }}
             </div>
-    <div class="form-check mt-3">
-        <input type="checkbox" required class="form-check-input">
-        <label class="form-check-label">J'accepte les conditions *</label>
-    </div>
-    <div class="form-check mt-2">
-        <input type="checkbox" class="form-check-input">
-        <label class="form-check-label">Recevoir des notifications</label>
-    </div>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Nom *</label>
+                    {{ form.last_name }}
+                    {{ form.last_name.errors }}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Prénom *</label>
+                    {{ form.first_name }}
+                    {{ form.first_name.errors }}
+                </div>
+            </div>
+            <div class="row g-3 mt-2">
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Nationalité *</label>
+                    {{ form.nationality }}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Date de naissance *</label>
+                    {{ form.birth_year }}
+                    {{ form.birth_year.errors }}
+                </div>
+            </div>
+            <div class="mb-3 mt-3">
+                <label class="form-label fw-semibold">Genre *</label>
+                {{ form.gender }}
+            </div>
+            <button type="button" class="btn-shine mt-4 w-100 py-2" onclick="nextStep(2)">Continuer →</button>
+        </div>
 
-    <button class="btn-shine w-100 mt-4">Créer mon compte</button>
+        <div id="step2" class="hidden">
+            <h5 class="fw-bold text-title-gold mb-4">2. Coordonnées de contact</h5>
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Téléphone *</label>
+                    {{ form.phone }}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Email *</label>
+                    {{ form.email }}
+                    {{ form.email.errors }}
+                </div>
+            </div>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Ville *</label>
+                    {{ form.city }}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Pays *</label>
+                    {{ form.country }}
+                </div>
+            </div>
+            <div class="d-flex gap-3 mt-5">
+                <button type="button" class="btn btn-outline-secondary w-50" onclick="prevStep(1)">← Retour</button>
+                <button type="button" class="btn-shine w-50" onclick="nextStep(3)">Continuer →</button>
+            </div>
+        </div>
 
-    <p class="text-center mt-3">
-        <a href="{% url 'usercompte:login' %}" style="color:var(--dark);font-weight:600;">
-            Déjà inscrit ? → Se connecter
-        </a>
-    </p>
-</div>
+        <div id="step3" class="hidden">
+            <h5 class="fw-bold text-title-gold mb-4">3. Détails de localisation</h5>
+            <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">N° Rue</label>
+                    {{ form.street_number }}
+                </div>
+                <div class="col-md-8">
+                    <label class="form-label fw-semibold">Nom de la rue</label>
+                    {{ form.street_name }}
+                </div>
+            </div>
+          
+            <div class="d-flex gap-3 mt-5">
+                <button type="button" class="btn btn-outline-secondary w-50" onclick="prevStep(2)">← Retour</button>
+                <button type="button" class="btn-shine w-50" onclick="nextStep(4)">Sécurité →</button>
+            </div>
+        </div>
 
-</form>
+        <div id="step4" class="hidden">
+            <h5 class="fw-bold text-title-gold mb-4">4. Sécurité & Finalisation</h5>
+                <div class="row g-3 mb-3">
+
+                        <div class="col-md-6">
+                               <label class="form-label fw-semibold">Mot de passe *</label>
+                                {{ form.password1 }}
+                                {{ form.password1.errors }}
+                        </div>
+                        <div class="col-md-6">
+                                <label class="form-label fw-semibold">Confirmer le mot de passe *</label>
+                                {{ form.password2 }}
+                            {{ form.password2.errors }}
+                                
+                        </div>
+                        
+                 </div>
+           
+            <button type="submit" class="btn-shine w-100 py-2 fw-bold">CRÉER MON COMPTE</button>
+        </div>
+    </form>
 </section>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        {% if form.errors %}
+            let errorStep = 4; // Par défaut étape finale
 
+            // On vérifie où se trouvent les erreurs pour renvoyer à la bonne étape
+            {% if form.statut.errors or form.last_name.errors or form.first_name.errors or form.birth_year.errors %}
+                errorStep = 1;
+            {% elif form.email.errors or form.phone.errors %}
+                errorStep = 2;
+            {% endif %}
 
+            // Logique d'affichage
+            document.querySelectorAll('[id^="step"]').forEach(s => s.classList.add('hidden'));
+            document.getElementById('step' + errorStep).classList.remove('hidden');
+            updateProgressBar(errorStep);
+        {% endif %}
+    });
 
-{% endblock content %}
+    function updateProgressBar(step) {
+        // Ta fonction actuelle pour colorer les ronds 1, 2, 3, 4
+    }
+</script>
+{% endblock %}

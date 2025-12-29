@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ bourse.titre }} - Détails{% endblock title %}
+
+{% block content %}
+<section class="py-5 bg-light border-bottom">
+    <div class="container">
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'shine:liste_bourses' %}" class="text-decoration-none">Bourses</a></li>
+                <li class="breadcrumb-item active">{{ bourse.titre }}</li>
+            </ol>
+        </nav>
+
+        <div class="row align-items-center g-4">
+            <div class="col-lg-8">
+                <span class="badge bg-{{ bourse.statut.couleur_classe }} mb-2 p-2 px-3 shadow-sm">
+                    {{ bourse.statut.libelle }}
+                </span>
+                <h1 class="display-5 fw-bold" style="color:#122046;">{{ bourse.titre }}</h1>
+                <p class="lead text-muted"><i class="bi bi-bank me-2"></i>{{ bourse.universite }}</p>
+                
+                <div class="d-flex flex-wrap gap-3 mt-4">
+                    <div class="bg-white p-3 rounded-4 shadow-sm border-start border-4 border-warning">
+                        <small class="text-uppercase fw-bold text-muted d-block">Aide financière</small>
+                        <span class="h5 fw-bold" style="color:#c39d3b;">{{ bourse.montant_info }}</span>
+                    </div>
+                    <div class="bg-white p-3 rounded-4 shadow-sm border-start border-4 border-primary">
+                        <small class="text-uppercase fw-bold text-muted d-block">Type de programme</small>
+                        <span class="h5 fw-bold" style="color:#122046;">{{ bourse.badge_type }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center">
+                {% if bourse.pays %}
+                    <img src="{{ bourse.pays.url }}" class="img-fluid rounded-4 shadow-lg" alt="Pays" style="max-height: 250px; width: 100%; object-fit: cover;">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container py-5">
+    <div class="row g-5">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm p-4 p-md-5 rounded-4 bg-white">
+                <h3 class="fw-bold mb-4" style="color:#122046;">À propos de cette bourse</h3>
+                <div class="ck-content description-style">
+                    {{ bourse.description_detaillee|safe }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="sticky-top" style="top: 100px;">
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                    <div class="p-4 text-center text-white" style="background-color: #122046;">
+                        <h4 class="fw-bold mb-0">Intéressé(e) ?</h4>
+                        <p class="small opacity-75">Nous vous accompagnons dans vos démarches</p>
+                    </div>
+                    <div class="card-body p-4 text-center">
+                        <p class="text-muted">Des questions sur l'éligibilité ou les documents à fournir ?</p>
+                           <a href="https://wa.me/{{ whatsapp_number }}?text=Bonjour,%20je%20souhaite%20en%20savoir%20plus%20sur%20la%20bourse%20:%20{{ bourse.titre|urlencode }}" 
+                    class="btn btn-success btn-md w-100 mb-3 rounded-pill d-flex align-items-center justify-content-center gap-2 shadow-sm" 
+                    target="_blank"
+                    rel="noopener noreferrer">
+                        Nous contacter sur WhatsApp
+                    </a>
+                        </a>
+                        <a href="{% url 'shine:contact' %}" class="btn btn-outline-agen-colr btn-md w-100 rounded-pill">
+                            Contacter l'agence
+                        </a>
+                        <hr class="my-4">
+                        <div class="d-flex align-items-center justify-content-center gap-2 text-muted">
+                            <i class="bi bi-shield-check text-warning fs-4"></i>
+                            <small>Accompagnement 100% sécurisé et certifié</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert alert-warning mt-4 border-0 rounded-4 shadow-sm" role="alert">
+                    <h6 class="fw-bold"><i class="bi bi-lightbulb me-2"></i>Conseil d'expert</h6>
+                    <small>Préparez vos relevés de notes des 3 dernières années avant de nous contacter.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

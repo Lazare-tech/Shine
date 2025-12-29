@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.text import slugify
 from django.core.validators import EmailValidator
 from phonenumber_field.modelfields import PhoneNumberField
+from ckeditor.fields import RichTextField
 
 
 class News_letter(models.Model):
@@ -319,3 +320,48 @@ class AvisClient(models.Model):
 
         def __str__(self):
             return self.nom_client
+#####
+class StatutBourse(models.Model):
+    libelle = models.CharField(max_length=50, verbose_name="Nom du statut")
+    couleur_classe = models.CharField(
+        max_length=20, 
+        help_text="Classe Bootstrap (success, warning, danger, primary)",
+        default="success"
+    )
+
+    class Meta:
+        verbose_name = "Statut des bourses"
+        verbose_name_plural = "Statuts des bourses"
+
+    def __str__(self):
+        return self.libelle
+###
+class Bourse(models.Model):
+    
+    titre = models.CharField(max_length=255, verbose_name="Titre de la bourse")
+    pays = models.ImageField(upload_to='bourses/pays/', verbose_name="Image du pays associé")
+    universite = models.CharField(max_length=255, verbose_name="Université")
+    montant_info = models.CharField(max_length=255, verbose_name="Information montant (ex: 1 900€/mois)")
+    badge_type = models.CharField(max_length=50, verbose_name="Type de badge (ex: Excellence, Résidence)")
+    statut = models.ForeignKey(StatutBourse, 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        related_name="bourses"
+    )    
+    # Champ riche pour le détail complet
+    description_detaillee = RichTextField(verbose_name="Détails complets de la bourse")
+    
+    slug = models.SlugField(unique=True, blank=True)
+    date_publication = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True, verbose_name="Publié")
+
+    class Meta:
+        ordering = ['-date_publication']
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.titre)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.titre

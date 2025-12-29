@@ -38,8 +38,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+     'ckeditor',
+    'ckeditor_uploader',
     "shine.apps.ShineConfig",
     "usercompte"
+   
 ]
 
 MIDDLEWARE = [
@@ -69,14 +72,33 @@ TEMPLATES = [
                 "shine.context_processors.services_list_processor",
                 'shine.context_processors.avis_clients_processor',
                 'shine.context_processors.equipe_list_processor',
+                'shine.context_processors.info_contact_processor',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = "shine_agency.wsgi.application"
+# Emplacement des fichiers uploadés via l'éditeur
+CKEDITOR_UPLOAD_PATH = "uploads/ckeditor/"
 
-
+# Configuration de la barre d'outils
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'height': 300,
+        'width': '100%',
+        'colorButton_foreStyle': {'element': 'span', 'attributes': {'style': 'color: #333;'}},
+        'contentsCss': ['body { color: #333 !important; background-color: #fff !important; }'],
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Link', 'Unlink'],
+            ['RemoveFormat', 'Source'],
+            ['Styles', 'Format', 'FontSize', 'TextColor', 'BGColor'],
+        ],
+    },
+}
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
