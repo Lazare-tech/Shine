@@ -89,6 +89,7 @@ def register_client_view(request):
         else:
             # En cas d'erreur, le script JS dans ton template 
             # te renverra à la bonne étape (1, 2 ou 4)
+            print(form.errors)
             messages.error(request, "Erreur dans le formulaire.")
     else:
         form = RegistrationForm()

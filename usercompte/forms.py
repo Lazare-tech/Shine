@@ -44,8 +44,22 @@ class RegistrationForm(UserCreationForm):
             'code_postal': forms.TextInput(attrs={'class': 'form-control shadow-sm'}),
             'street_number': forms.TextInput(attrs={'class': 'form-control shadow-sm'}),
             'street_name': forms.TextInput(attrs={'class': 'form-control shadow-sm'}),
+           
         }
-        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            # Force la classe de base si elle n'existe pas
+            existing_classes = field.widget.attrs.get('class', 'form-control shadow-sm')
+            
+            # Ajout du rouge si Django détecte une erreur au rechargement
+            if self.errors.get(field_name):
+                if 'is-invalid' not in existing_classes:
+                    existing_classes = f"{existing_classes} is-invalid"
+            
+            field.widget.attrs['class'] = existing_classes.strip()
+            field.widget.attrs['required'] = 'required'
+    
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exists():
@@ -93,6 +107,7 @@ class MentorRegistrationForm(UserCreationForm):
     # Statut et Profil (souvent masqués ou pré-remplis pour les mentors)
     profil = forms.ModelChoiceField(
         queryset=ProfilUtilisateur.objects.all(),
+        required=False,
         empty_label="Sélectionnez votre type de profil",
         widget=forms.Select(attrs={'class': 'form-select shadow-sm'})
     )
@@ -107,14 +122,17 @@ class MentorRegistrationForm(UserCreationForm):
         fields = (
             'email', 'first_name', 'last_name', 'gender', 'phone', 
             'birth_year', 'nationality', 'country', 'city', 
-            'code_postal', 'street_number', 'street_name'
+            'code_postal', 'street_number', 'street_name',
         )
         widgets = {
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
             'birth_year': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'gender': forms.Select(choices=[('Homme', 'Homme'), ('Femme', 'Femme')], attrs={'class': 'form-select'}),
+            'gender': forms.Select(
+                choices=[('', 'Sélectionnez'), ('Homme', 'Homme'), ('Femme', 'Femme')], 
+                attrs={'class': 'form-select shadow-sm'}
+            ),
             'phone': forms.TextInput(attrs={'class': 'form-control'}),
             'nationality': forms.TextInput(attrs={'class': 'form-control'}),
             'country': forms.TextInput(attrs={'class': 'form-control'}),
@@ -122,26 +140,67 @@ class MentorRegistrationForm(UserCreationForm):
             'code_postal': forms.TextInput(attrs={'class': 'form-control'}),
             'street_number': forms.TextInput(attrs={'class': 'form-control'}),
             'street_name': forms.TextInput(attrs={'class': 'form-control'}),
+
+            'password1': forms.PasswordInput(attrs={'class': 'form-control'}),
+            'password2': forms.PasswordInput(attrs={'class': 'form-control'}),
         }
-    def save(self, commit=True):
-        # 1. Sauvegarde l'utilisateur (User)
-        user = super().save(commit=False)
-        user.username = self.cleaned_data["email"]
         
-        # 2. Récupère les choix manuels du formulaire
-        user.profil = self.cleaned_data.get('profil')
+        
+         
+  
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        for field_name, field in self.fields.items():
+            # 1. On récupère les classes existantes ou on initialise form-control
+            existing_classes = field.widget.attrs.get('class', 'form-control shadow-sm')
+            
+            # 2. On force l'attribut HTML 'required' pour tous les champs
+            # Sauf profil s'il est géré en automatique
+            if field_name != 'profil':
+                field.required = True
+                field.widget.attrs['required'] = 'required'
+
+            # 3. Si le formulaire a été soumis et que le champ est vide ou en erreur
+            if self.is_bound and field_name in self.errors:
+                if 'is-invalid' not in existing_classes:
+                    existing_classes = f"{existing_classes} is-invalid"
+            
+            field.widget.attrs['class'] = existing_classes.strip()
+            
+    def save(self, commit=True):
+        # 1. On récupère l'utilisateur créé par UserCreationForm
+        user = super().save(commit=False)
+        
+        # 2. On injecte les données critiques
+        email = self.cleaned_data.get("email")
+        user.username = email
+        user.email = email
         user.statut = self.cleaned_data.get('statut')
+        
+        # Attribution auto du profil Mentor
+        if not self.cleaned_data.get('profil'):
+            try:
+                from .models import ProfilUtilisateur
+                user.profil = ProfilUtilisateur.objects.filter(profil_name__icontains="Mentor").first()
+            except:
+                pass
+        else:
+            user.profil = self.cleaned_data.get('profil')
 
         if commit:
-            user.save()
+            user.save() # Sauvegarde l'User en base
             
-            # 3. Crée le profil Mentor lié
-            MentorProfile.objects.create(
+            # 3. Création du profil Mentor
+            from .models import MentorProfile
+            MentorProfile.objects.update_or_create(
                 user=user,
-                job_title=self.cleaned_data['job_title'],
-                activity_field=self.cleaned_data['activity_field'],
-                bank_rib=self.cleaned_data['bank_rib'],
-                mission_type=self.cleaned_data['mission_type'],
-                motivation=self.cleaned_data['motivation']
+                defaults={
+                    'job_title': self.cleaned_data.get('job_title'),
+                    'activity_field': self.cleaned_data.get('activity_field'),
+                    'bank_rib': self.cleaned_data.get('bank_rib'),
+                    'mission_type': self.cleaned_data.get('mission_type'),
+                    'motivation': self.cleaned_data.get('motivation'),
+                }
             )
         return user
