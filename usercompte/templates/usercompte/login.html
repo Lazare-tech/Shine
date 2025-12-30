@@ -6,7 +6,7 @@
 
 <div class="container py-3">
     
-    <!---------------- LOGO -->
+    <!-- LOGO -->
   
     <!-- CARD -->
     <div class="shine-card">
@@ -33,7 +33,7 @@
         <!------------- FORMULAIRE (TOUJOURS VISIBLE)-->
 <form method="POST">
     {% csrf_token %}
-    
+    <input type="hidden" name="selected_role" id="selected_role" value="">
     {% if messages %}
         {% for message in messages %}
             <div class="alert alert-danger small py-2">{{ message }}</div>
@@ -65,12 +65,23 @@
     </div>
 </div>
 
-<script>
+{% comment %} <script>
 function setRole(role){
     document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
     event.target.classList.add('active');
 }
+</script> {% endcomment %}
+
+<script>
+function setRole(role){
+    // Supprime la classe active de tous les boutons
+    document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
+    
+    // Ajoute la classe au bouton cliqué
+    event.currentTarget.classList.add('active');
+    
+    // MET À JOUR LE CHAMP CACHÉ
+    document.getElementById('selected_role').value = role;
+}
 </script>
-
-
 {% endblock content %}

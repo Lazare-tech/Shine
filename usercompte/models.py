@@ -1,9 +1,28 @@
 from django.db import models
 
 # Create your models here.
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
+#
+class UserManager(BaseUserManager):
+    def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError("L'adresse email est obligatoire")
+        email = self.normalize_email(email)
+        # On force l'username à être l'email
+        extra_fields.setdefault('username', email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
 
+    def create_superuser(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        # Important pour éviter l'erreur que tu as reçue
+        extra_fields.setdefault('username', email)
+
+        return self.create_user(email, password, **extra_fields)
 
 class StatutUtilisateur(models.Model):
     statut_name = models.CharField(max_length=100, verbose_name="Nom du statut")
@@ -14,16 +33,28 @@ class StatutUtilisateur(models.Model):
 
     def __str__(self):
         return self.statut_name
+    
+class ProfilUtilisateur(models.Model):
+    profil_name=models.CharField(max_length=100,verbose_name="Nom du profil utilisateur")
+    
+    class Meta:
+        verbose_name="Profil Utilisateur"
+        verbose_name_plural="Profils Utilisateurs"
+
+    def __str__(self):
+            return self.profil_name
 ##
 class User(AbstractUser):
     USERNAME_FIELD = 'email'  # Définit l'email comme identifiant principal
     REQUIRED_FIELDS = []
+    objects = UserManager() # On lie le nouveau manager ici
     # Données Personnelles Communes
     email = models.EmailField(unique=True) # L'email doit être unique
     gender = models.CharField(max_length=20,verbose_name="Genre")
     phone = models.CharField(max_length=20, verbose_name="Numéro de téléphone")
     birth_year=models.DateField(verbose_name="Année de naissance",blank=True,null=True)
     nationality = models.CharField(max_length=100,verbose_name="Nationalité")
+    code_postal=models.CharField(max_length=20,verbose_name="Code Postal",blank=True,null=True)
     statut = models.ForeignKey(
         StatutUtilisateur, 
         on_delete=models.SET_NULL, 
@@ -31,6 +62,14 @@ class User(AbstractUser):
         blank=True,
         related_name="utilisateurs",
         verbose_name="Statut actuel"
+    )
+    profil=models.ForeignKey(
+        ProfilUtilisateur,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="utilisateurs",
+        verbose_name="Profil utilisateur"
     )
     # Localisation Commune
     country = models.CharField(max_length=100,verbose_name="Pays")
@@ -42,12 +81,7 @@ class User(AbstractUser):
 
     def __str__(self):
         return f"{self.get_full_name()} ({self.email})"
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        user.username = self.cleaned_data["email"] # On copie l'email dans l'username technique
-        if commit:
-            user.save()
-        return user
+    
 
 ##
 class MentorProfile(models.Model):

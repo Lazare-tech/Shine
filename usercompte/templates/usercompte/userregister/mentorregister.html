@@ -23,27 +23,33 @@
             <div class="row g-3">
                 <div class="col-md-6">
                     <label class="form-label">Nom *</label>
-                    <input name="nom" type="text" class="form-control" required>
+                    {{ form.last_name }}
+                    {{ form.last_name.errors }}
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Prénom *</label>
-                    <input name="prenom" type="text" class="form-control" required>
+                    {{ form.first_name }}
+                    {{ form.first_name.errors }}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Type de Profil *</label>
+                    {{ form.profil }}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Statut actuel *</label>
+                    {{ form.statut }}
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Nationalité *</label>
-                    <input name="nationalite" type="text" class="form-control" required>
+                    {{ form.nationality }}
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Date de naissance *</label>
-                    <input name="dob" type="date" class="form-control" required>
+                    {{ form.birth_year }}
                 </div>
                 <div class="col-12">
                     <label class="form-label">Genre *</label>
-                    <select name="genre" class="form-select" required>
-                        <option value="" disabled selected>Sélectionner...</option>
-                        <option>Homme</option>
-                        <option>Femme</option>
-                    </select>
+                    {{ form.gender }}
                 </div>
             </div>
             <button type="button" class="btn-shine mt-4 w-100" onclick="nextStep(2)">Continuer →</button>
@@ -54,27 +60,27 @@
             <div class="row g-3">
                 <div class="col-md-6">
                     <label class="form-label">Téléphone *</label>
-                    <input name="tel" type="tel" class="form-control" required>
+                    {{ form.phone }}
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Email *</label>
-                    <input name="email" type="email" class="form-control" required>
+                    {{ form.email }}
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Pays de résidence *</label>
-                    <input name="pays" class="form-control" required>
+                    {{ form.country }}
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Ville *</label>
-                    <input name="ville" class="form-control" required>
+                    {{ form.city }}
                 </div>
                 <div class="col-md-8">
                     <label class="form-label">Nom de rue</label>
-                    <input name="rue" class="form-control">
+                    {{ form.street_name }}
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">N° Rue</label>
-                    <input name="rue_no" class="form-control">
+                    {{ form.street_number }}
                 </div>
             </div>
             <div class="d-flex gap-3 mt-4">
@@ -87,30 +93,19 @@
             <h5 class="fw-bold mb-4 text-title-gold">3. Expertise & Mission</h5>
             
             <label class="form-label">Métier / Poste actuel *</label>
-            <input name="poste" class="form-control mb-3" required>
+            {{ form.job_title }}
 
             <label class="form-label">Domaine d’activité *</label>
-            <select name="domaine" class="form-select mb-3" required>
-                <option value="" disabled selected>Choisir un domaine...</option>
-                <option>Informatique & Tech</option>
-                <option>Finance</option>
-                <option>Médecine</option>
-                <option>Management</option>
-            </select>
+            {{ form.activity_field }}
 
-            <label class="form-label">RIB Bancaire (pour les rémunérations) *</label>
-            <input name="rib" class="form-control mb-3" required>
+            <label class="form-label">RIB Bancaire *</label>
+            {{ form.bank_rib }}
 
             <label class="form-label">Type de mission souhaitée *</label>
-            <select name="mission" class="form-select mb-3" required>
-                <option value="" disabled selected>Sélectionner une mission...</option>
-                <option>Logement</option>
-                <option>Campus France</option>
-                <option>Visa & Admission</option>
-            </select>
+            {{ form.mission_type }}
 
             <label class="form-label">Votre motivation *</label>
-            <textarea name="motivation" class="form-control" rows="4" required></textarea>
+            {{ form.motivation }}
 
             <div class="d-flex gap-3 mt-4">
                 <button type="button" class="btn btn-outline-secondary w-50" onclick="prevStep(2)">← Retour</button>
@@ -120,36 +115,49 @@
 
         <div id="step4" class="hidden">
             <h5 class="fw-bold mb-4 text-title-gold">4. Sécurité & Finalisation</h5>
-            
             <div class="row g-3">
                 <div class="col-md-6">
                     <label class="form-label">Mot de passe *</label>
-                    <input name="pwd" type="password" class="form-control" required>
+                    {{ form.password1 }}
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Confirmer *</label>
-                    <input name="pwd_conf" type="password" class="form-control" required>
+                    {{ form.password2 }}
                 </div>
             </div>
-
+            
             <div class="card bg-light border-0 p-3 mt-4 mb-4">
-                <div class="form-check mb-2">
-                    <input type="checkbox" class="form-check-input" id="c1" required>
-                    <label class="form-check-label small" for="c1">J’accepte les conditions de mentorat *</label>
-                </div>
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="c2">
-                    <label class="form-check-label small" for="c2">Accepter de recevoir des missions par email</label>
-                </div>
+                <p class="small text-muted mb-0">En cliquant sur soumettre, vous acceptez nos conditions de mentorat.</p>
             </div>
 
             <div class="d-flex gap-3">
                 <button type="button" class="btn btn-outline-secondary w-50" onclick="prevStep(3)">← Retour</button>
-                <button type="submit" class="btn-shine w-50">Soumettre</button>
+                <button type="submit" class="btn-shine w-50">Soumettre ma candidature</button>
             </div>
         </div>
-
     </form>
 </section>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        {% if form.errors %}
+            let errorStep = 4; // Par défaut étape finale
 
+            // On vérifie où se trouvent les erreurs pour renvoyer à la bonne étape
+            {% if form.statut.errors or form.last_name.errors or form.first_name.errors or form.birth_year.errors %}
+                errorStep = 1;
+            {% elif form.email.errors or form.phone.errors %}
+                errorStep = 2;
+            {% endif %}
+
+            // Logique d'affichage
+            document.querySelectorAll('[id^="step"]').forEach(s => s.classList.add('hidden'));
+            document.getElementById('step' + errorStep).classList.remove('hidden');
+            updateProgressBar(errorStep);
+        {% endif %}
+    });
+
+    function updateProgressBar(step) {
+        // Ta fonction actuelle pour colorer les ronds 1, 2, 3, 4
+    }
+</script>
 {% endblock %}

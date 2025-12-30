@@ -1,24 +1,68 @@
 from django.shortcuts import render,redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,logout
 from django.contrib import messages
-from .forms import RegistrationForm,LoginForm
+from .forms import RegistrationForm,LoginForm,MentorRegistrationForm
 from .models import StatutUtilisateur, MentorProfile
 # Create your views here.
+
+# def login_view(request):
+#     if request.method == 'POST':
+#         form = LoginForm(request, data=request.POST)
+#         if form.is_valid():
+#             user = form.get_user()
+#             login(request, user)
+#             messages.success(request, f"Ravi de vous revoir {user.first_name} !")
+#             return redirect('shine:homepage') # Remplace par ta page d'accueil
+#         else:
+#             messages.error(request, "E-mail ou mot de passe incorrect.")
+#     else:
+#         form = LoginForm()
+    
+#     return render(request, 'usercompte/login.html', {'form': form})
+from django.contrib import messages
 
 def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request, data=request.POST)
         if form.is_valid():
+            # 1. On récupère l'utilisateur
             user = form.get_user()
-            login(request, user)
-            messages.success(request, f"Ravi de vous revoir {user.first_name} !")
-            return redirect('shine:homepage') # Remplace par ta page d'accueil
+            
+            # 2. On récupère le rôle choisi sur l'interface (bouton cliqué)
+            chosen_role = request.POST.get('selected_role', '').lower()
+
+            if not chosen_role:
+                messages.error(request, "Veuillez sélectionner un profil (Client, Mentor, etc.)")
+                return render(request, 'usercompte/login.html', {'form': form})
+
+            # 3. VERIFICATION : Est-ce que le profil en base correspond au choix ?
+            if user.profil:
+                db_role = user.profil.profil_name.lower()
+                
+                # Comparaison (on vérifie si le mot clé est contenu dans le nom du profil)
+                if chosen_role not in db_role:
+                    messages.error(request, f"Ce compte n'est pas enregistré en tant que {chosen_role.capitalize()}.")
+                    return render(request, 'usercompte/login.html', {'form': form})
+
+                # 4. Si c'est ok, on connecte
+                login(request, user)
+                
+                # 5. Redirection selon le profil confirmé
+                if 'mentor' in db_role:
+                    return redirect('usercompte:adminmentor')
+                elif 'client' in db_role or 'étudiant' in db_role:
+                    return redirect('usercompte:adminclient')
+                elif 'apporteur' in db_role:
+                    return redirect('shine:homepage')
+            else:
+                messages.error(request, "Ce compte n'a aucun profil associé.")
         else:
-            messages.error(request, "E-mail ou mot de passe incorrect.")
+            messages.error(request, "Identifiants invalides.")
     else:
         form = LoginForm()
     
     return render(request, 'usercompte/login.html', {'form': form})
+
 #
 def user_register(request):
     return render(request, 'usercompte/register.html')
@@ -50,3 +94,30 @@ def register_client_view(request):
         form = RegistrationForm()
 
     return render(request, 'usercompte/userregister/clientregister.html', {'form': form})
+
+
+##
+def register_mentor_view(request):
+    if request.method == 'POST':
+        # On utilise le formulaire spécifique au mentor
+        form = MentorRegistrationForm(request.POST)
+        
+        if form.is_valid():
+            # La méthode save() du formulaire s'occupe de créer le User 
+            # ET le MentorProfile (grâce au code qu'on a mis dans forms.py)
+            user = form.save()
+            
+            messages.success(request, "Félicitations ! Votre candidature de mentor a été soumise.")
+            return redirect('usercompte:login')
+        else:
+            # Si le formulaire est invalide, Django renvoie les erreurs aux champs
+            messages.error(request, "Veuillez corriger les erreurs ci-dessous.")
+    else:
+        # Formulaire vide pour un affichage en GET
+        form = MentorRegistrationForm()
+
+    return render(request, 'usercompte/userregister/mentorregister.html', {'form': form})
+def logout_view(request):
+    logout(request)
+    messages.info(request, "Vous avez été déconnecté avec succès.")
+    return redirect('usercompte:login') # Redirige vers la page de connexion

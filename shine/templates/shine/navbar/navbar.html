@@ -65,7 +65,7 @@
         <a class="fw-bold text-white btn btn-agen-colr btn-sm me-2 px-2 py-1" href="{% url 'shine:devis'%}">
           Demander un devis
         </a>
-        {% comment %} {% if user.is_authenticated %}
+   {% if user.is_authenticated %}
     <span class="fw-bold me-2" style="color: #122046;">
         Bonjour, {{ user.first_name|default:user.username|slice:":10" }}
     </span>
@@ -76,7 +76,7 @@
     <a class="btn btn-outline-agen-colr btn-sm px-2 py-1" href="{% url 'usercompte:login' %}">
         Connexion
     </a>
-{% endif %} {% endcomment %}
+{% endif %} 
       </span>
     </div>
 

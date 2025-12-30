@@ -18,10 +18,18 @@
 
         <div id="step1" class="fade-in">
             <h5 class="fw-bold text-title-gold mb-4">1. Informations personnelles</h5>
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Statut actuel *</label>
-                {{ form.statut }}
-                {{ form.statut.errors }}
+            <div class="row g-3">
+                <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">Statut actuel *</label>
+                            {{ form.statut }}
+                            {{ form.statut.errors }}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Profil utilisateur *</label>
+                    {{ form.profil_name }}
+                    {{ form.profil_name.errors }}
+                </div>
             </div>
             <div class="row g-3">
                 <div class="col-md-6">
@@ -64,6 +72,11 @@
                     <label class="form-label fw-semibold">Email *</label>
                     {{ form.email }}
                     {{ form.email.errors }}
+                </div>
+                  <div class="col-md-12">
+                    <label class="form-label fw-semibold">Code Postal *</label>
+                    {{ form.code_postal }}
+                    {{ form.code_postal.errors }}
                 </div>
             </div>
             <div class="row g-3">

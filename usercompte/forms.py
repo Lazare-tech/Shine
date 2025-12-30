@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import User, StatutUtilisateur
+from .models import User, StatutUtilisateur,ProfilUtilisateur,MentorProfile
 from django.contrib.auth.forms import AuthenticationForm
 
 class RegistrationForm(UserCreationForm):
@@ -9,13 +9,17 @@ class RegistrationForm(UserCreationForm):
         empty_label="Sélectionnez votre statut",
         widget=forms.Select(attrs={'class': 'form-select shadow-sm'})
     )
-
+    profil_name=forms.ModelChoiceField(
+        queryset=ProfilUtilisateur.objects.all(),
+        empty_label="Sélectionnez votre profil",
+        widget=forms.Select(attrs={'class': 'form-select shadow-sm'})
+    )
     class Meta(UserCreationForm.Meta):
         model = User
-        # Note : on ne met pas 'password' ici, UserCreationForm gère password1/password2
+        # L'username est retiré d'ici car on le remplit via l'email dans save()
         fields = (
              'email', 'first_name', 'last_name', 'gender', 
-            'phone','birth_year', 'nationality', 'country', 'city', 
+            'phone','birth_year', 'code_postal','nationality', 'country', 'city', 
             'street_number', 'street_name'
         )
         widgets = {
@@ -23,15 +27,11 @@ class RegistrationForm(UserCreationForm):
             'last_name': forms.TextInput(attrs={'class': 'form-control shadow-sm'}),
             'email': forms.EmailInput(attrs={'class': 'form-control shadow-sm'}),
             'nationality': forms.TextInput(attrs={'class': 'form-control shadow-sm'}),
-             'password1': forms.PasswordInput(attrs={'class': 'form-control shadow-sm', 'placeholder': 'Mot de passe'}),
+            'password1': forms.PasswordInput(attrs={'class': 'form-control shadow-sm', 'placeholder': 'Mot de passe'}),
             'password2': forms.PasswordInput(attrs={'class': 'form-control shadow-sm', 'placeholder': 'Confirmez le mot de passe'}),
-       
             'birth_year': forms.DateInput(
                 format='%Y-%m-%d',
-                attrs={
-                    'class': 'form-control shadow-sm',
-                    'type': 'date'
-                }
+                attrs={'class': 'form-control shadow-sm', 'type': 'date'}
             ),
             'gender': forms.Select(
                 choices=[('', 'Sélectionnez'), ('Homme', 'Homme'), ('Femme', 'Femme')], 
@@ -41,26 +41,32 @@ class RegistrationForm(UserCreationForm):
             'city': forms.TextInput(attrs={'class': 'form-control shadow-sm'}),
             'country': forms.TextInput(attrs={'class': 'form-control shadow-sm'}),
             'street_number': forms.TextInput(attrs={'class': 'form-control shadow-sm'}),
+            'code_postal': forms.TextInput(attrs={'class': 'form-control shadow-sm'}),
+            'street_number': forms.TextInput(attrs={'class': 'form-control shadow-sm'}),
             'street_name': forms.TextInput(attrs={'class': 'form-control shadow-sm'}),
-            'username': forms.TextInput(attrs={'class': 'form-control shadow-sm'}),
-            # Widgets pour les mots de passe internes à UserCreationForm
-            }
+        }
         
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError("Cette adresse email est déjà utilisée.")
         return email
+
     def save(self, commit=True):
-       def save(self, commit=True):
-        # 1. On appelle le save du parent (UserCreationForm) avec commit=False 
-        # pour obtenir l'objet user sans l'enregistrer tout de suite en base
+        # 1. On récupère l'objet user (en mémoire, pas encore en base)
         user = super().save(commit=False)
         
-        # 2. On lie l'email à l'identifiant technique (username)
+        # 2. On lie l'email à l'username
         user.username = self.cleaned_data["email"]
+
+        # 3. RÉCUPÉRATION MANUELLE DES CHAMPS HORS META
+        # On va chercher les données nettoyées et on les injecte dans l'objet user
+        user.statut = self.cleaned_data.get('statut')
         
-        # 3. On enregistre vraiment si commit est True
+        # Note : on récupère 'profil_name' du formulaire pour le mettre dans 'profil' du modèle
+        user.profil = self.cleaned_data.get('profil_name') 
+        
+        # 4. Enregistrement réel dans PostgreSQL
         if commit:
             user.save()
         return user
@@ -75,3 +81,67 @@ class LoginForm(AuthenticationForm):
         'class': 'form-control input-custom',
         'placeholder': 'Mot de passe'
     }))
+##
+class MentorRegistrationForm(UserCreationForm):
+    # Champs additionnels provenant du modèle MentorProfile
+    job_title = forms.CharField(max_length=255, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    activity_field = forms.CharField(max_length=255, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    bank_rib = forms.CharField(max_length=34, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    mission_type = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    motivation = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 4}))
+
+    # Statut et Profil (souvent masqués ou pré-remplis pour les mentors)
+    profil = forms.ModelChoiceField(
+        queryset=ProfilUtilisateur.objects.all(),
+        empty_label="Sélectionnez votre type de profil",
+        widget=forms.Select(attrs={'class': 'form-select shadow-sm'})
+    )
+    statut = forms.ModelChoiceField(
+        queryset=StatutUtilisateur.objects.all(),
+        empty_label="Votre statut actuel",
+        widget=forms.Select(attrs={'class': 'form-select shadow-sm'})
+    )
+
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = (
+            'email', 'first_name', 'last_name', 'gender', 'phone', 
+            'birth_year', 'nationality', 'country', 'city', 
+            'code_postal', 'street_number', 'street_name'
+        )
+        widgets = {
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'birth_year': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'gender': forms.Select(choices=[('Homme', 'Homme'), ('Femme', 'Femme')], attrs={'class': 'form-select'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control'}),
+            'nationality': forms.TextInput(attrs={'class': 'form-control'}),
+            'country': forms.TextInput(attrs={'class': 'form-control'}),
+            'city': forms.TextInput(attrs={'class': 'form-control'}),
+            'code_postal': forms.TextInput(attrs={'class': 'form-control'}),
+            'street_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'street_name': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+    def save(self, commit=True):
+        # 1. Sauvegarde l'utilisateur (User)
+        user = super().save(commit=False)
+        user.username = self.cleaned_data["email"]
+        
+        # 2. Récupère les choix manuels du formulaire
+        user.profil = self.cleaned_data.get('profil')
+        user.statut = self.cleaned_data.get('statut')
+
+        if commit:
+            user.save()
+            
+            # 3. Crée le profil Mentor lié
+            MentorProfile.objects.create(
+                user=user,
+                job_title=self.cleaned_data['job_title'],
+                activity_field=self.cleaned_data['activity_field'],
+                bank_rib=self.cleaned_data['bank_rib'],
+                mission_type=self.cleaned_data['mission_type'],
+                motivation=self.cleaned_data['motivation']
+            )
+        return user
