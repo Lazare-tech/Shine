@@ -1,140 +1,140 @@
-{% extends "base.html" %}
-{% block title %}Espace Mentor{% endblock %}
+{% extends 'base.html' %}
 {% block content %}
-
-<section class="container py-5" style="max-width:900px">
-
-    <h2 class="fw-bold text-center" style="color:var(--shine-dark-blue)">Espace Mentor</h2>
-    <p class="text-center text-muted">Gérez vos informations, vos missions, et suivez votre validation.</p>
-
-
-    <!-- ▬▬▬▬ ÉTAT DU DOSSIER ▬▬▬▬ -->
-    <div class="shine-box mb-4">
-
-        <h5 class="fw-bold text-title-gold mb-2">📌 Suivi de votre dossier</h5>
-
-        <div class="timeline">
-
-            <div class="step done">
-                <span>1. Dossier soumis</span>
-                <small>✦ 12/02/2025</small>
-            </div>
-            
-            <div class="step active">
-                <span>2. Vérification de l’équipe SHINE</span>
-                <small>En cours...</small>
-            </div>
-
-            <div class="step">
-                <span>3. Validation finale</span>
-                <small>En attente</small>
-            </div>
-
-        </div>
-
-        <!-- Possibilité d’ajouter intervalle de dates -->
-        <div class="mt-3">
-            <label class="form-label">Délai estimé de validation (admin visible uniquement)</label>
-            <input type="date" class="form-control" disabled>
-        </div>
-
-    </div>
-
-
-    <!-- ========= INFOS PERSONNELLES ========== -->
-    <div class="card-box mt-4">
-
-        <h4 class="section-title">🧾 Vos Informations</h4>
-
-        <div class="row mt-3">
-            <div class="col-md-4"><b>Nom :</b>SANOU</div>
-            <div class="col-md-4"><b>Prénom :</b>Oumar</div>
-            <div class="col-md-4"><b>Nationalité :</b>Burkinabe</div>
-        </div>
-
-        <div class="row mt-2">
-            <div class="col-md-4"><b>Genre :</b> Homme</div>
-            <div class="col-md-4"><b>Email :</b>sanou@gmail.com</div>
-            <div class="col-md-4"><b>Téléphone :</b>+226 76 23 23 11</div>
-        </div>
-
-        <button class="edit-btn mt-3" onclick="document.getElementById('editModal').style.display='block'">
-            Modifier mes informations ✏
-        </button>
-    </div>
-
-
-    <!-- ▬▬▬▬ COMPÉTENCES DU MENTOR ▬▬▬▬ -->
-    <div class="shine-box mb-4">
-
-        <h5 class="fw-bold text-title-gold mb-3">🎓 Domaines d’accompagnement</h5>
-
-        <label class="form-check d-flex gap-2">
-            <input class="form-check-input" type="checkbox"/> A. Orientation scolaire & professionnelle
-        </label>
-        <label class="form-check d-flex gap-2">
-            <input class="form-check-input" type="checkbox"/> B. Soutien académique aux élèves en difficulté
-        </label>
-        <label class="form-check d-flex gap-2">
-            <input class="form-check-input" type="checkbox"/> C. Coaching éducatif & développement personnel
-        </label>
-        <label class="form-check d-flex gap-2">
-            <input class="form-check-input" type="checkbox"/> Mentorat partage d’expérience locale
-        </label>
-
-        <textarea class="form-control mt-3" rows="3"
-        placeholder="Ajoutez un résumé de votre expertise (optionnel)"></textarea>
-
-        <button class="btn-shine w-100 mt-3">Enregistrer ✓</button>
-    </div>
-
-
-
-    <!-- ▬▬▬▬ DISPONIBILITÉS & MENTORATS ▬▬▬▬ -->
-    <div class="shine-box mb-4">
-        <h5 class="fw-bold text-title-gold mb-3">📅 Disponibilités</h5>
-
-        <div class="row g-3">
-            <div class="col-md-6">
-                <label>Début</label>
-                <input type="date" class="form-control">
-            </div>
-            <div class="col-md-6">
-                <label>Fin</label>
-                <input type="date" class="form-control">
-            </div>
-        </div>
-
-        <textarea class="form-control mt-3" rows="3" placeholder="Notes sur vos créneaux..."></textarea>
-
-        <button class="btn-shine w-100 mt-3">Ajouter la disponibilité</button>
-    </div>
-
-</section>
-
-
-
-<!-- ============= MODALE MODIFICATION PROFIL ============= -->
-<div id="editModal" 
-     style="position:fixed;top:0;left:0;width:100%;height:100%;
-         background:#0008;display:none;align-items:center;justify-content:center;">
-     
-    <form method="POST" class="card-box" style="width:600px;">
-        {% csrf_token %}
-        <h4 class="section-title mb-3">Modifier mon profil</h4>
-
-        <input name="nom" class="form-control" placeholder="Nom" value="{{ user.last_name }}" required><br>
-        <input name="prenom" class="form-control" placeholder="Prénom" value="{{ user.first_name }}" required><br>
-        <input name="phone" class="form-control" placeholder="Téléphone" value="{{ user.profile.phone }}"><br>
-        <input name="nationalite" class="form-control" placeholder="Nationalité" value="{{ user.profile.nationalite }}"><br>
+<div class="dashboard-container" style="background: #f4f7fe; min-height: 100vh; padding: 40px 0;">
+    <div class="container">
         
-        <select name="genre" class="form-control" required>
-            <option {% if profile.genre == "Homme" %}selected{% endif %}>Homme</option>
-            <option {% if profile.genre == "Femme" %}selected{% endif %}>Femme</option>
-        </select><br>
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <h2 style="color: #122046; font-weight: 700;">Espace Mentor : {{ user.first_name|default:user.email }} 👋</h2>
+                <p class="text-muted">Gérez vos domaines d'expertise et suivez l'approbation de votre compte expert.</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <div class="d-inline-block text-start me-3">
+                    <small class="text-muted d-block mb-1">Complétion Profil</small>
+                    <div class="progress" style="height: 6px; width: 120px; border-radius: 10px; background: #e9ecef;">
+                        <div class="progress-bar" style="width: {{ completion }}%; background-color: #e2b740;"></div>
+                    </div>
+                </div>
+                <span class="badge" style="background: #122046; color: #e2b740; padding: 10px 20px; border-radius: 30px;">
+                    {{ completion }}% Complété
+                </span>
+            </div>
+        </div>
 
-        <button class="edit-btn w-100">Enregistrer ✔</button>
-        <p class="text-center mt-2" onclick="document.getElementById('editModal').style.display='none'" style="cursor:pointer;color:red">Fermer ✖</p>
-    </form>
+        <div class="row">
+            <div class="col-lg-3 mb-4">
+                <div class="card border-0 shadow-sm" style="border-radius: 15px;">
+                    <div class="card-body text-center">
+                        <div class="avatar-circle" style="width: 80px; height: 80px; background: #122046; color: #e2b740; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 30px; font-weight: bold;">
+                            {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+                        </div>
+                        <h5 class="mb-0" style="color: #122046; font-weight: 700;">{{ user.get_full_name }}</h5>
+                        <p class="small text-muted mb-3">{{ user.mentor_profile.job_title|default:"Expert Shine" }}</p>
+                        
+                        <div class="text-start mb-3">
+                            <small class="text-muted d-block">Localisation</small>
+                            <span class="small fw-bold"><i class="fas fa-map-marker-alt me-1 text-gold"></i> {{ user.city }}, {{ user.country }}</span>
+                        </div>
+
+                        <hr>
+                        <a href="{% url 'usercompte:update_mentor_profile' %}" class="btn btn-sm w-100 mb-2" style="background: #122046; color: white; border-radius: 8px;">
+                            <i class="fas fa-user-edit me-1"></i> Modifier mon profil
+                        </a>
+                     
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                
+                <div class="card border-0 shadow-sm mb-4" style="border-radius: 15px; overflow: hidden;">
+                    <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+                        <h5 style="color: #122046; font-weight: 700; margin: 0;">
+                            <i class="fas fa-clipboard-check me-2" style="color: #e2b740;"></i> État de validation de votre compte
+                        </h5>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead style="background-color: #f8f9fa;">
+                                <tr>
+                                    <th class="ps-4 border-0 text-muted small text-uppercase">Phase</th>
+                                    <th class="border-0 text-muted small text-uppercase">Vérification</th>
+                                    <th class="border-0 text-muted small text-uppercase">Statut</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="ps-4">
+                                        <div class="d-flex align-items-center">
+                                            <span class="badge rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; background-color: #122046; color: white;">1</span>
+                                            <span class="fw-bold">Soumission du dossier</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-muted small">Réception de vos documents et informations de profil.</td>
+                                    <td><span class="badge bg-success" style="padding: 6px 12px; border-radius: 20px;">Complété</span></td>
+                                </tr>
+                                <tr style="background-color: #fffdf5;">
+                                    <td class="ps-4">
+                                        <div class="d-flex align-items-center">
+                                            <span class="badge rounded-circle me-3 d-flex align-items-center justify-content-center pulse-animation" style="width: 30px; height: 30px; background-color: #e2b740; color: white;">2</span>
+                                            <span class="fw-bold">Examen technique</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-muted small">Validation de votre expertise par l'équipe pédagogique.</td>
+                                    <td><span class="badge bg-warning text-dark" style="padding: 6px 12px; border-radius: 20px;">En cours</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="ps-4">
+                                        <div class="d-flex align-items-center">
+                                            <span class="badge rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; background-color: #eee; color: #999;">3</span>
+                                            <span class="fw-bold text-muted">Activation Mentor</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-muted small">Publication de votre profil sur l'annuaire des experts.</td>
+                                    <td><span class="badge bg-light text-muted" style="padding: 6px 12px; border-radius: 20px;">En attente</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm h-100" style="border-radius: 15px;">
+                            <div class="card-body p-4">
+                                <h6 class="fw-bold text-shine-blue mb-3">🎓 Mon Expertise</h6>
+                                <p class="small text-muted mb-2"><strong>Domaine :</strong> {{ user.mentor_profile.activity_field|default:"Non renseigné" }}</p>
+                                <p class="small text-muted"><strong>Motivation :</strong> {{ user.mentor_profile.motivation|truncatechars:120|default:"Aucune motivation rédigée." }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm h-100" style="border-radius: 15px;">
+                            <div class="card-body p-4">
+                                <h6 class="fw-bold text-shine-blue mb-3">📅 Disponibilités</h6>
+                                <p class="small text-muted"><i class="far fa-calendar-alt me-2"></i> Aucune disponibilité enregistrée.</p>
+                                <button class="btn btn-sm btn-outline-warning w-100 mt-2" style="border-radius: 8px;">Gérer mon calendrier</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
-{% endblock content %}
+
+<style>
+.text-gold { color: #e2b740; }
+.text-shine-blue { color: #122046; }
+.pulse-animation {
+    box-shadow: 0 0 0 0 rgba(226, 183, 64, 0.4);
+    animation: pulse 2s infinite;
+}
+@keyframes pulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(226, 183, 64, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(226, 183, 64, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(226, 183, 64, 0); }
+}
+</style>
+{% endblock %}

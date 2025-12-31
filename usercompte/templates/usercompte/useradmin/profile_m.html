@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    /* Ajout de l'ombre sur le conteneur et les inputs */
+    .custom-card { 
+        border: none; 
+        border-radius: 15px; 
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important; /* shadow-sm */
+    }
+    
+    .custom-input { 
+        border: 1.5px solid #e9ecef !important; 
+        border-radius: 10px !important; 
+        padding: 0.75rem !important; 
+        transition: 0.3s;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important; /* shadow-sm sur les champs */
+    }
+    
+    .custom-input:focus { 
+        border-color: #122046 !important; 
+        box-shadow: 0 4px 12px rgba(18, 32, 70, 0.15) !important; 
+    }
+    
+    .form-label { color: #122046; font-weight: 700; font-size: 0.85rem; }
+    .error-msg { color: #dc3545; font-size: 0.75rem; font-weight: 600; margin-top: 5px; }
+    .text-gold { color: #d4af37; }
+</style>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card custom-card p-4 p-md-5">
+                <h3 class="fw-bold text-shine-blue mb-4">Paramètres du Profil</h3>
+                
+                <form method="POST" novalidate>
+                    {% csrf_token %}
+                    
+                    <h6 class="text-gold text-uppercase fw-bold mb-3 small">Informations Personnelles</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label">Prénom</label>
+                            {{ form.first_name }}
+                            {% if form.first_name.errors %}<div class="error-msg">{{ form.first_name.errors.0 }}</div>{% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Nom</label>
+                            {{ form.last_name }}
+                            {% if form.last_name.errors %}<div class="error-msg">{{ form.last_name.errors.0 }}</div>{% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Téléphone</label>
+                            <div class="d-flex shadow-sm" style="border-radius: 10px;">
+                                <div style="width: 35%;">{{ form.pays }}</div>
+                                <div style="width: 65%;">{{ form.phone }}</div>
+                            </div>
+                            {% if form.phone.errors %}<div class="error-msg">{{ form.phone.errors.0 }}</div>{% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Statut Actuel</label>
+                            {{ form.statut }}
+                            {% if form.statut.errors %}<div class="error-msg">{{ form.statut.errors.0 }}</div>{% endif %}
+                        </div>
+                    </div>
+
+                    <h6 class="text-gold text-uppercase fw-bold mb-3 small">Localisation</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label">Pays de résidence</label>
+                            {{ form.country_residence }}
+                            {% if form.country_residence.errors %}<div class="error-msg">{{ form.country_residence.errors.0 }}</div>{% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Ville</label>
+                            {{ form.city }}
+                            {% if form.city.errors %}<div class="error-msg">{{ form.city.errors.0 }}</div>{% endif %}
+                        </div>
+                    </div>
+
+                    <h6 class="text-gold text-uppercase fw-bold mb-3 small">Expertise Professionnelle</h6>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Intitulé du poste</label>
+                            {{ form.job_title }}
+                            {% if form.job_title.errors %}<div class="error-msg">{{ form.job_title.errors.0 }}</div>{% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Domaine d'activité</label>
+                            {{ form.activity_field }}
+                            {% if form.activity_field.errors %}<div class="error-msg">{{ form.activity_field.errors.0 }}</div>{% endif %}
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Ma motivation pour le mentorat</label>
+                            {{ form.motivation }}
+                            {% if form.motivation.errors %}<div class="error-msg">{{ form.motivation.errors.0 }}</div>{% endif %}
+                        </div>
+                    </div>
+
+                    <div class="mt-5 d-flex justify-content-between">
+                        <a href="{% url 'usercompte:adminmentor' %}" class="btn btn-light px-4 shadow-sm" style="border-radius:10px">Annuler</a>
+                        <button type="submit" class="btn px-5 text-white shadow-sm" style="background-color: #122046; border-radius: 10px;">
+                            Enregistrer les modifications
+                        </button>
+                    </div>
+                </form> 
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

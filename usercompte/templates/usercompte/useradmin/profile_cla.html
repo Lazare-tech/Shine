@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .custom-card { border-radius: 20px !important; border: none !important; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important; }
+    
+    .custom-input { 
+        border: 1.5px solid #e9ecef !important; 
+        border-radius: 10px !important; 
+        padding: 0.75rem 1rem !important; 
+        transition: all 0.3s ease !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02) !important;
+    }
+
+    /* Focus : Bordure Bleu Nuit #122046 */
+    .custom-input:focus { 
+        border-color: #122046 !important; 
+        box-shadow: 0 4px 12px rgba(18, 32, 70, 0.15) !important; 
+        outline: none; 
+    }
+
+    /* Style spécifique pour le groupement Pays + Téléphone */
+    .phone-group .custom-input:first-child {
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+    }
+    .phone-group .custom-input:last-child {
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+        border-left: none !important;
+    }
+
+    .error-feedback { color: #dc3545; font-size: 0.8rem; margin-top: 4px; font-weight: 500; }
+    .form-label { color: #122046; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; display: block; }
+    
+    .btn-save { background-color: #122046; border-radius: 10px; padding: 12px 30px; transition: 0.3s; border: none; }
+    .btn-save:hover { background-color: #1c326e; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(18,32,70,0.2); }
+    
+    /* Input invalide */
+    .is-invalid-custom { border-color: #dc3545 !important; }
+</style>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            
+            <div class="card custom-card mb-4">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="mb-0 fw-bold" style="color: #122046;">Complétion du profil</h6>
+                        <span class="fw-bold" style="color: #e2b740;">{{ completion }}%</span>
+                    </div>
+                    <div class="progress" style="height: 10px; border-radius: 10px; background-color: #f0f0f0;">
+                        <div class="progress-bar" role="progressbar" 
+                             style="width: {{ completion }}%; background-color: #e2b740; border-radius: 10px;" 
+                             aria-valuenow="{{ completion }}" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card custom-card">
+                <div class="card-header bg-white border-0 pt-4 px-4">
+                    <h4 style="color: #122046; font-weight: 700;">Modifier mes informations</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" novalidate>
+                        {% csrf_token %}
+                        <div class="row g-4">
+                            
+                            <div class="col-md-6">
+                                <label class="form-label">Prénom</label>
+                                {{ form.first_name }}
+                                {% if form.first_name.errors %}<div class="error-feedback">{{ form.first_name.errors.0 }}</div>{% endif %}
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Nom</label>
+                                {{ form.last_name }}
+                                {% if form.last_name.errors %}<div class="error-feedback">{{ form.last_name.errors.0 }}</div>{% endif %}
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Téléphone</label>
+                                <div class="d-flex phone-group">
+                                    <div style="width: 35%;">
+                                        {{ form.pays }} </div>
+                                    <div style="width: 65%;">
+                                        {{ form.phone }}
+                                    </div>
+                                </div>
+                                {% if form.phone.errors %}
+                                    <div class="error-feedback">{{ form.phone.errors.0 }}</div>
+                                {% elif form.pays.errors %}
+                                    <div class="error-feedback">Veuillez sélectionner un pays.</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Date de naissance</label>
+                                {{ form.birth_year }}
+                                {% if form.birth_year.errors %}<div class="error-feedback">{{ form.birth_year.errors.0 }}</div>{% endif %}
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Nationalité</label>
+                                {{ form.nationality }}
+                                {% if form.nationality.errors %}<div class="error-feedback">{{ form.nationality.errors.0 }}</div>{% endif %}
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Pays de résidence</label>
+                                {{ form.country }}
+                                {% if form.country.errors %}<div class="error-feedback">{{ form.country.errors.0 }}</div>{% endif %}
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Ville</label>
+                                {{ form.city }}
+                                {% if form.city.errors %}<div class="error-feedback">{{ form.city.errors.0 }}</div>{% endif %}
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Statut actuel</label>
+                                {{ form.statut }}
+                                {% if form.statut.errors %}<div class="error-feedback">{{ form.statut.errors.0 }}</div>{% endif %}
+                            </div>
+
+                            <div class="col-md-12">
+                                <label class="form-label">Profil professionnel (Titre)</label>
+                                {{ form.profil }}
+                                {% if form.profil.errors %}<div class="error-feedback">{{ form.profil.errors.0 }}</div>{% endif %}
+                            </div>
+
+                        </div>
+
+                        <div class="mt-5 d-flex justify-content-end gap-3">
+                            <a href="{% url 'usercompte:adminclient' %}" class="btn btn-light px-4" style="border-radius: 10px; color: #6c757d;">Annuler</a>
+                            <button type="submit" class="btn btn-save text-white px-5 shadow-sm">
+                                Enregistrer les modifications
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -11,9 +11,9 @@ urlpatterns = [
     path('mentorregister/',usercompte.views.register_mentor_view,name='registermentor'),
     path('businessregister/',usercompte.views.user_register_business,name='registerbusiness'),
     # ADMIN CLIENT
-    # path('clientadmin/',usercompte.views.user_admin_client,name='adminclient'),
-    path('mentoradmin/',usercompte.views.user_admin_mentor,name='adminmentor'),
 
     path('clientadmin/', usercompte.views.dashboard_view, name='adminclient'),
     path('profile/edit/', usercompte.views.profile_edit_view, name='profile_edit'),
+    path('update_mentor_profile/', usercompte.views.update_mentor_profile, name='update_mentor_profile'),
+    path('mentoradmin/', usercompte.views.user_admin_mentor, name='adminmentor'),
 ]

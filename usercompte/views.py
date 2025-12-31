@@ -1,27 +1,13 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login,logout
 from django.contrib import messages
-from .forms import RegistrationForm,LoginForm,MentorRegistrationForm,ProfileUpdateForm
+from .forms import RegistrationForm,LoginForm,MentorRegistrationForm,ProfileUpdateForm,MentorProfileForm
 from .models import StatutUtilisateur, MentorProfile
 from shine.models import DemandeDevis, ContactMessage
 from .models import EtapeDossier,SuiviDossier
 from django.contrib.auth.decorators import login_required
-# Create your views here.
-
-# def login_view(request):
-#     if request.method == 'POST':
-#         form = LoginForm(request, data=request.POST)
-#         if form.is_valid():
-#             user = form.get_user()
-#             login(request, user)
-#             messages.success(request, f"Ravi de vous revoir {user.first_name} !")
-#             return redirect('shine:homepage') # Remplace par ta page d'accueil
-#         else:
-#             messages.error(request, "E-mail ou mot de passe incorrect.")
-#     else:
-#         form = LoginForm()
-    
-#     return render(request, 'usercompte/login.html', {'form': form})
+from django.db import transaction
+###
 from django.contrib import messages
 
 def login_view(request):
@@ -138,7 +124,7 @@ def dashboard_view(request):
         dossier = None
         print(f"DEBUG: Aucun dossier en base pour {request.user.email}")
 
-    mes_demandes = DemandeDevis.objects.filter(email=request.user.email).order_by('-date_created')
+    mes_demandes = DemandeDevis.objects.filter(email=request.user.email).order_by('-date_envoi')
     toutes_les_etapes = EtapeDossier.objects.all().order_by('ordre')
 
     context = {
@@ -146,7 +132,7 @@ def dashboard_view(request):
         'etapes': toutes_les_etapes,
         'mes_demandes': mes_demandes,
     }
-    return render(request, 'useradmin/clientadmin.html', context)
+    return render(request, 'usercompte/useradmin/clientadmin.html', context)
 @login_required
 def profile_edit_view(request):
     if request.method == 'POST':
@@ -161,4 +147,57 @@ def profile_edit_view(request):
         'form': form,
         'completion': request.user.profile_completion_percentage()
     }
-    return render(request, 'usercompte/userregister/profile.html', context)
+    return render(request, 'usercompte/useradmin/profile_cla.html', context)
+#
+@login_required
+def user_admin_mentor(request):
+    # 1. Récupération des demandes de devis associées à l'e-mail du mentor
+    user = request.user
+    # On s'assure que le profil mentor existe
+    mentor_profile, created = MentorProfile.objects.get_or_create(user=user)
+    
+    completion = user.profile_completion_percentage()
+    
+    context = {
+        'completion': completion,
+        'mentor_profile': mentor_profile,
+    }
+    
+    # 5. On renvoie le rendu final
+    return render(request, 'usercompte/useradmin/mentoradmin.html', context)
+
+@login_required
+@transaction.atomic
+def update_mentor_profile(request):
+    user = request.user
+    mentor_profile = user.mentor_profile 
+
+    if request.method == 'POST':
+        form = MentorProfileForm(request.POST, instance=mentor_profile)
+        if form.is_valid():
+            form.save() # Sauve job_title, motivation, etc.
+            
+            # Sauve les champs de l'User
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            user.phone = form.cleaned_data['phone']
+            user.city = form.cleaned_data['city']
+            user.country = form.cleaned_data['country_residence'] # Nouveau
+            user.statut = form.cleaned_data['statut'] # Nouveau
+            user.save()
+            
+            messages.success(request, "Profil mis à jour !")
+            return redirect('usercompte:adminmentor')
+    else:
+        # N'oublie pas de charger les données actuelles ici
+        initial_data = {
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'phone': user.phone,
+            'city': user.city,
+            'country_residence': user.country,
+            'statut': user.statut,
+        }
+        form = MentorProfileForm(instance=mentor_profile, initial=initial_data)
+
+    return render(request, 'usercompte/useradmin/profile_m.html', {'form': form})
