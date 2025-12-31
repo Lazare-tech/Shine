@@ -55,7 +55,7 @@ class DemandeDevisAdmin(admin.ModelAdmin):
     ordering = ('-date_envoi',)
     
     # 5. Protection des données (Lecture seule)
-    readonly_fields = ('nom', 'email', 'numero_telephone', 'service_souhaite', 'contenu', 'date_envoi', 'slug')
+    readonly_fields = ('nom', 'email', 'numero_telephone', 'service_souhaite', 'contenu', 'date_envoi')
 
     # 6. Organisation visuelle
     fieldsets = (

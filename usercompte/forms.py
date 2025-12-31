@@ -2,6 +2,11 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import User, StatutUtilisateur,ProfilUtilisateur,MentorProfile
 from django.contrib.auth.forms import AuthenticationForm
+from django_countries.fields import CountryField
+from phonenumber_field.formfields import PhoneNumberField
+from phonenumber_field.widgets import PhoneNumberPrefixWidget
+import phonenumbers
+
 
 class RegistrationForm(UserCreationForm):
     statut = forms.ModelChoiceField(
@@ -10,9 +15,23 @@ class RegistrationForm(UserCreationForm):
         widget=forms.Select(attrs={'class': 'form-select shadow-sm'})
     )
     profil_name=forms.ModelChoiceField(
-        queryset=ProfilUtilisateur.objects.all(),
+        queryset=ProfilUtilisateur.objects.exclude(profil_name__icontains='Mentor'),
         empty_label="Sélectionnez votre profil",
         widget=forms.Select(attrs={'class': 'form-select shadow-sm'})
+    )
+    pays = CountryField(blank_label='Sélectionnez votre pays').formfield(
+        widget=forms.Select(attrs={
+            'class': 'form-select shadow-sm',
+            'style': 'max-width: none !important; border-radius: 8px 0 0 8px;' # Correction affichage
+        })
+    )
+    phone = PhoneNumberField(
+        region=None, 
+        widget=forms.TextInput(attrs={
+            'class': 'form-control shadow-sm',
+            'placeholder': '70112233',
+            'style': 'border-radius: 0 8px 8px 0;'
+        })
     )
     class Meta(UserCreationForm.Meta):
         model = User
@@ -37,7 +56,7 @@ class RegistrationForm(UserCreationForm):
                 choices=[('', 'Sélectionnez'), ('Homme', 'Homme'), ('Femme', 'Femme')], 
                 attrs={'class': 'form-select shadow-sm'}
             ),
-            'phone': forms.TextInput(attrs={'class': 'form-control shadow-sm'}),
+           
             'city': forms.TextInput(attrs={'class': 'form-control shadow-sm'}),
             'country': forms.TextInput(attrs={'class': 'form-control shadow-sm'}),
             'street_number': forms.TextInput(attrs={'class': 'form-control shadow-sm'}),
@@ -66,6 +85,32 @@ class RegistrationForm(UserCreationForm):
             raise forms.ValidationError("Cette adresse email est déjà utilisée.")
         return email
 
+
+    def clean(self):
+        cleaned_data = super().clean()
+        pays_code = cleaned_data.get('pays') # Renvoie 'BF', 'FR', 'CI', etc.
+        phone_raw = cleaned_data.get('phone')
+
+        if pays_code and phone_raw:
+            try:
+                # 1. On convertit l'objet PhoneNumber en chaîne brute
+                phone_str = str(phone_raw)
+                
+                # 2. On parse le numéro avec le code pays en contexte
+                # (Cela permet de valider même si l'utilisateur n'a pas tapé +226)
+                parsed_number = phonenumbers.parse(phone_str, pays_code)
+                
+                # 3. On vérifie si le numéro est valide pour CETTE région spécifique
+                if not phonenumbers.is_valid_number_for_region(parsed_number, pays_code):
+                    # On récupère l'exemple de format pour aider l'utilisateur
+                    example = phonenumbers.get_example_number(pays_code)
+                    self.add_error('phone', f"Numéro invalide pour ce pays. Exemple attendu: {example.national_number}")
+                    
+            except Exception:
+                self.add_error('phone', "Le format du numéro est incorrect.")
+                
+        return cleaned_data
+    
     def save(self, commit=True):
         # 1. On récupère l'objet user (en mémoire, pas encore en base)
         user = super().save(commit=False)
@@ -116,7 +161,20 @@ class MentorRegistrationForm(UserCreationForm):
         empty_label="Votre statut actuel",
         widget=forms.Select(attrs={'class': 'form-select shadow-sm'})
     )
-
+    pays = CountryField(blank_label='Sélectionnez votre pays').formfield(
+        widget=forms.Select(attrs={
+            'class': 'form-select shadow-sm',
+            'style': 'max-width: none !important; border-radius: 8px 0 0 8px;' # Correction affichage
+        })
+    )
+    # Modifie cette ligne dans ton forms.py
+    phone = forms.CharField( # On utilise CharField ici pour éviter la validation automatique trop stricte
+        widget=forms.TextInput(attrs={
+            'class': 'form-control shadow-sm',
+            'placeholder': '70112233',
+            'style': 'border-radius: 0 8px 8px 0;'
+        })
+    )
     class Meta(UserCreationForm.Meta):
         model = User
         fields = (
@@ -133,7 +191,6 @@ class MentorRegistrationForm(UserCreationForm):
                 choices=[('', 'Sélectionnez'), ('Homme', 'Homme'), ('Femme', 'Femme')], 
                 attrs={'class': 'form-select shadow-sm'}
             ),
-            'phone': forms.TextInput(attrs={'class': 'form-control'}),
             'nationality': forms.TextInput(attrs={'class': 'form-control'}),
             'country': forms.TextInput(attrs={'class': 'form-control'}),
             'city': forms.TextInput(attrs={'class': 'form-control'}),
@@ -167,7 +224,33 @@ class MentorRegistrationForm(UserCreationForm):
                     existing_classes = f"{existing_classes} is-invalid"
             
             field.widget.attrs['class'] = existing_classes.strip()
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        pays_code = cleaned_data.get('pays') # Code ISO (ex: 'BF')
+        phone_raw = cleaned_data.get('phone')
+
+        if pays_code and phone_raw:
+            try:
+                # On convertit en string (ex: '70112233')
+                phone_str = str(phone_raw)
+                
+                # On parse le numéro EN UTILISANT le pays choisi comme contexte
+                # C'est cette ligne qui permet de valider un numéro local
+                parsed_number = phonenumbers.parse(phone_str, pays_code)
+                
+                # On vérifie si le numéro est valide pour ce pays précis
+                if not phonenumbers.is_valid_number_for_region(parsed_number, pays_code):
+                    example = phonenumbers.get_example_number(pays_code)
+                    self.add_error('phone', f"Numéro invalide pour ce pays. Exemple attendu : {example.national_number}")
+                else:
+                    # OPTIONNEL : On remplace la valeur par le format international propre (+22670...)
+                    cleaned_data['phone'] = phonenumbers.format_number(parsed_number, phonenumbers.PhoneNumberFormat.E164)
             
+            except Exception:
+                self.add_error('phone', "Format de numéro incorrect.")
+        
+        return cleaned_data
     def save(self, commit=True):
         # 1. On récupère l'utilisateur créé par UserCreationForm
         user = super().save(commit=False)
@@ -204,3 +287,19 @@ class MentorRegistrationForm(UserCreationForm):
                 }
             )
         return user
+
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'gender', 'phone', 'birth_year', 
+                  'nationality', 'country', 'city', 'statut', 'profil']
+        widgets = {
+            'birth_year': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            # Ajoute d'autres widgets stylisés ici
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control shadow-none'})

@@ -13,7 +13,7 @@
         <div class="step-line" id="l3"></div>
         <div class="progress-step" id="s4">4</div>
     </div>
-<form class="shine-box p-4 bg-white shadow rounded-4" method="POST" onsubmit="return validateFinalStep(event)">
+    <form class="shine-box p-4 bg-white shadow rounded-4" method="POST" onsubmit="return validateFinalStep(event)">
         {% csrf_token %}
 
         <div id="step1" class="fade-in">
@@ -21,9 +21,9 @@
             <div class="row g-3">
                 <div class="col-md-6">
 
-                            <label class="form-label fw-semibold">Statut actuel *</label>
-                            {{ form.statut }}
-                            {{ form.statut.errors }}
+                    <label class="form-label fw-semibold">Statut actuel *</label>
+                    {{ form.statut }}
+                    {{ form.statut.errors }}
                 </div>
                 <div class="col-md-6">
                     <label class="form-label fw-semibold">Profil utilisateur *</label>
@@ -63,32 +63,50 @@
 
         <div id="step2" class="hidden">
             <h5 class="fw-bold text-title-gold mb-4">2. Coordonnées de contact</h5>
-            <div class="row g-3 mb-3">
-                <div class="col-md-6">
+
+            <div class="row g-3">
+                                <div class="col-md-12">
                     <label class="form-label fw-semibold">Téléphone *</label>
-                    {{ form.phone }}
+                    <div class="row g-0 align-items-start"> 
+                    <div class="col-6">
+                                {{ form.pays }}
+                        </div>
+                        <div class="col-6">
+                            {{ form.phone }}
+                        </div>
+                    </div>
+                    {% if form.phone.errors %}
+                        <div class="invalid-feedback d-block small">
+                            {{ form.phone.errors.0 }}
+                        </div>
+                    {% endif %}
                 </div>
+
                 <div class="col-md-6">
                     <label class="form-label fw-semibold">Email *</label>
                     {{ form.email }}
-                    {{ form.email.errors }}
+                    {% if form.email.errors %}
+                    <div class="text-danger small">{{ form.email.errors }}</div>
+                    {% endif %}
                 </div>
-                  <div class="col-md-12">
+
+                <div class="col-md-6">
                     <label class="form-label fw-semibold">Code Postal *</label>
                     {{ form.code_postal }}
-                    {{ form.code_postal.errors }}
                 </div>
-            </div>
-            <div class="row g-3">
+
                 <div class="col-md-6">
                     <label class="form-label fw-semibold">Ville *</label>
                     {{ form.city }}
                 </div>
+
                 <div class="col-md-6">
-                    <label class="form-label fw-semibold">Pays *</label>
+                    <label class="form-label fw-semibold">Pays de résidence *</label>
                     {{ form.country }}
                 </div>
             </div>
+
+
             <div class="d-flex gap-3 mt-5">
                 <button type="button" class="btn btn-outline-secondary w-50" onclick="prevStep(1)">← Retour</button>
                 <button type="button" class="btn-shine w-50" onclick="nextStep(3)">Continuer →</button>
@@ -107,7 +125,7 @@
                     {{ form.street_name }}
                 </div>
             </div>
-          
+
             <div class="d-flex gap-3 mt-5">
                 <button type="button" class="btn btn-outline-secondary w-50" onclick="prevStep(2)">← Retour</button>
                 <button type="button" class="btn-shine w-50" onclick="nextStep(4)">Sécurité →</button>
@@ -116,116 +134,119 @@
 
         <div id="step4" class="hidden">
             <h5 class="fw-bold text-title-gold mb-4">4. Sécurité & Finalisation</h5>
-              <div id="password-error-msg" class="alert alert-danger d-none mb-3 py-2 small">
-        <i class="fas fa-exclamation-circle me-2"></i>
-        <span></span></div>
-                <div class="row g-3 mb-3">
-                    <div class="col-md-6">
-                        <label class="form-label">Mot de passe *</label>
-                        {{ form.password1 }}
-                        {% if form.password1.errors %}
-                            <div class="invalid-feedback d-block">{{ form.password1.errors|striptags }}</div>
-                        {% endif %}
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Confirmer *</label>
-                        {{ form.password2 }}
-                        {% if form.password2.errors %}
-                            <div class="invalid-feedback d-block">{{ form.password2.errors|striptags }}</div>
-                        {% endif %}
-                    </div>
-                  </div>
-           
+            <div id="password-error-msg" class="alert alert-danger d-none mb-3 py-2 small">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                <span></span>
+            </div>
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Mot de passe *</label>
+                    {{ form.password1 }}
+                    {% if form.password1.errors %}
+                    <div class="invalid-feedback d-block">{{ form.password1.errors|striptags }}</div>
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Confirmer *</label>
+                    {{ form.password2 }}
+                    {% if form.password2.errors %}
+                    <div class="invalid-feedback d-block">{{ form.password2.errors|striptags }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
             <button type="submit" class="btn-shine w-100 py-2 fw-bold">CRÉER MON COMPTE</button>
         </div>
     </form>
 </section>
 <script>
-   function showStep(step) {
-    document.querySelectorAll('[id^="step"]').forEach(s => s.classList.add('hidden'));
-    document.getElementById('step' + step).classList.remove('hidden');
-    updateProgressBar(step);
-}
+    function showStep(step) {
+        document.querySelectorAll('[id^="step"]').forEach(s => s.classList.add('hidden'));
+        document.getElementById('step' + step).classList.remove('hidden');
+        updateProgressBar(step);
+    }
 
-// 1. Gérer les erreurs au chargement sans "flash"
-document.addEventListener("DOMContentLoaded", function() {
-    {% if form.errors or form.non_field_errors %}
+    // 1. Gérer les erreurs au chargement sans "flash"
+    document.addEventListener("DOMContentLoaded", function () {
+        {% if form.errors or form.non_field_errors %}
         let errorStep = 1;
         {% if form.last_name.errors or form.first_name.errors or form.statut.errors %}
-            errorStep = 1;
+        errorStep = 1;
         {% elif form.email.errors or form.phone.errors %}
-            errorStep = 2;
+        errorStep = 2;
         {% elif form.job_title.errors or form.bank_rib.errors %}
-            errorStep = 3;
+        errorStep = 3;
         {% else %}
-            errorStep = 4;
+        errorStep = 4;
         {% endif %}
-        
+
         // On affiche l'étape d'erreur immédiatement
         showStep(errorStep);
-    {% endif %}
-    
-});
+        {% endif %}
 
-// 2. Validation à chaque clic sur "Continuer"
-function nextStep(step) {
-    const currentContainer = document.getElementById('step' + (step - 1));
-    const inputs = currentContainer.querySelectorAll('input, select, textarea');
-    let isValid = true;
-
-    inputs.forEach(input => {
-        if (!input.checkValidity()) {
-            input.classList.add('is-invalid'); // Force le rouge
-            isValid = false;
-        } else {
-            input.classList.remove('is-invalid');
-        }
     });
 
-    if (isValid) {
-        showStep(step);
-    } else {
-        currentContainer.querySelector(':invalid').reportValidity();
-    }
-}
+    // 2. Validation à chaque clic sur "Continuer"
+    function nextStep(step) {
+        const currentContainer = document.getElementById('step' + (step - 1));
+        const inputs = currentContainer.querySelectorAll('input, select, textarea');
+        let isValid = true;
 
-// 3. Validation FINALE (Mots de passe)
-function validateFinalStep(event) {
-    const p1 = document.getElementById('id_password1');
-    const p2 = document.getElementById('id_password2');
-    const errorDiv = document.getElementById('password-error-msg');
-    const errorSpan = errorDiv.querySelector('span');
+        inputs.forEach(input => {
+            if (!input.checkValidity()) {
+                input.classList.add('is-invalid'); // Force le rouge
+                isValid = false;
+            } else {
+                input.classList.remove('is-invalid');
+            }
+            
+        });
+
+        if (isValid) {
+            showStep(step);
+        } else {
+            currentContainer.querySelector(':invalid').reportValidity();
+        }
+    }
+
+    // 3. Validation FINALE (Mots de passe)
+    function validateFinalStep(event) {
+        const p1 = document.getElementById('id_password1');
+        const p2 = document.getElementById('id_password2');
+        const errorDiv = document.getElementById('password-error-msg');
+        const errorSpan = errorDiv.querySelector('span');
+
+        // Réinitialisation
+        errorDiv.classList.add('d-none');
+        p1.classList.remove('is-invalid');
+        p2.classList.remove('is-invalid');
+
+        let errorMessage = "";
+
+        // 1. Vérification des champs vides
+        if (!p1.value || !p2.value) {
+            errorMessage = "Veuillez remplir les deux champs de mot de passe.";
+            if (!p1.value) p1.classList.add('is-invalid');
+            if (!p2.value) p2.classList.add('is-invalid');
+        }
+        // 2. Vérification de la correspondance
+        else if (p1.value !== p2.value) {
+            errorMessage = "Les mots de passe ne correspondent pas.";
+            p1.classList.add('is-invalid');
+            p2.classList.remove('is-invalid'); // Le deuxième est souvent celui à corriger
+            p2.classList.add('is-invalid');
+        }
+
+        // Si on a une erreur
+        if (errorMessage) {
+            event.preventDefault(); // On bloque l'envoi
+            errorSpan.textContent = errorMessage;
+            errorDiv.classList.remove('d-none'); // On affiche le message
+            return false;
+        }
+
+        return true;
+    }
     
-    // Réinitialisation
-    errorDiv.classList.add('d-none');
-    p1.classList.remove('is-invalid');
-    p2.classList.remove('is-invalid');
-
-    let errorMessage = "";
-
-    // 1. Vérification des champs vides
-    if (!p1.value || !p2.value) {
-        errorMessage = "Veuillez remplir les deux champs de mot de passe.";
-        if (!p1.value) p1.classList.add('is-invalid');
-        if (!p2.value) p2.classList.add('is-invalid');
-    } 
-    // 2. Vérification de la correspondance
-    else if (p1.value !== p2.value) {
-        errorMessage = "Les mots de passe ne correspondent pas.";
-        p1.classList.add('is-invalid');
-        p2.classList.remove('is-invalid'); // Le deuxième est souvent celui à corriger
-        p2.classList.add('is-invalid');
-    }
-
-    // Si on a une erreur
-    if (errorMessage) {
-        event.preventDefault(); // On bloque l'envoi
-        errorSpan.textContent = errorMessage;
-        errorDiv.classList.remove('d-none'); // On affiche le message
-        return false;
-    }
-    
-    return true;
-}
 </script>
 {% endblock %}

@@ -2,15 +2,59 @@ from django import forms
 from .models import DemandeDevis, ContactMessage,News_letter
 from django_countries.widgets import CountrySelectWidget
 from django_countries.fields import CountryField
+from phonenumber_field.formfields import PhoneNumberField
+from phonenumber_field.widgets import PhoneNumberPrefixWidget
+from .models import Service
+import phonenumbers
 
 class DemandeDevisForm(forms.ModelForm):
-    # (Tes autres champs restent identiques...)
-    # ...
+    # 1. On garde 'pays'
+    pays = CountryField(blank_label='Pays').formfield(
+        widget=forms.Select(attrs={
+            'class': 'form-select shadow-sm',
+            'style': 'max-width: none !important; border-radius: 8px 0 0 8px;'
+        })
+    )
+
+    # 2. On supprime 'phone' et on définit proprement 'numero_telephone' ICI
+    # C'est ce champ que ton modèle 'DemandeDevis' utilise probablement
+    # numero_telephone = forms.CharField(
+    #     widget=forms.TextInput(attrs={
+    #         'class': 'form-control shadow-sm',
+    #         'placeholder': '70112233',
+    #         'style': 'border-radius: 0 8px 8px 0;'
+    #     })
+    # )
+    numero_telephone  = PhoneNumberField(
+        region=None, # On laisse None pour qu'il valide selon l'indicatif
+        widget=forms.TextInput(attrs={
+            'class': 'form-control shadow-sm',
+            'placeholder': 'Numéro (ex: 70123456)',
+            'style': 'border-radius: 0 8px 8px 0;'
+        })
+    )
+    service_souhaite = forms.ModelChoiceField(
+        queryset=Service.objects.all(),
+        empty_label="Sélectionnez un service",
+        widget=forms.Select(attrs={'class': 'form-select shadow-sm'})
+    )
+
     class Meta:
         model = DemandeDevis
-        fields = ['nom', 'numero_telephone', 'email', 'service_souhaite', 'contenu']
-        # ... widgets ...
+        # Vérifie bien que le champ dans ton modèle s'appelle 'numero_telephone'
+        fields = ['nom', 'email', 'pays', 'numero_telephone', 'service_souhaite', 'contenu']
+        widgets = {
+            'nom': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Votre nom'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'votre@email.com'}),
+            'contenu': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+        }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if 'service_souhaite' in self.fields:
+            self.fields['service_souhaite'].label_from_instance = lambda obj: obj.titre
+   
+    
 class ContactMessageForm(forms.ModelForm):
     email = forms.EmailField(
         error_messages={
@@ -24,7 +68,15 @@ class ContactMessageForm(forms.ModelForm):
     pays = CountryField(blank_label='Pays').formfield(
         widget=forms.Select(attrs={
             'class': 'form-select',
-            'style': 'max-width: 120px; border-radius: 8px 0 0 8px;'
+            'style': ' border-radius: 8px 0 0 8px;'
+        })
+    )
+    numero_telephone = PhoneNumberField(
+        region=None, # On laisse None pour qu'il valide selon l'indicatif
+        widget=forms.TextInput(attrs={
+            'class': 'form-control shadow-sm',
+            'placeholder': 'Numéro (ex: 70123456)',
+            'style': 'border-radius: 0 8px 8px 0;'
         })
     )
 
@@ -71,3 +123,16 @@ class NewsLetterForm(forms.ModelForm):
         if News_letter.objects.filter(email=email).exists():
             raise forms.ValidationError("Vous êtes déjà inscrit à notre newsletter !")
         return email
+    
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        pays_obj = cleaned_data.get('pays')
+        phone_raw = cleaned_data.get('phone')
+
+        if pays_obj and phone_raw:
+            # On combine le code pays et le numéro
+            # pays_obj.code est "BF", "FR", etc.
+            # phonenumber_field fait la validation automatiquement ici
+            pass 
+        return cleaned_data

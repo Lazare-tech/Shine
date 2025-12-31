@@ -78,7 +78,6 @@ class DemandeDevis(models.Model):
         service_souhaite = models.TextField(verbose_name="Services souhaités")
 
         date_envoi = models.DateTimeField(verbose_name="Date d'envoi", auto_now=True)
-        slug = models.SlugField(unique=True, max_length=255, blank=True)
 
         class Meta:
             verbose_name = 'Service demandé'

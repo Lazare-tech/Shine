@@ -1,15 +1,11 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
 {% load static %}
-{% block title %}{% endblock title %}
-
-{% block content %}
+ {% block title %}{% endblock title %} 
+ {% block content %}
 
 <section class="hero-banner">
-
     <!-- Image -->
-    <img src="{% static 'images/contact.jpg' %}" 
-         alt="Étudiants à l'université"
-         class="hero-bg">
+    <img src="{% static 'images/contact.jpg' %}" alt="Étudiants à l'université" class="hero-bg" />
 
     <!-- Overlay bleu foncé transparent -->
     <div class="hero-overlay"></div>
@@ -22,170 +18,178 @@
                     <span class="text-title-gold">Contactez-</span>nous
                 </h1>
                 <p class="hero-text">
-                    Vous avez des questions ou besoin d'assistance ? Notre équipe est là pour vous aider. N'hésitez pas à nous contacter via le formulaire ci-dessous ou par téléphone. Nous sommes impatients de vous accompagner dans votre parcours éducatif avec SHINE.
+                    Vous avez des questions ou besoin d'assistance ? Notre équipe est là
+                    pour vous aider. N'hésitez pas à nous contacter via le formulaire
+                    ci-dessous ou par téléphone. Nous sommes impatients de vous
+                    accompagner dans votre parcours éducatif avec SHINE.
                 </p>
 
                 <div class="mt-4">
                     <a href="#" class="btn btn-responsive-warning me-2">Remplir le formulaire</a>
-                      <a href="https://wa.me/{{ whatsapp_number }}?text=Bonjour,%20je%20souhaite%20en%20savoir%20plus%20sur%20la%20bourse%20:%20{{ bourse.titre|urlencode }}" 
-                    class="btn btn-outline-light" 
-                    target="_blank"
-                    rel="noopener noreferrer">
+                    <a href="https://wa.me/{{ whatsapp_number }}?text=Bonjour,%20je%20souhaite%20en%20savoir%20plus%20sur%20la%20bourse%20:%20{{ bourse.titre|urlencode }}"
+                        class="btn btn-outline-light" target="_blank" rel="noopener noreferrer">
                         Discutez avec nous sur WhatsApp
                     </a>
                 </div>
             </div>
         </div>
     </div>
-
 </section>
 
 <section class="py-3">
-<div class="circles justify-content-center align-items-center">
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-</div>
+    <div class="circles justify-content-center align-items-center">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 </section>
 <section class="py-5" id="form-contact">
     <div class="container">
         <div class="row g-4">
-            
             <div class="col-12 col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0">
                 <div class="h-100 d-flex flex-column">
-
-                    <div class="card mb-4 shadow-sm" style="height: 300px;">
-                        <div class="card-body d-flex justify-content-center align-items-center" style="background-color: #e9ecef;">
-                            <i class="fas fa-map-marked-alt fa-3x" style="color: #004aad;"></i>
+                    <div class="card mb-4 shadow-sm" style="height: 300px">
+                        <div class="card-body d-flex justify-content-center align-items-center"
+                            style="background-color: #e9ecef">
+                            <i class="fas fa-map-marked-alt fa-3x" style="color: #004aad"></i>
                             <p class="ms-3 text-muted">Emplacement Google Maps ici</p>
                         </div>
                     </div>
 
-                    <div class="card shadow-sm p-4 flex-grow-1" style="border-top: 5px solid #e2b740;">
+                    <div class="card shadow-sm p-4 flex-grow-1" style="border-top: 5px solid #e2b740">
                         <h4 class="mb-4 fw-bold text-title-blue">Nos coordonnées</h4>
                         <div class="mb-4">
                             <p class="mb-3">
-                                <i class="fas fa-home me-3 text-title-gold"></i> 
+                                <i class="fas fa-home me-3 text-title-gold"></i>
                                 {{ location }}
                             </p>
-                            
+
                             <p class="mb-3">
-                                <i class="fas fa-envelope me-3 text-title-gold"></i> 
+                                <i class="fas fa-envelope me-3 text-title-gold"></i>
                                 **Email Général** : {{ email_address }}
                             </p>
                         </div>
-                        
+
                         <h6 class="text-uppercase fw-bold small mb-2 text-title-blue">
-                            <i class="fas fa-phone-alt fa-rotate-90 me-2 text-title-gold"></i> Téléphones Directs
+                            <i class="fas fa-phone-alt fa-rotate-90 me-2 text-title-gold"></i>
+                            Téléphones Directs
                         </h6>
                         <ul class="list-unstyled contact-list">
-                            <li><strong class="text-title-blue">{{ phone_number_bobo }}</strong></li>
+                            <li>
+                                <strong class="text-title-blue">{{ phone_number_bobo }}</strong>
+                            </li>
 
-                            <li><strong class="text-title-blue">{{ phone_number_ouaga }}</strong></li>
-                            <li><strong class="text-title-blue">{{ phone_number_france }}</strong></li>
+                            <li>
+                                <strong class="text-title-blue">{{ phone_number_ouaga }}</strong>
+                            </li>
+                            <li>
+                                <strong class="text-title-blue">{{ phone_number_france }}</strong>
+                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
 
-
             <div class="col-12 col-lg-6 order-2 order-lg-1">
-                <h4 class="mb-4 text-center fw-bold" style="color: #004aad;">Envoyez-nous un message</h4>
+                <h4 class="mb-4 text-center fw-bold" style="color: #004aad">
+                    Envoyez-nous un message
+                </h4>
                 <div class="bg-white border rounded shadow-lg p-4 p-xl-5 contact-form-card">
-                    
-                    <div class="alert alert-light text-center mb-4 small fw-bold" role="alert" style="border-left: 4px solid #e2b740; background-color: #fff9e6; color: #004aad;">
+                    <div class="alert alert-light text-center mb-4 small fw-bold" role="alert" style="
+              border-left: 4px solid #e2b740;
+              background-color: #fff9e6;
+              color: #004aad;
+            ">
                         Besoin d'aide ? On est là ! des experts à l'écoute. 👋
                     </div>
-                            {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-success">{{ message }}</div>
-                        {% endfor %}
+                    {% if messages %} 
+                    {% for message in messages %}
+                    <div class="alert alert-success">{{ message }}</div>
+                    {% endfor %} 
+                    {% endif %} 
+                    {% if form.email.errors %} 
+                    {% for error in form.email.errors %}
+                    <div class="text-danger small mt-1 animate__animated animate__shakeX">
+                        <i class="fas fa-exclamation-triangle me-1"></i> 
+                        {{ error }}
+                    </div>
+                    {% endfor %} 
                     {% endif %}
-                      {% if form.email.errors %}
-                                            {% for error in form.email.errors %}
-                                                <div class="text-danger small mt-1 animate__animated animate__shakeX">
-                                                    <i class="fas fa-exclamation-triangle me-1"></i> {{ error }}
-                                                </div>
-                                            {% endfor %}
-                                                        {% endif %}
-                    
-                                                    <form method="post" enctype="multipart/form-data">
-                                        {% csrf_token %}
-                                        
-                                        {% if form.non_field_errors %}
-                                            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
-                                        {% endif %}
 
-                                        <div class="row mb-3">
-                                            <div class="col-md-6">
-                                                <label class="form-label" for="{{ form.nom.id_for_label }}">
-                                                    <i class="fas fa-user icon-color me-1 text-title-gold"></i> {{ form.nom.label }} <span class="text-danger">*</span>
-                                                </label>
-                                                {{ form.nom }}
-                                                {{ form.nom.errors }}
-                                            </div>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %} {% if form.non_field_errors %}
+                        <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                        {% endif %}
 
-                                            <div class="col-md-6">
-                                                <label class="form-label" for="{{ form.email.id_for_label }}">
-                                                    <i class="fas fa-envelope icon-color me-1 text-title-gold"></i> {{ form.email.label }} <span class="text-danger">*</span>
-                                                </label>
-                                                {{ form.email }}
-                                              
-                                            </div>
-                                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label" for="{{ form.nom.id_for_label }}">
+                                    <i class="fas fa-user icon-color me-1 text-title-gold"></i> 
+                                    {{ form.nom.label }}
+                                     <span class="text-danger">*</span>
+                                </label>
+                                {{ form.nom }} {{ form.nom.errors }}
+                            </div>
 
-                                        <div class="row mb-3">
-                                           
-                                            <div class="col-md-6">
-    <label class="form-label" for="telephone">
-        <i class="fas fa-phone-alt icon-color me-1 text-title-gold"></i> Téléphone <span class="text-danger">*</span>
-    </label>
-    
-    <div class="input-group">
-        {{ form.pays }}
-        
-        {{ form.numero_telephone }}
-    </div>
-    
-    {% if form.numero_telephone.errors %}
-        <div class="text-danger small">{{ form.numero_telephone.errors }}</div>
-    {% endif %}
-</div>
-                                            <div class="col-md-6">
-                                                <label class="form-label" for="{{ form.objet.id_for_label }}">
-                                                    <i class="fas fa-tag icon-color me-1 text-title-gold"></i> {{ form.objet.label }} <span class="text-danger">*</span>
-                                                </label>
-                                                {{ form.objet }}
-                                                {{ form.objet.errors }}
-                                            </div>
-                                        </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="{{ form.email.id_for_label }}">
+                                    <i class="fas fa-envelope icon-color me-1 text-title-gold"></i>
+                                    {{ form.email.label }} <span class="text-danger">*</span>
+                                </label>
+                                {{ form.email }}
+                            </div>
+                        </div>
 
-                                        <div class="row mb-3">
-                                            <div class="col-12">
-                                                <label class="form-label" for="{{ form.contenu.id_for_label }}">
-                                                    <i class="fas fa-comment-alt icon-color me-1 text-title-gold"></i> {{ form.contenu.label }} <span class="text-danger">*</span>
-                                                </label>
-                                                {{ form.contenu }}
-                                                {{ form.contenu.errors }}
-                                            </div>
-                                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label class="form-label" for="telephone">
+                                    <i class="fas fa-phone-alt icon-color me-1 text-title-gold"></i>
+                                    Téléphone <span class="text-danger">*</span>
+                                </label>
 
-                                        <div class="col-12 mt-4">
-                                            <div class="d-grid">
-                                                <button type="submit" class="btn btn-responsive-primaryl btn-lg">
-                                                    <i class="fas fa-paper-plane me-2"></i> Envoyer
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
+                                <div class="input-group">
+                                    {{ form.pays }} {{ form.numero_telephone }}
+                                </div>
 
+                                {% if form.numero_telephone.errors %}
+                                <div class="text-danger small">
+                                    {{ form.numero_telephone.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <label class="form-label" for="{{ form.objet.id_for_label }}">
+                                        <i class="fas fa-tag icon-color me-1 text-title-gold"></i>
+                                        {{ form.objet.label }} <span class="text-danger">*</span>
+                                    </label>
+                                    {{ form.objet }} {{ form.objet.errors }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <label class="form-label" for="{{ form.contenu.id_for_label }}">
+                                    <i class="fas fa-comment-alt icon-color me-1 text-title-gold"></i>
+                                    {{ form.contenu.label }} <span class="text-danger">*</span>
+                                </label>
+                                {{ form.contenu }} {{ form.contenu.errors }}
+                            </div>
+                        </div>
+
+                        <div class="col-12 mt-4">
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-responsive-primaryl btn-lg">
+                                    <i class="fas fa-paper-plane me-2"></i> Envoyer
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-
         </div>
     </div>
 </section>
-
 
 {% endblock content %}

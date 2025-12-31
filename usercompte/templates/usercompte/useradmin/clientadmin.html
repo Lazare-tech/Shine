@@ -1,143 +1,132 @@
-{% extends "base.html" %}
-{% block title %}Espace Client{% endblock %}
+{% extends 'base.html' %}
 {% block content %}
-
-
-
-
-
-<section class="dashboard-container">
-
-    <h2 class="section-title mb-3">👋 Bienvenue, {{ user.first_name }} !</h2>
-    <p class="text-muted">Gérez vos informations & suivez l'évolution de votre parcours.</p>
-
-
-    <!-- ========= INFOS PERSONNELLES ========== -->
-    <div class="card-box mt-4">
-
-        <h4 class="section-title">🧾 Vos Informations</h4>
-
-        <div class="row mt-3">
-            <div class="col-md-4"><b>Nom :</b>TRAORE</div>
-            <div class="col-md-4"><b>Prénom :</b>Salif</div>
-            <div class="col-md-4"><b>Nationalité :</b> Burkinabe</div>
-        </div>
-
-        <div class="row mt-2">
-            <div class="col-md-4"><b>Genre :</b>Homme</div>
-            <div class="col-md-4"><b>Email :</b>salif@gmail.com</div>
-            <div class="col-md-4"><b>Téléphone :</b>+226 67 42 23 11</div>
-        </div>
-
-        <button class="edit-btn mt-3" onclick="document.getElementById('editModal').style.display='block'">
-            Modifier mes informations ✏
-        </button>
-    </div>
-
-
-<!-- 📌 SECTION SUIVI & EVALUATION DU DOSSIER -->
-<div class="card border-0 shadow-sm mt-4" style="border-left: 4px solid #c39d3b;">
-    <div class="card-body">
-        <h5 class="fw-bold mb-4" style="color:#122046;">📄 Suivi & Évaluation du Dossier</h5>
-
-        <!-- PROGRESSION GLOBALE -->
-        <div class="mb-4">
-            <label class="fw-semibold" style="color:#122046;">Progression générale :</label>
-            <div class="progress mt-2" style="height:10px;">
-                <div class="progress-bar" role="progressbar" style="width: 45%; background:#c39d3b"></div>
-            </div>
-            <small class="text-muted">45% du processus complété</small>
-        </div>
-
-        <!-- TABLEAU DES ETAPES -->
-        <div class="table-responsive">
-            <table class="table align-middle">
-                <thead style="background:#122046;color:white;">
-                    <tr>
-                        <th>État</th>
-                        <th>Action / Phase</th>
-                        <th>Date début</th>
-                        <th>Date fin prévue</th>
-                        <th>Statut</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr>
-                        <td><span class="badge" style="background:#c39d3b;">1</span></td>
-                        <td>Soumission du dossier</td>
-                        <td><small class="text">12/12/2024</small></td>
-                                                <td><small class="text">12/12/2024</small></td>
-
-                        <td><span class="badge bg-success">Terminé</span></td>
-                    </tr>
-
-                    <tr>
-                        <td><span class="badge" style="background:#c39d3b;">2</span></td>
-                        <td>Vérification & analyse</td>
-                                                <td><small class="text">12/12/2024</small></td>
-
-                        <td><small class="text">12/12/2024</small></td>
-                        <td><span class="badge bg-warning text-dark">En cours</span></td>
-                    </tr>
-
-                    <tr>
-                        <td><span class="badge" style="background:#c39d3b;">3</span></td>
-                        <td>Validation administrative</td>
-                                              <td><small class="text">12/12/2024</small></td>
-
-                                                <td><small class="text">12/12/2024</small></td>
-
-                        <td><span class="badge bg-secondary">En attente</span></td>
-                    </tr>
-
-                    <tr>
-                        <td><span class="badge" style="background:#c39d3b;">4</span></td>
-                        <td>Décision finale & attribution mentor</td>
-                       
-                                                <td><small class="text">12/12/2024</small></td>
-                        <td><small class="text">12/12/2024</small></td>
-
-                        <td><span class="badge bg-secondary">Non entamé</span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- COMMENTAIRE & NOTES -->
-        <div class="mt-4">
-            <label style="color:#122046;" class="fw-semibold">Notes d'observation :</label>
-            <textarea class="form-control" rows="3" placeholder="Envoyer un message sur l'évolution du dossier..."></textarea>
-            <button class="btn mt-3" style="background:#122046;color:white;">Enregistrer</button>
-        </div>
-
-    </div>
-</div>
-
-
-
-<!-- ============= MODALE MODIFICATION PROFIL ============= -->
-<div id="editModal" 
-     style="position:fixed;top:0;left:0;width:100%;height:100%;
-         background:#0008;display:none;align-items:center;justify-content:center;">
-     
-    <form method="POST" class="card-box" style="width:600px;">
-        {% csrf_token %}
-        <h4 class="section-title mb-3">Modifier mon profil</h4>
-
-        <input name="nom" class="form-control" placeholder="Nom" value="{{ user.last_name }}" required><br>
-        <input name="prenom" class="form-control" placeholder="Prénom" value="{{ user.first_name }}" required><br>
-        <input name="phone" class="form-control" placeholder="Téléphone" value="{{ user.profile.phone }}"><br>
-        <input name="nationalite" class="form-control" placeholder="Nationalité" value="{{ user.profile.nationalite }}"><br>
+<div class="dashboard-container" style="background: #f4f7fe; min-height: 100vh; padding: 40px 0;">
+    <div class="container">
         
-        <select name="genre" class="form-control" required>
-            <option {% if profile.genre == "Homme" %}selected{% endif %}>Homme</option>
-            <option {% if profile.genre == "Femme" %}selected{% endif %}>Femme</option>
-        </select><br>
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <h2 style="color: #122046; font-weight: 700;">Bonjour, {{ user.first_name|default:user.email }} 👋</h2>
+                <p class="text-muted">Bienvenue dans votre espace Shine Agency. Suivez vos projets d'études.</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <span class="badge" style="background: #e2b740; color: #122046; padding: 10px 20px; border-radius: 30px;">
+                    Statut : {{ user.statut|default:"Membre" }}
+                </span>
+            </div>
+        </div>
 
-        <button class="edit-btn w-100">Enregistrer ✔</button>
-        <p class="text-center mt-2" onclick="document.getElementById('editModal').style.display='none'" style="cursor:pointer;color:red">Fermer ✖</p>
-    </form>
+        <div class="row">
+            <div class="col-lg-3 mb-4">
+                <div class="card border-0 shadow-sm" style="border-radius: 15px;">
+                    <div class="card-body text-center">
+                        <div class="avatar-circle" style="width: 80px; height: 80px; background: #122046; color: #e2b740; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 30px; font-weight: bold;">
+                            {{ user.email|first|upper }}
+                        </div>
+                        <h5 class="mb-0">{{ user.get_full_name|default:user.username }}</h5>
+                        <p class="small text-muted">{{ user.city|default:"Ville non précisée" }}</p>
+                        <hr>
+                        <a href="{% url 'usercompte:profile_edit' %}" class="btn btn-sm w-100" style="border: 1px solid #122046; color: #122046; border-radius: 8px;">Modifier mon profil</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                
+                {% if dossier %}
+                <div class="card border-0 shadow-sm mb-4" style="border-radius: 15px; overflow: hidden;">
+                    <div class="card-header bg-white border-0 py-3">
+                        <h5 style="color: #122046; font-weight: 700; margin: 0;">
+                            <i class="fas fa-map-signs me-2" style="color: #e2b740;"></i> Plan de route de votre projet
+                        </h5>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead style="background-color: #f8f9fa;">
+                                <tr>
+                                    <th class="ps-4 border-0 text-muted small text-uppercase">Étape</th>
+                                    <th class="border-0 text-muted small text-uppercase">Description</th>
+                                    <th class="border-0 text-muted small text-uppercase">Statut</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for etape in etapes %}
+                                <tr {% if dossier.etape_actuelle and etape.ordre == dossier.etape_actuelle.ordre %}style="background-color: #fffdf5;"{% endif %}>
+                                    <td class="ps-4">
+                                        <div class="d-flex align-items-center">
+                                            <span class="badge rounded-circle me-3 d-flex align-items-center justify-content-center" 
+                                                  style="width: 30px; height: 30px; background-color: {% if dossier.etape_actuelle and etape.ordre < dossier.etape_actuelle.ordre %}#122046{% elif dossier.etape_actuelle and etape.ordre == dossier.etape_actuelle.ordre %}#e2b740{% else %}#eee{% endif %}; color: white;">
+                                                {{ etape.ordre }}
+                                            </span>
+                                            <span class="fw-bold {% if dossier.etape_actuelle and etape.ordre > dossier.etape_actuelle.ordre %}text-muted{% endif %}">
+                                                {{ etape.titre }}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td class="text-muted small">{{ etape.description_aide|truncatechars:100 }}</td>
+                                    <td>
+                                        {% if dossier.etape_actuelle and etape.ordre < dossier.etape_actuelle.ordre %}
+                                            <span class="badge bg-success" style="padding: 6px 12px; border-radius: 20px;">Terminé</span>
+                                        {% elif dossier.etape_actuelle and etape.ordre == dossier.etape_actuelle.ordre %}
+                                            <span class="badge bg-{{ etape.couleur_badge }} pulse-animation" style="padding: 6px 12px; border-radius: 20px;">En cours</span>
+                                        {% else %}
+                                            <span class="badge bg-light text-muted" style="padding: 6px 12px; border-radius: 20px;">En attente</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% else %}
+                <div class="alert alert-light border shadow-sm p-4 mb-4" style="border-radius: 15px;">
+                    <h5 class="text-dark">Aucun dossier de suivi actif</h5>
+                    <p class="text-muted mb-0">Dès que l'agence commencera le traitement de votre dossier, vous verrez ici les étapes de votre admission.</p>
+                </div>
+                {% endif %}
+
+                <div class="card border-0 shadow-sm" style="border-radius: 15px;">
+                    <div class="card-header bg-white border-0 py-3">
+                        <h5 class="mb-0" style="color: #122046;">Mes demandes de devis</h5>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th class="border-0 px-4">Service</th>
+                                    <th class="border-0 text-end px-4">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for demande in recent_demandes %}
+                                <tr>
+                                    <td class="px-4"><strong>{{ demande.service_souhaite }}</strong></td>
+                                    <td class="text-end px-4">{{ demande.date_created|date:"d M Y" }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="2" class="text-center py-4 text-muted">Aucune demande trouvée.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
 
-{% endblock content %}
+<style>
+.pulse-animation {
+    box-shadow: 0 0 0 0 rgba(226, 183, 64, 0.4);
+    animation: pulse 2s infinite;
+}
+@keyframes pulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(226, 183, 64, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(226, 183, 64, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(226, 183, 64, 0); }
+}
+</style>
+{% endblock %}

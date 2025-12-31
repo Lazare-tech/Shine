@@ -61,35 +61,82 @@
                             <div class="card shadow-lg rounded p-4 bg-white text-dark">
                     <h4 class="mb-3">Demander un devis</h4>
                     
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-success">{{ message }}</div>
-                        {% endfor %}
+                 
+                         {% if messages %} 
+                    {% for message in messages %}
+                    <div class="alert alert-success">{{ message }}</div>
+                    {% endfor %} 
+                    {% endif %} 
+                    {% if form.email.errors %} 
+                    {% for error in form.email.errors %}
+                    <div class="text-danger small mt-1 animate__animated animate__shakeX">
+                        <i class="fas fa-exclamation-triangle me-1"></i> 
+                        {{ error }}
+                    </div>
+                    {% endfor %} 
                     {% endif %}
-                    
-                    
-                    <form method="post">
-                        {% csrf_token %}
-                        
-                        {% for field in form %}
-                            <div class="mb-3">
-                                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-                                {{ field }}
-                                {% if field.errors %}
-                                    <div class="text-danger small">{{ field.errors|striptags }}</div>
-                                {% endif %}
-                            </div>
-                        {% endfor %}
+               <form method="post"  enctype="multipart/form-data">
+    {% csrf_token %}
 
-                        <button type="submit" class="btn btn-responsive-primaryl btn-lg w-100">
-                            Envoyer ma demande
-                        </button>
-                    </form>
+    <div class="mb-3">
+        <label class="form-label fw-bold">Nom complet *</label>
+        {{ form.nom }}
+        {% if form.nom.errors %}
+            <div class="text-danger small">{{ form.nom.errors.0 }}</div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold">Email *</label>
+        {{ form.email }}
+        {% if form.email.errors %}
+            <div class="text-danger small">{{ form.email.errors.0 }}</div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold">Téléphone *</label>
+        <div class="row g-0">
+            <div class="col-5 col-md-4">
+                {{ form.pays }}
+            </div>
+            <div class="col-7 col-md-8">
+                {{ form.numero_telephone }}
+            </div>
+        </div>
+        {% if form.numero_telephone.errors %}
+            <div class="text-danger small mt-1">{{ form.numero_telephone.errors }}</div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold">Service souhaité *</label>
+        {{ form.service_souhaite }}
+        {% if form.service_souhaite.errors %}
+            <div class="text-danger small">{{ form.service_souhaite.errors }}</div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold">Détails de votre demande</label>
+        {{ form.contenu }}
+        {% if form.contenu.errors %}
+            <div class="text-danger small">{{ form.contenu.errors }}</div>
+        {% endif %}
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-lg w-100 mt-3" style="background-color: #122046; border:none;">
+        Envoyer ma demande
+    </button>
+</form>
+
+
+
                 </div>
             </div>
 
         </div>
     </div>
 </section>
-     
+  
 {% endblock content %}

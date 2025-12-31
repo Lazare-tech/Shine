@@ -62,17 +62,41 @@ def faq(request):
 def about(request):
     return render(request,'shine/body/about.html')    
 #............................................................................................
-
 def demande_devis_view(request):
     if request.method == 'POST':
-        form = DemandeDevisForm(request.POST)
+        data = request.POST.copy()
+        code_pays = data.get('pays') 
+        numero_local = data.get('numero_telephone')
+        form = DemandeDevisForm(data)
+
+        # On fait notre validation personnalisée
+        if code_pays and numero_local:
+            try:
+                import phonenumbers
+                parsed_number = phonenumbers.parse(numero_local, code_pays)
+                if phonenumbers.is_valid_number_for_region(parsed_number, code_pays):
+                    # Succès : on formate
+                    data['numero_telephone'] = phonenumbers.format_number(
+                        parsed_number, phonenumbers.PhoneNumberFormat.E164
+                    )
+                    form.data = data 
+                else:
+                    # ERREUR PERSONNALISÉE EN FRANÇAIS
+                    form.add_error('numero_telephone', f"Le numéro n'est pas valide pour le pays choisi ({code_pays}).")
+            except Exception:
+                form.add_error('numero_telephone', "Veuillez entrer un numéro de téléphone valide.")
+
+
+        # Réponse AJAX
         if form.is_valid():
             form.save()
-            messages.success(request, "Votre demande de devis a été envoyée avec succès ! Un conseiller vous contactera sous 24h.",extra_tags='devis_success')
+            messages.success(request, "Votre message a été envoyé avec succès !")
             return redirect('shine:devis') 
+
+
     else:
+            # Ici, form.errors contiendra maintenant ton message en français
         form = DemandeDevisForm()
-    
     return render(request, 'shine/body/devis.html', {'form': form})
 #............................................................................................
 def mentorat(request):

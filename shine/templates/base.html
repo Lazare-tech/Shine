@@ -45,14 +45,13 @@
 
   <script type="text/javascript" src={% static "js/style.js" %}></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@24.5.0/build/css/intlTelInput.css">
 
   <!--links rel-->
 <!-- MDB JS -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const newsForm = document.querySelector('#newsletter-form');
-    const newsMessage = document.querySelector('#newsletter-message');
+    const newsForm = document.querySelector('#ajax-devis-form');
+    const newsMessage = document.querySelector('#response-message');
 
     if (newsForm) {
         newsForm.addEventListener('submit', function(e) {
@@ -85,6 +84,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@24.5.0/build/css/intlTelInput.css">
+
 </body>
 
 </html>

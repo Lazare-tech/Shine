@@ -55,10 +55,22 @@
         <div id="step2" class="hidden">
             <h5 class="fw-bold mb-4 text-title-gold">2. Coordonnées & Adresse</h5>
             <div class="row g-3">
-                <div class="col-md-6">
-                    <label class="form-label">Téléphone *</label>
-                    {{ form.phone }}
-                </div>
+                <div class="col-md-12">
+                    <label class="form-label fw-semibold">Téléphone *</label>
+                    <div class="row g-0 align-items-start"> 
+                    <div class="col-6">
+                                {{ form.pays }}
+                        </div>
+                        <div class="col-6">
+                            {{ form.phone }}
+                        </div>
+                    </div>
+                    {% if form.phone.errors %}
+                        <div class="invalid-feedback d-block small">
+                            {{ form.phone.errors.0 }}
+                        </div>
+                    {% endif %}
+                    </div>
                 <div class="col-md-6">
                     <label class="form-label">Email *</label>
                     {{ form.email }}

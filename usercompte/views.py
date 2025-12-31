@@ -1,8 +1,11 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login,logout
 from django.contrib import messages
-from .forms import RegistrationForm,LoginForm,MentorRegistrationForm
+from .forms import RegistrationForm,LoginForm,MentorRegistrationForm,ProfileUpdateForm
 from .models import StatutUtilisateur, MentorProfile
+from shine.models import DemandeDevis, ContactMessage
+from .models import EtapeDossier,SuiviDossier
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 # def login_view(request):
@@ -73,9 +76,9 @@ def user_register_mentor(request):
 def user_register_business(request):
     return render(request, 'usercompte/userregister/businessregister.html')
 #
-def user_admin_client(request):
-    return render(request, 'usercompte/useradmin/clientadmin.html')
-#
+# def user_admin_client(request):
+#     return render(request, 'usercompte/useradmin/clientadmin.html')
+# #
 def user_admin_mentor(request):
     return render(request, 'usercompte/useradmin/mentoradmin.html')
 def register_client_view(request):
@@ -122,3 +125,40 @@ def logout_view(request):
     logout(request)
     messages.info(request, "Vous avez été déconnecté avec succès.")
     return redirect('usercompte:login') # Redirige vers la page de connexion
+
+
+
+@login_required
+def dashboard_view(request):
+    # Test de récupération direct
+    try:
+        dossier = SuiviDossier.objects.get(etudiant=request.user)
+        print(f"DEBUG: Dossier trouvé pour {request.user.email}")
+    except SuiviDossier.DoesNotExist:
+        dossier = None
+        print(f"DEBUG: Aucun dossier en base pour {request.user.email}")
+
+    mes_demandes = DemandeDevis.objects.filter(email=request.user.email).order_by('-date_created')
+    toutes_les_etapes = EtapeDossier.objects.all().order_by('ordre')
+
+    context = {
+        'dossier': dossier,  # C'est cette variable qui doit être utilisée dans le HTML
+        'etapes': toutes_les_etapes,
+        'mes_demandes': mes_demandes,
+    }
+    return render(request, 'useradmin/clientadmin.html', context)
+@login_required
+def profile_edit_view(request):
+    if request.method == 'POST':
+        form = ProfileUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('usercompte:adminclient')
+    else:
+        form = ProfileUpdateForm(instance=request.user)
+    
+    context = {
+        'form': form,
+        'completion': request.user.profile_completion_percentage()
+    }
+    return render(request, 'usercompte/userregister/profile.html', context)

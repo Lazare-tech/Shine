@@ -1,0 +1,37 @@
+<div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #122046; border-radius: 12px; overflow: hidden; background-color: #ffffff;">
+    
+    <div style="background-color: #122046; padding: 25px; text-align: center;">
+        <h1 style="color: #e2b740; margin: 0; font-size: 28px; letter-spacing: 2px;">SHINE AGENCY</h1>
+    </div>
+
+    <div style="padding: 30px; color: #333333; line-height: 1.6;">
+        <p style="font-size: 18px;">Bonjour <strong>{{ nom }}</strong>,</p>
+        <p>Merci d'avoir contacté <strong>Shine Agency</strong>. Nous avons bien reçu votre message et nous vous remercions de l'intérêt que vous portez à nos services.</p>
+        <p>Un membre de notre équipe va examiner votre demande et reviendra vers vous très prochainement.</p>
+        
+        <div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 20px 0; font-size: 14px; color: #666;">
+            <strong>Rappel de votre message :</strong><br>
+            "{{ message_client|truncatewords:20 }}"
+        </div>
+    </div>
+
+      <div style="padding: 0 30px; color: #122046;">
+        <h4 style="border-bottom: 2px solid #f1f1f1; padding-bottom: 10px; margin-bottom: 15px;">Nos Coordonnées</h4>
+        <p style="margin: 5px 0; font-size: 14px;">📍 <strong>Localisation :</strong> {{ location }}</p>
+        <p style="margin: 5px 0; font-size: 14px;">📞 <strong>{{ phone_number_bobo }}</strong></p>
+        <p style="margin: 5px 0; font-size: 14px;">📞 <strong>{{ phone_number_ouaga }}</strong></p>
+        <p style="margin: 5px 0; font-size: 14px;">📞 <strong>{{ phone_number_france }}</strong></p>
+    </div>
+
+    <div style="background-color: #f4f4f4; padding: 25px; text-align: center; margin-top: 30px;">
+        <p style="margin-bottom: 15px; font-weight: bold; color: #122046;">Suivez-nous sur nos réseaux</p>
+        <div style="margin-bottom: 20px;">
+            <a href="{{ facebook_url }}" style="text-decoration: none; margin: 0 10px; color: #122046; font-size: 13px;">Facebook</a> |
+            <a href="{{ instagram_url }}" style="text-decoration: none; margin: 0 10px; color: #122046; font-size: 13px;">Instagram</a> |
+            <a href="{{ tiktok_url }}" style="text-decoration: none; margin: 0 10px; color: #122046; font-size: 13px;">TikTok</a>
+        </div>
+        <p style="font-size: 11px; color: #888888; margin: 0;">
+            © 2025 Shine Agency. Ceci est un message automatique, merci de ne pas y répondre directement.
+        </p>
+    </div>
+</div>
