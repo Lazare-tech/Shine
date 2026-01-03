@@ -24,8 +24,11 @@ urlpatterns = [
     path('newsletter/subscribe/', shine.views.newsletter_subscribe, name='newsletter'),
     
     # DETAIL BLOG PAGE
-    detail_blog_path := path('blog/<slug:slug>/', shine.views.detail_blog, name='detail_blog'),
     blog_path := path('blog/', shine.views.blog, name='blog'),
+
+    detail_blog_path := path('blog/<slug:slug>/', shine.views.detail_blog, name='detail_blog'),
+    # 2. Filtrage par catégorie (Slug de la catégorie)
+    blog_categorie_path := path('blog/categorie/<slug:category_slug>/', shine.views.blog, name='blog_by_category'),
     
     #BOURSE PAGE
     bourse_path := path('bourses/<slug:slug>/', shine.views.detail_bourse, name='bourse'),

@@ -26,29 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// step page form register 
-// function nextStep(step){
-//     ["step1","step2","step3","step4"].forEach(s=>document.getElementById(s).classList.add("hidden"));
-//     document.getElementById("step"+step).classList.remove("hidden");
 
-//     ["s1","s2","s3","s4"].forEach((id,i)=>{
-//         let el=document.getElementById(id), index=i+1;
-//         el.className="progress-step"+(index<step?" done":index==step?" active":"");
-//     });
-//     document.getElementById("l1").className="step-line"+(step>=2?" done":"");
-//     document.getElementById("l2").className="step-line"+(step>=3?" done":"");
-//     document.getElementById("l3").className="step-line"+(step>=4?" done":"");
-// }
-// function prevStep(step){ nextStep(step); }
-// //Message success formulaire
-// function showSuccessMessage(message) {
-//     Swal.fire({
-//         title: 'Félicitations !',
-//         text: message,
-//         icon: 'success',
-//         confirmButtonColor: '#004aad' // Ta couleur primaire
-//     });
-// }
 function nextStep(step) {
     const currentStepDiv = document.querySelector(`#step${step - 1}`);
     
@@ -109,3 +87,95 @@ function updateProgress(step, goingBack = false) {
 
 //
 
+document.addEventListener('DOMContentLoaded', function() {
+    
+    /**
+     * Fonction universelle pour traiter les formulaires AJAX
+     * @param {string} formSelector - Le sélecteur du/des formulaire(s)
+     * @param {string} messageSelector - Le sélecteur de la div de réponse (optionnel si interne au form)
+     */
+    const setupAjaxForm = (formSelector, messageSelector) => {
+        const forms = document.querySelectorAll(formSelector);
+
+        forms.forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                // 1. Récupération dynamique des éléments
+                // On cherche le message-container spécifié ou un par défaut dans le formulaire
+                const responseDiv = messageSelector ? document.querySelector(messageSelector) : form.querySelector('.ajax-response');
+                const submitBtn = form.querySelector('[type="submit"]');
+                const formData = new FormData(this);
+                const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
+
+                // 2. UI : Etat de chargement
+                if (submitBtn) submitBtn.disabled = true;
+                if (responseDiv) responseDiv.innerHTML = '<span class="text-muted small">Traitement en cours...</span>';
+
+                // 3. Envoi
+                fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': csrftoken
+                    }
+                })
+                .then(response => {
+                    if (!response.ok && response.status !== 400) throw new Error('Network error');
+                    return response.json();
+                })
+                .then(data => {
+                    const isSuccess = data.status === 'success';
+                    const icon = isSuccess ? 'fa-check-circle' : 'fa-exclamation-circle';
+                    const textClass = isSuccess ? 'text-success' : 'text-danger';
+
+                    if (responseDiv) {
+                        responseDiv.innerHTML = `<span class="${textClass} small fw-bold"><i class="fas ${icon} me-1"></i> ${data.message}</span>`;
+                    }
+
+                    if (isSuccess) form.reset();
+                })
+                .catch(error => {
+                    console.error('AJAX Error:', error);
+                    if (responseDiv) responseDiv.innerHTML = `<span class="text-danger small fw-bold">Une erreur technique est survenue.</span>`;
+                })
+                .finally(() => {
+                    if (submitBtn) submitBtn.disabled = false;
+                });
+            });
+        });
+    };
+
+    // --- INITIALISATION ---
+    // Vous pouvez maintenant gérer tous vos formulaires ici :
+    setupAjaxForm('#newsletter-form', '#newsletter-message');
+    setupAjaxForm('#ajax-devis-form', '#response-message');
+});
+///
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.btn-faq-filter');
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // 1. Gestion de l'état actif des boutons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+
+            const filterValue = this.getAttribute('data-filter');
+
+            // 2. Logique de filtrage
+            faqItems.forEach(item => {
+                if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                    item.style.display = 'block';
+                    // Animation optionnelle
+                    item.style.opacity = '0';
+                    setTimeout(() => { item.style.opacity = '1'; item.style.transition = '0.4s'; }, 10);
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+});

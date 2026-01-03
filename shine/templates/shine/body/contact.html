@@ -25,7 +25,7 @@
                 </p>
 
                 <div class="mt-4">
-                    <a href="#" class="btn btn-responsive-warning me-2">Remplir le formulaire</a>
+                    <a href="{% url 'shine:contact' %}form-contact" class="btn btn-responsive-warning me-2">Remplir le formulaire</a>
                     <a href="https://wa.me/{{ whatsapp_number }}?text=Bonjour,%20je%20souhaite%20en%20savoir%20plus%20sur%20la%20bourse%20:%20{{ bourse.titre|urlencode }}"
                         class="btn btn-outline-light" target="_blank" rel="noopener noreferrer">
                         Discutez avec nous sur WhatsApp

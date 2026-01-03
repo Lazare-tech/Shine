@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib import messages
 from .forms import DemandeDevisForm, ContactMessageForm, NewsLetterForm
-from .models import PackService, Service, News_letter,Blog,PaysDestination,Bourse,StatutBourse
+from .models import PackService, Service, News_letter,Blog,PaysDestination,Bourse,StatutBourse,Service,FAQ
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 import phonenumbers
@@ -55,9 +55,20 @@ def contact_view(request):
         form = ContactMessageForm()
     
     return render(request, 'shine/body/contact.html', {'form': form})
-#............................................................................................
+#.....................................................from .models import Service, FAQ # N'oubliez pas l'import
+
 def faq(request):
-    return render(request,'shine/body/faq.html')    
+    # On récupère tous les services pour les boutons de filtrage
+    categorie_service = Service.objects.all()
+    
+    # On récupère toutes les questions pour l'accordéon
+    faqs = FAQ.objects.all().select_related('service') 
+    
+    context = {
+        'categorie_service': categorie_service,
+        'faqs': faqs
+    }
+    return render(request, 'shine/body/faq.html', context)
 #............................................................................................
 def about(request):
     return render(request,'shine/body/about.html')    
@@ -107,14 +118,28 @@ def mentorat(request):
 def about_us(request):
     return render(request,'shine/body/about.html')
 #............................................................................................
-def blog(request):
-    # On récupère tous les articles du plus récent au plus ancien
+def blog(request, category_slug=None):
+    # 1. On récupère toutes les catégories (Services) pour le menu de filtrage
+    categories = Service.objects.all()
+    
+    # 2. On récupère les articles (Blog) triés par date
     articles = Blog.objects.all().order_by('-date_publication')
-    context={
-        'articles':articles,
+    
+    selected_category = None
+
+    # 3. Logique de filtrage si un slug est présent dans l'URL
+    if category_slug:
+        selected_category = get_object_or_404(Service, slug=category_slug)
+        articles = articles.filter(services_associes=selected_category)
+
+    context = {
+        'articles': articles,
+        'categorie_service': categories,
+        'selected_category': selected_category,
     }
-    return render(request, 'shine/blog/blog.html',context)
-#
+    
+    # Vérifie bien le chemin de ton template
+    return render(request, 'shine/blog/blog.html', context)
 def detail_blog(request, slug):
     article = get_object_or_404(Blog, slug=slug)
     # On récupère 3 articles récents sauf celui en cours de lecture
@@ -127,7 +152,8 @@ def detail_blog(request, slug):
     return render(request, 'shine/blog/detail.html', context)
     return render(request,'shine/body/blog.html')
                                     # SERVICES PAGES
-#............................................................................................ 
+                                    
+       #............................................................................................ 
 def services(request, slug):
     services=get_object_or_404(Service, slug=slug)
     print("slug",slug)

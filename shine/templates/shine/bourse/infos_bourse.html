@@ -14,7 +14,7 @@
             <div class="col-lg-6">
                 <h1 class=" hero-title">Trouvez la <span class="text-title-gold">bourse</span><br>de vos <span class="text-title-gold">Rêves à l’Étranger</span></h1>
                 <p class="hero-text">Shine Agency vous accompagne pour étude, logement, visa et inscription.</p>
-                <a href="#" class="btn btn-responsive-warning btn-lg  mt-3">Explorer les bourses</a>
+                <a href="{% url 'shine:liste_bourses' %}#infos-bourse" class="btn btn-responsive-warning btn-lg  mt-3">Explorer les bourses</a>
             </div>
 
          
@@ -36,7 +36,7 @@
 </div>
     <div class="container py-4">
 
-        <div class="row gy-3 align-items-center">
+        <div class="row gy-3 align-items-center" id="infos-bourse">
 
             <div class="col-md-3">
                 <input type="text" class="form-control" placeholder="Mot-clé">
@@ -192,12 +192,64 @@
         </div>
     </div>
 </section>
-<section class="py-5 mentor-cta bg-shine-gold text-white">
 
-    <div class="container-fluid text-center">
-        <h2 class="fw-bold mb-3">Passe à l’action maintenant</h2>
-        <p class="lead mb-4">Ne laisse pas passer ta chance. Plus tôt tu commences, plus tes opportunités augmentent.</p>
-        <a href="#" class="btn btn-responsive-primaryl btn-lg px-4">Postuler dès maintenant</a>
+
+<section class="newsletter-bourses py-5 mt-5">
+    <div class="container py-4">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6 text-white text-start">
+                <span class="badge btn-agen-colr text-dark mb-3 px-3 py-2 fw-bold text-uppercase">
+                    Ne manquez aucune opportunité
+                </span>
+                <h3 class="display-6 fw-bold mb-3" style="color: #ffffff;">
+                    Recevez les alertes <span style="color: #d4af37;">Bourses d'Excellence</span> en temps réel.
+                </h3>
+                <p class="lead opacity-75 mb-4">
+                    Plus de 500 bourses sont publiées chaque mois. Rejoignez **15 000+ étudiants** abonnés et recevez les guides de candidature exclusifs directement dans votre boîte.
+                </p>
+                <div class="d-flex gap-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-check-circle text-warning me-2"></i> <small>Alertes ciblées</small>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-check-circle text-warning me-2"></i> <small>Guide PDF offert</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card p-4 shadow-lg border-0 bg-white" style="border-radius: 20px;">
+                    <h5 class="mb-4 fw-bold text-dark text-center">Inscrivez votre email pour commencer</h5>
+                    
+                    <form id="newsletter-form" method="post" action="{% url 'shine:newsletter' %}">
+                        {% csrf_token %}
+                        <div class="form-group mb-3">
+                            <div class="input-group input-group-lg shadow-sm">
+                                <span class="input-group-text bg-white border-end-0" style="border-radius: 12px 0 0 12px;">
+                                    <i class="fas fa-envelope text-muted"></i>
+                                </span>
+                                <input type="email" name="email" required
+                                       class="form-control border-start-0" 
+                                       placeholder="ex: jean.dupont@email.com"
+                                       style="border-radius: 0 12px 12px 0; font-size: 1rem;">
+                            </div>
+                        </div>
+                        
+                        <button class="btn text-white btn-sm w-100 fw-bold shadow-sm py-3 btn-agen-colr" 
+                                type="submit" 
+                                >
+                            M'ABONNER AUX ALERTES BOURSES
+                        </button>
+                        
+                        <div id="newsletter-message" class="mt-2 text-center"></div>
+                        
+                        <p class="text-center text-muted small mt-3 mb-0">
+                            <i class="fas fa-lock me-1"></i> Respect de la vie privée. Désinscription en 1 clic.
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 

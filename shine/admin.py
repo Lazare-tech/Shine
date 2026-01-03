@@ -2,8 +2,25 @@ from django.contrib import admin
 
 # Register your models here.
 from django.contrib import admin
-from .models import ContactMessage, DemandeDevis, News_letter,Service,PackService,Blog,AvisClient,Equipe,PaysDestination,StatutBourse,Bourse
+from .models import ContactMessage, DemandeDevis, News_letter,Service,PackService,Blog,AvisClient,Equipe,PaysDestination,StatutBourse,Bourse,FAQ
 from django.utils.html import format_html
+
+
+
+
+# 1. On crée l'interface "en ligne" pour les FAQ
+class FAQInline(admin.TabularInline):
+    model = FAQ
+    extra = 1  # Nombre de lignes vides affichées par défaut
+    fields = ('question', 'reponse')
+
+
+
+# On garde l'admin FAQ séparé au cas où
+@admin.register(FAQ)
+class FAQAdmin(admin.ModelAdmin):
+    list_display = ('question', 'service')
+    list_filter = ('service',)
 @admin.register(ContactMessage)
 class ContactMessageAdmin(admin.ModelAdmin):
     # 1. Colonnes affichées dans la liste
@@ -134,7 +151,7 @@ class ServiceAdmin(admin.ModelAdmin):
     # En ouvrant un Service, tu verras le titre du Service en haut, 
     # et tous ses packs listés juste en dessous.
     inlines = [PackServiceInline]
-
+    inlines = [FAQInline]
 # 3. (Optionnel) Si tu veux quand même garder la liste globale des packs 
 # mais avec un tri par service
 @admin.register(PackService)
@@ -326,3 +343,4 @@ class BourseAdmin(admin.ModelAdmin):
         if obj.pays:
             return format_html('<img src="{}" style="width: 80px; height: 50px; border-radius: 4px; object-fit: cover;" />', obj.pays.url)
         return format_html('<span style="color: #999;">Pas d\'image</span>')
+#

@@ -364,3 +364,14 @@ class Bourse(models.Model):
 
     def __str__(self):
         return self.titre
+    
+######
+class FAQ(models.Model):
+    service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='faqs')
+    question = models.CharField(max_length=255)
+    reponse = models.TextField()
+    date_ajout = models.DateTimeField(auto_now_add=True)
+
+    def __clug__(self):
+        # On crée un slug basé sur le titre du service pour le filtrage JS
+        return self.service.slug
