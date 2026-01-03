@@ -162,7 +162,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 MEDIA_URL = "/assets/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "assets/")
-# EMAIL_HOST_PASSWORD=xmirtujkbwhpnwpy
+# EMAIL_HOST_PASSWORD=pqwyavxfrdbwtcxw
 
 # ----------------------------------------------------------------------
 # Django 5.2 Specific Changes (CRITICAL AND RECOMMENDED)
