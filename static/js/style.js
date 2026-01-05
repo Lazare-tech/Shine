@@ -153,6 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setupAjaxForm('#ajax-devis-form', '#response-message');
 });
 ///
+
 document.addEventListener('DOMContentLoaded', function() {
     const filterButtons = document.querySelectorAll('.btn-faq-filter');
     const faqItems = document.querySelectorAll('.faq-item');
@@ -178,4 +179,89 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
+// });
+// document.addEventListener('DOMContentLoaded', function() {
+    
+//     const setupAjaxForm = (formSelector, messageSelector) => {
+//         const forms = document.querySelectorAll(formSelector);
+
+//         forms.forEach(form => {
+//             form.addEventListener('submit', function(e) {
+//                 e.preventDefault(); // Empêche le rechargement et la fermeture du modal
+
+//                 const responseDiv = messageSelector ? document.querySelector(messageSelector) : form.querySelector('.ajax-response');
+//                 const submitBtn = form.querySelector('[type="submit"]');
+//                 const formData = new FormData(this);
+//                 const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
+
+//                 // UI : Reset des erreurs précédentes
+//                 form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+//                 form.querySelectorAll('.invalid-feedback').forEach(el => el.remove());
+                
+//                 if (submitBtn) submitBtn.disabled = true;
+//                 if (responseDiv) responseDiv.innerHTML = '<span class="text-muted small">Traitement...</span>';
+
+//                 fetch(this.action, {
+//                     method: 'POST',
+//                     body: formData,
+//                     headers: {
+//                         'X-Requested-With': 'XMLHttpRequest',
+//                         'X-CSRFToken': csrftoken
+//                     }
+//                 })
+//                 .then(response => response.json().then(data => ({ status: response.status, body: data })))
+//                 .then(({ status, body }) => {
+//                     if (status === 200) {
+//                         // SUCCÈS
+//                         responseDiv.innerHTML = `<span class="text-success small fw-bold"><i class="fas fa-check-circle me-1"></i> ${body.message}</span>`;
+//                         form.reset();
+//                         // Optionnel : fermer le modal après un délai
+//                         // setTimeout(() => { bootstrap.Modal.getInstance(form.closest('.modal')).hide(); }, 2000);
+//                     } else {
+//                         // ERREUR DE VALIDATION (400)
+//                         responseDiv.innerHTML = `<span class="text-danger small fw-bold"><i class="fas fa-exclamation-circle me-1"></i> ${body.message}</span>`;
+                        
+//                         if (body.errors) {
+//                             displayFormErrors(form, body.errors);
+//                         }
+//                     }
+//                 })
+//                 .catch(error => {
+//                     responseDiv.innerHTML = `<span class="text-danger small fw-bold">Erreur technique de connexion.</span>`;
+//                 })
+//                 .finally(() => {
+//                     if (submitBtn) submitBtn.disabled = false;
+//                 });
+//             });
+//         });
+//     };
+
+//     /**
+//      * Fonction pour injecter les erreurs dans les champs Bootstrap
+//      */
+//     function displayFormErrors(form, errors) {
+//         Object.keys(errors).forEach(fieldName => {
+//             const inputField = form.querySelector(`[name="${fieldName}"]`);
+//             if (inputField) {
+//                 // Ajouter la classe rouge de Bootstrap
+//                 inputField.classList.add('is-invalid');
+
+//                 // Créer le message d'erreur
+//                 const errorDiv = document.createElement('div');
+//                 errorDiv.className = 'invalid-feedback';
+//                 errorDiv.innerText = errors[fieldName][0].message;
+
+//                 // Placement intelligent de l'erreur
+//                 if (inputField.parentElement.classList.contains('input-group')) {
+//                     inputField.parentElement.after(errorDiv);
+//                     errorDiv.style.display = 'block'; 
+//                 } else {
+//                     inputField.after(errorDiv);
+//                 }
+//             }
+//         });
+//     }
+
+//     // Initialisation
+//     setupAjaxForm('#consultation-form', '#consultation-message');
 });

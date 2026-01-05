@@ -4,11 +4,11 @@ from django_countries.widgets import CountrySelectWidget
 from django_countries.fields import CountryField
 from phonenumber_field.formfields import PhoneNumberField
 from phonenumber_field.widgets import PhoneNumberPrefixWidget
-from .models import Service
+from .models import Service,Consultation
+from phonenumber_field.phonenumber import to_python
 import phonenumbers
 
 class DemandeDevisForm(forms.ModelForm):
-    # 1. On garde 'pays'
     pays = CountryField(blank_label='Pays').formfield(
         widget=forms.Select(attrs={
             'class': 'form-select shadow-sm',
@@ -16,44 +16,68 @@ class DemandeDevisForm(forms.ModelForm):
         })
     )
 
-    # 2. On supprime 'phone' et on définit proprement 'numero_telephone' ICI
-    # C'est ce champ que ton modèle 'DemandeDevis' utilise probablement
-    # numero_telephone = forms.CharField(
-    #     widget=forms.TextInput(attrs={
-    #         'class': 'form-control shadow-sm',
-    #         'placeholder': '70112233',
-    #         'style': 'border-radius: 0 8px 8px 0;'
-    #     })
-    # )
-    numero_telephone  = PhoneNumberField(
-        region=None, # On laisse None pour qu'il valide selon l'indicatif
+    # On utilise CharField pour garder le contrôle total sur l'erreur
+    numero_telephone = forms.CharField(
         widget=forms.TextInput(attrs={
             'class': 'form-control shadow-sm',
-            'placeholder': 'Numéro (ex: 70123456)',
+            'placeholder': '70112233',
             'style': 'border-radius: 0 8px 8px 0;'
-        })
+        }),
+        error_messages={'required': "Le numéro de téléphone est obligatoire."}
     )
+
     service_souhaite = forms.ModelChoiceField(
         queryset=Service.objects.all(),
         empty_label="Sélectionnez un service",
-        widget=forms.Select(attrs={'class': 'form-select shadow-sm'})
+        widget=forms.Select(attrs={'class': 'form-select shadow-sm'}),
+        error_messages={'required': "Veuillez sélectionner un service."}
     )
 
     class Meta:
         model = DemandeDevis
-        # Vérifie bien que le champ dans ton modèle s'appelle 'numero_telephone'
         fields = ['nom', 'email', 'pays', 'numero_telephone', 'service_souhaite', 'contenu']
         widgets = {
             'nom': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Votre nom'}),
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'votre@email.com'}),
             'contenu': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
         }
+        error_messages = {
+            'nom': {'required': "Ce champ est requis."},
+            'email': {'required': "L'adresse email est requise.", 'invalid': "Email invalide."},
+            'contenu': {'required': "Veuillez préciser votre demande."},
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if 'service_souhaite' in self.fields:
             self.fields['service_souhaite'].label_from_instance = lambda obj: obj.titre
-   
+        
+        # LOGIQUE DU CHAMP ROUGE : Si erreurs, on ajoute 'is-invalid'
+        if self.errors:
+            for field_name, field in self.fields.items():
+                if field_name in self.errors:
+                    classes = field.widget.attrs.get('class', '')
+                    if 'is-invalid' not in classes:
+                        field.widget.attrs['class'] = f"{classes} is-invalid"
+
+    def clean_numero_telephone(self):
+        """ Validation du numéro en fonction du pays choisi """
+        pays_code = self.data.get('pays')
+        numero_brut = self.cleaned_data.get('numero_telephone')
+
+        if not pays_code:
+            raise forms.ValidationError("Sélectionnez d'abord un pays.")
+
+        try:
+            # Tente de convertir le numéro local en format international via le pays
+            phone_obj = to_python(numero_brut, region=pays_code)
+            
+            if not phone_obj or not phone_obj.is_valid():
+                raise forms.ValidationError("Numéro invalide pour ce pays.")
+            
+            return phone_obj # Retourne l'objet PhoneNumber valide pour le modèle
+        except Exception:
+            raise forms.ValidationError("Format de numéro incorrect.")
     
 class ContactMessageForm(forms.ModelForm):
     email = forms.EmailField(
@@ -96,6 +120,15 @@ class ContactMessageForm(forms.ModelForm):
                 'style': 'border-radius: 0 8px 8px 0;'
             }),
         }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Gestion des classes is-invalid pour AJAX
+        if self.errors:
+            for field_name, field in self.fields.items():
+                if field_name in self.errors:
+                    existing_classes = field.widget.attrs.get('class', '')
+                    field.widget.attrs['class'] = f"{existing_classes} is-invalid"
 #............................................................................................
 class NewsLetterForm(forms.ModelForm):
     email = forms.EmailField(
@@ -136,3 +169,87 @@ class NewsLetterForm(forms.ModelForm):
             # phonenumber_field fait la validation automatiquement ici
             pass 
         return cleaned_data
+##
+class ConsultationForm(forms.ModelForm):
+    pays = CountryField(blank_label='Pays').formfield(
+        widget=forms.Select(attrs={
+            'class': 'form-select',
+            'style': 'border-radius: 8px 0 0 8px;'
+        })
+    )
+    
+    # numero_telephone = PhoneNumberField(
+    #     region=None,
+    #     widget=forms.TextInput(attrs={
+    #         'class': 'form-control shadow-sm',
+    #         'placeholder': 'Numéro (ex: 70123456)',
+    #         'style': 'border-radius: 0 8px 8px 0;'
+    #     })
+    # )
+    numero_telephone = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control shadow-sm',
+            'placeholder': 'Numéro (ex: 70123456)',
+            'style': 'border-radius: 0 8px 8px 0;'
+        }),
+        error_messages={'required': "Le numéro de téléphone est obligatoire."}
+    )
+
+    class Meta:
+        model = Consultation
+        fields = '__all__'
+        error_messages = {
+            'nom_complet': {
+                'required': "Ce champ est requis.",
+            },
+            'email': {
+                'required': "Veuillez entrer une adresse email.",
+                'invalid': "L'adresse email n'est pas valide.",
+            },
+            'pays': {
+                'required': "Veuillez sélectionner un pays.",
+            },
+            'numero_telephone': {
+                'required': "Le numéro de téléphone est obligatoire.",
+            },
+            'destination': {
+                'required': "Veuillez sélectionner une destination.",
+            }
+        }
+        widgets = {
+            'nom_complet': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ex: Jean Dupont'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'exemple@mail.com'}),
+            'destination': forms.Select(attrs={'class': 'form-select'}),
+        }
+    def clean_numero_telephone(self):
+        """
+        Validation spécifique pour le numéro de téléphone en fonction du pays
+        """
+        # On récupère le pays directement depuis self.data car cleaned_data['pays'] 
+        # peut ne pas encore être disponible si la validation de pays a échoué.
+        pays_code = self.data.get('pays')
+        numero_brut = self.cleaned_data.get('numero_telephone')
+
+        if not pays_code:
+            raise forms.ValidationError("Veuillez d'abord sélectionner un pays.")
+
+        try:
+            # Conversion en format international (ex: BF + 70123456 -> +22670123456)
+            phone_number = to_python(numero_brut, region=pays_code)
+            
+            # Vérification de la validité réelle selon les règles du pays (longueur, préfixe)
+            if not phone_number or not phone_number.is_valid():
+                raise forms.ValidationError(f"Numéro invalide pour le pays sélectionné ({pays_code}).")
+            
+            return phone_number
+        except Exception:
+            raise forms.ValidationError("Format de numéro incorrect.")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Gestion des classes is-invalid pour AJAX
+        if self.errors:
+            for field_name, field in self.fields.items():
+                if field_name in self.errors:
+                    existing_classes = field.widget.attrs.get('class', '')
+                    field.widget.attrs['class'] = f"{existing_classes} is-invalid"

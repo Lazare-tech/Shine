@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from django.contrib import admin
-from .models import ContactMessage, DemandeDevis, News_letter,Service,PackService,Blog,AvisClient,Equipe,PaysDestination,StatutBourse,Bourse,FAQ
+from .models import ContactMessage, DemandeDevis, News_letter,Service,PackService,Blog,AvisClient,Equipe,PaysDestination,StatutBourse,Bourse,FAQ,Consultation
 from django.utils.html import format_html
 
 
@@ -144,7 +144,7 @@ class PackServiceInline(admin.StackedInline):
 # 2. On configure l'admin du Service pour inclure les packs
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ('titre', 'slug','titre_blanc','titre_shine','text_hero','button_hero_fist','button_hero_second','image_service')
+    list_display = ('titre', 'slug','titre_blanc','titre_shine','text_hero','button_hero_fist','button_hero_second','get_image_preview')
     search_fields = ('titre',)
     
     # C'est ici que la magie opère : 
@@ -152,6 +152,14 @@ class ServiceAdmin(admin.ModelAdmin):
     # et tous ses packs listés juste en dessous.
     inlines = [PackServiceInline]
     inlines = [FAQInline]
+    
+    def get_image_preview(self, obj):
+        if obj.image_service:
+            from django.utils.html import format_html
+            return format_html('<img src="{}" style="width: 50px; height: auto; border-radius: 5px;" />', obj.image_service.url)
+        return "Pas d'image"
+    
+    get_image_preview.short_description = "Aperçu"
 # 3. (Optionnel) Si tu veux quand même garder la liste globale des packs 
 # mais avec un tri par service
 @admin.register(PackService)
@@ -344,3 +352,8 @@ class BourseAdmin(admin.ModelAdmin):
             return format_html('<img src="{}" style="width: 80px; height: 50px; border-radius: 4px; object-fit: cover;" />', obj.pays.url)
         return format_html('<span style="color: #999;">Pas d\'image</span>')
 #
+@admin.register(Consultation)
+class ConsultationAdmin(admin.ModelAdmin):
+    list_display = ('nom_complet', 'email', 'pays', 'destination', 'date_demande')
+    list_filter = ('destination', 'pays')
+    search_fields = ('nom_complet', 'email')

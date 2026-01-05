@@ -26,7 +26,7 @@
             Nos services
           </a>
          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-    {% for s in services %} <li>
+    {% for s in services_proc %} <li>
             <a class="dropdown-item" href="{% url 'shine:services' s.slug %}">
                 {{ s.titre }}
             </a>

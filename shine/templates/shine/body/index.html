@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{%  block title %}Shine Agency - Accueil{% endblock title %}
+{% block title %}Shine Agency - Accueil{% endblock title %}
 
 {% block content %}
 
@@ -11,9 +11,7 @@
 <section class="hero-banner">
 
     <!-- Image -->
-    <img src="{% static 'images/hero_f.jpg' %}" 
-         alt="Étudiants à l'université"
-         class="hero-bg">
+    <img src="{% static 'images/hero_f.jpg' %}" alt="Étudiants à l'université" class="hero-bg">
 
     <!-- Overlay bleu foncé transparent -->
     <div class="hero-overlay"></div>
@@ -32,11 +30,9 @@
 
                 <div class="d-flex gap-3 mb-3">
                     <a href="" class="btn btn-responsive-warning me-2">Découvrir nos services</a>
-                      <a href="https://wa.me/{{ whatsapp_number }}?text=Bonjour,%20je%20souhaite%20en%20savoir%20plus%20sur%20la%20bourse%20:%20{{ bourse.titre|urlencode }}" 
-                    class="btn btn-outline-light" 
-                    target="_blank"
-                    rel="noopener noreferrer">
-                            Contacter un conseiller
+                    <a href="https://wa.me/{{ whatsapp_number }}?text=Bonjour,%20je%20souhaite%20en%20savoir%20plus%20sur%20la%20bourse%20:%20{{ bourse.titre|urlencode }}"
+                        class="btn btn-outline-light" target="_blank" rel="noopener noreferrer">
+                        Contacter un conseiller
                     </a>
                 </div>
             </div>
@@ -125,19 +121,17 @@
         </div>
 
     </div>
-     <div class="container mt-5">
+    <div class="container mt-5">
         <div class="d-flex">
             <a href="#" class="btn btn-responsive-warning btn-md me-3 shadow-lg">Découvrir tous nos services</a>
-             <a href="https://wa.me/{{ whatsapp_number }}?text=Bonjour,%20je%20souhaite%20en%20savoir%20plus%20sur%20la%20bourse%20:%20{{ bourse.titre|urlencode }}" 
-                    class="btn btn-outline-agen-colr btn-md" 
-                    target="_blank"
-                    rel="noopener noreferrer">
-                            Contactez un expert
-                            
-                    </a>
+            <a href="https://wa.me/{{ whatsapp_number }}?text=Bonjour,%20je%20souhaite%20en%20savoir%20plus%20sur%20la%20bourse%20:%20{{ bourse.titre|urlencode }}"
+                class="btn btn-outline-agen-colr btn-md" target="_blank" rel="noopener noreferrer">
+                Contactez un expert
+
+            </a>
         </div>
 
-        </div>
+    </div>
 
 </section>
 
@@ -159,11 +153,12 @@
                 <a href="#" class="destination-card shadow-sm">
                     <div class="destination-img-container">
                         {% if pays.image %}
-                            <img src="{{ pays.image.url }}" alt="{{ pays.nom }}" class="img-fluid">
+                        <img src="{{ pays.image.url }}" alt="{{ pays.nom }}" class="img-fluid">
                         {% else %}
-                            <div class="d-flex align-items-center justify-content-center bg-secondary text-white h-100" style="min-height: 200px;">
-                                {{ pays.nom }}
-                            </div>
+                        <div class="d-flex align-items-center justify-content-center bg-secondary text-white h-100"
+                            style="min-height: 200px;">
+                            {{ pays.nom }}
+                        </div>
                         {% endif %}
                         <div class="destination-overlay"></div>
                     </div>
@@ -197,9 +192,8 @@
                     Planifiez votre consultation gratuite pour étudier à l’étranger
                 </h5>
 
-                <button class="btn btn-agen-colr px-5 py-2 shadow-2 btn-md"
-                        data-bs-toggle="modal"
-                        data-bs-target="#consultationModal">
+                <button class="btn btn-agen-colr px-5 py-2 shadow-2 btn-md" data-bs-toggle="modal"
+                    data-bs-target="#consultationModal">
                     Réservez maintenant
                 </button>
 
@@ -207,7 +201,7 @@
         </div>
     </div>
 </section>
-{% comment %} MODAL  {% endcomment %}
+{% comment %} MODAL {% endcomment %}
 <div class="modal fade" id="consultationModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content rounded-4 shadow">
@@ -220,39 +214,42 @@
             </div>
 
             <div class="modal-body px-4 pb-4">
-<form>
+              <form method="post" novalidate id="consultation-form">
+               {% csrf_token %}
+    <div id="consultation-message" class="ajax-response mb-3"></div>
     <div class="mb-3">
         <label class="form-label">Nom complet</label>
-        <input type="text" class="form-control" required>
+        {{ form.nom_complet }}
+        {% if form.nom_complet.errors %}
+            <div class="invalid-feedback">Ce champ est requis.</div>
+        {% endif %}
     </div>
 
     <div class="mb-3">
         <label class="form-label">Numéro de téléphone</label>
-        <input type="tel" class="form-control" required>
+        <div class="input-group">
+            {{ form.pays }}
+            {{ form.numero_telephone }}
+        </div>
+        {% if form.numero_telephone.errors or form.pays.errors %}
+            <div class="text-danger small mt-1">Veuillez vérifier le pays et le numéro.</div>
+        {% endif %}
     </div>
 
     <div class="mb-3">
         <label class="form-label">Adresse email</label>
-        <input type="email" class="form-control" required>
+        {{ form.email }}
+        {% if form.email.errors %}
+            <div class="invalid-feedback">Veuillez entrer une adresse email valide.</div>
+        {% endif %}
     </div>
 
     <div class="mb-4">
         <label class="form-label">Destination souhaitée</label>
-        <select class="form-select" required>
-            <option value="">Choisir une destination</option>
-            {% for pays_destinations in pays_destinations %}
-            <option>{{ pays_destinations.nom }}</option>
-            {% endfor %}
-        </select>
-    </div>
-
-    <!-- Conditions -->
-    <div class="form-check mb-4">
-        <input class="form-check-input" type="checkbox" id="termsCheck" required>
-        <label class="form-check-label small text-muted" for="termsCheck">
-            J’accepte les <a href="#" class="text-gold text-decoration-none">conditions d’utilisation</a>
-            et la politique de confidentialité
-        </label>
+        {{ form.destination }}
+        {% if form.destination.errors %}
+            <div class="invalid-feedback">Veuillez choisir une destination.</div>
+        {% endif %}
     </div>
 
     <button type="submit" class="btn btn-agen-colr w-100 py-2">
@@ -260,170 +257,175 @@
     </button>
 </form>
 
-
             </div>
         </div>
     </div>
 </div>
 
 <section class="container py-5">
-        <div class="row g-5">
+    <div class="row g-5">
 
-            <!-- PARTIE GAUCHE -->
-            <div class="col-lg-6 d-flex flex-column justify-content-center">
-                
-                <h4 class="fw-bold mb-3 text-title-blue">
-                    Rejoignez notre Communauté !
-                </h4>
-                <p class="lead mb-4 text-muted">
-                    Restez informé de toutes nos actualités, événements exclusifs et conseils d'experts...
-                </p>
+        <!-- PARTIE GAUCHE -->
+        <div class="col-lg-6 d-flex flex-column justify-content-center">
 
-              
-                 <div class="container mt-5">
-        <div class="d-flex gap-3 mb-5">
-            <a href="{% url 'shine:mentorat' %}" class="btn btn-agen-colr  px-4 btn-md ">Devenir un mentor</a>
-            <a href="{% url 'shine:contact' %}" class="btn btn-outline-agen-colr btn-md ">Contactez-nous</a>
-        </div>
-
-        </div>
-<div class="card p-4 shadow-sm bg-white">
-    <h5 class="mb-3 fw-bold text-title-blue">Abonnez-vous à la Newsletter</h5>
-    
-    <form id="newsletter-form" method="post" action="{% url 'shine:newsletter' %}">
-        {% csrf_token %}
-        <div class="input-group">
-            <input type="email" name="email" required
-                   class="form-control form-control-lg form-control-email-news" 
-                   placeholder="Votre adresse email">
-            
-            <button class="btn btn-responsive-warning" type="submit">S'abonner</button>
-        </div>
-        
-        <div id="newsletter-message" class="mt-2"></div>
-        
-        <small class="form-text text-muted mt-2 d-block">
-            Promis, nous ne spammerons pas votre boîte de réception.
-        </small>
-    </form>
-</div>
-            </div>
-            
-            <!-- PARTIE BLOG / ACTUALITÉS -->
-            <div class="col-lg-6">
-                <h4 class="fw-bold mb-4 text-center text-lg-start text-title-blue">Blog / Actualités Récentes</h4>
-                
-                <div class="d-flex  gap-3 flex-custom-card ">
-
-                   {% for art in articles %}
-<div class="custom-blog-card shadow-sm h-100 border-0">
-    
-    {% if art.image %}
-        <img src="{{ art.image.url }}" alt="{{ art.titre }}" class="blog-img" style="height: 190px; object-fit: cover; width: 100%;">
-    {% else %}
-        <div class="d-flex align-items-center justify-content-center p-4 text-center" 
-             style="height: 200px; background: linear-gradient(135deg, #122046 0%, #1c356d 100%); color: white;">
-            <h5 class="fw-bold mb-0" style="opacity: 0.9;">{{ art.titre|truncatechars:50 }}</h5>
-        </div>
-    {% endif %}
-
-    <div class="p-3 d-flex flex-column justify-content-between" style="min-height: 180px;">
-        <div>
-            <h6 class="fw-bold text-title-blue mb-2">{{ art.titre }}</h6>
-            <p class="text-muted small mb-2">
-                {{ art.contenu|truncatewords:15 }}
+            <h4 class="fw-bold mb-3 text-title-blue">
+                Rejoignez notre Communauté !
+            </h4>
+            <p class="lead mb-4 text-muted">
+                Restez informé de toutes nos actualités, événements exclusifs et conseils d'experts...
             </p>
-        </div>
-        
-        <div class="mt-auto">
-            <a href="{% url 'shine:detail_blog' art.slug %}" class="btn btn-sm btn-responsive-warning w-100">Lire plus</a>
-        </div>
-    </div>
-</div>
-{% endfor %}
 
+
+            <div class="container mt-5">
+                <div class="d-flex gap-3 mb-5">
+                    <a href="{% url 'shine:mentorat' %}" class="btn btn-agen-colr  px-4 btn-md ">Devenir un mentor</a>
+                    <a href="{% url 'shine:contact' %}" class="btn btn-outline-agen-colr btn-md ">Contactez-nous</a>
                 </div>
-            </div>
 
+            </div>
+            <div class="card p-4 shadow-sm bg-white">
+                <h5 class="mb-3 fw-bold text-title-blue">Abonnez-vous à la Newsletter</h5>
+
+                <form id="newsletter-form" method="post" action="{% url 'shine:newsletter' %}">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input type="email" name="email" required
+                            class="form-control form-control-lg form-control-email-news"
+                            placeholder="Votre adresse email">
+
+                        <button class="btn btn-responsive-warning" type="submit">S'abonner</button>
+                    </div>
+
+                    <div id="newsletter-message" class="mt-2"></div>
+
+                    <small class="form-text text-muted mt-2 d-block">
+                        Promis, nous ne spammerons pas votre boîte de réception.
+                    </small>
+                </form>
+            </div>
         </div>
+
+        <!-- PARTIE BLOG / ACTUALITÉS -->
+        <div class="col-lg-6">
+            <h4 class="fw-bold mb-4 text-center text-lg-start text-title-blue">Blog / Actualités Récentes</h4>
+
+            <div class="d-flex  gap-3 flex-custom-card ">
+
+                {% for art in articles %}
+                <div class="custom-blog-card shadow-sm h-100 border-0">
+
+                    {% if art.image %}
+                    <img src="{{ art.image.url }}" alt="{{ art.titre }}" class="blog-img"
+                        style="height: 190px; object-fit: cover; width: 100%;">
+                    {% else %}
+                    <div class="d-flex align-items-center justify-content-center p-4 text-center"
+                        style="height: 200px; background: linear-gradient(135deg, #122046 0%, #1c356d 100%); color: white;">
+                        <h5 class="fw-bold mb-0" style="opacity: 0.9;">{{ art.titre|truncatechars:50 }}</h5>
+                    </div>
+                    {% endif %}
+
+                    <div class="p-3 d-flex flex-column justify-content-between" style="min-height: 180px;">
+                        <div>
+                            <h6 class="fw-bold text-title-blue mb-2">{{ art.titre }}</h6>
+                            <p class="text-muted small mb-2">
+                                {{ art.contenu|truncatewords:15 }}
+                            </p>
+                        </div>
+
+                        <div class="mt-auto">
+                            <a href="{% url 'shine:detail_blog' art.slug %}"
+                                class="btn btn-sm btn-responsive-warning w-100">Lire plus</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+
+    </div>
 </section>
 
 
 <section class="py-5" style="background-color:#f8f9fa;">
-  <div class="container">
+    <div class="container">
 
-    <!-- TITRE -->
-    <div class="row justify-content-center mb-5">
-      <div class="col-lg-9 text-center">
-        <h3 class="fw-bolder mb-3 text-title-blue">
-          Ce que disent nos clients
-        </h3>
-        <p class="lead text-muted">
-          Des témoignages réels, issus de nos accompagnements.
-        </p>
-      </div>
-    </div> 
-    
+        <!-- TITRE -->
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-9 text-center">
+                <h3 class="fw-bolder mb-3 text-title-blue">
+                    Ce que disent nos clients
+                </h3>
+                <p class="lead text-muted">
+                    Des témoignages réels, issus de nos accompagnements.
+                </p>
+            </div>
+        </div>
 
-    <div id="testimonialCarousel" class="carousel slide carousel-single-mobile" data-bs-ride="carousel">
-    <div class="carousel-inner pb-5">
 
-        {% for av in avis %}
-            {# Ouvre un nouveau slide tous les 3 avis #}
-            {% if forloop.counter0|divisibleby:3 %}
-            <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                <div class="row g-4 justify-content-center">
-            {% endif %}
+        <div id="testimonialCarousel" class="carousel slide carousel-single-mobile" data-bs-ride="carousel">
+            <div class="carousel-inner pb-5">
 
-            <div class="col-md-6 col-lg-4">
-                <div class="card p-4 border-0 shadow-lg rounded-4 testimonial-card h-100">
-                    <div class="text-warning mb-3">★★★★★</div>
-                    <p class="text-muted mb-4">
-                        {{ av.avis }}
-                    </p>
-                    <div class="d-flex align-items-center mt-auto">
-                        {% if av.photo_client %}
-                            <img src="{{ av.photo_client.url }}"
-                                 class="rounded-circle me-3 icon-user"
-                                 alt="{{ av.nom_client }}"
-                                 >
-                        {% else %}
-                            <div class="rounded-circle me-3 d-flex align-items-center justify-content-center text-white fw-bold" 
-                                >
-                                {{ av.nom_client|slice:":1" }}
-                            </div>
+                {% for av in avis %}
+                {# Ouvre un nouveau slide tous les 3 avis #}
+                {% if forloop.counter0|divisibleby:3 %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div class="row g-4 justify-content-center">
                         {% endif %}
-                        <div>
-                            <h6 class="fw-bold mb-0 user-name">{{ av.nom_client }}</h6>
-                            <small class="text-muted">{{ av.poste_client }}</small>
+
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card p-4 border-0 shadow-lg rounded-4 testimonial-card h-100">
+                                <div class="text-warning mb-3">★★★★★</div>
+                                <p class="text-muted mb-4">
+                                    {{ av.avis }}
+                                </p>
+                                <div class="d-flex align-items-center mt-auto">
+                                    {% if av.photo_client %}
+                                    <img src="{{ av.photo_client.url }}" class="rounded-circle me-3 icon-user"
+                                        alt="{{ av.nom_client }}">
+                                    {% else %}
+                                    <div
+                                        class="rounded-circle me-3 d-flex align-items-center justify-content-center text-white fw-bold">
+                                        {{ av.nom_client|slice:":1" }}
+                                    </div>
+                                    {% endif %}
+                                    <div>
+                                        <h6 class="fw-bold mb-0 user-name">{{ av.nom_client }}</h6>
+                                        <small class="text-muted">{{ av.poste_client }}</small>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
+                        {# Ferme le slide après le 3ème avis ou à la fin de la boucle #}
+                        {% if forloop.counter|divisibleby:3 or forloop.last %}
                     </div>
                 </div>
+                {% endif %}
+                {% empty %}
+                <p class="text-center">Aucun témoignage pour le moment.</p>
+                {% endfor %}
+
             </div>
 
-            {# Ferme le slide après le 3ème avis ou à la fin de la boucle #}
-            {% if forloop.counter|divisibleby:3 or forloop.last %}
-                </div>
-            </div>
-            {% endif %}
-        {% empty %}
-            <p class="text-center">Aucun témoignage pour le moment.</p>
-        {% endfor %}
-
+            <button class="carousel-control-prev avis-carousel-btn" type="button" data-bs-target="#testimonialCarousel"
+                data-bs-slide="prev">
+                <span class="p-3 rounded-circle d-flex align-items-center justify-content-center shadow"
+                    style="background-color: #c39d3b; width: 40px; height: 40px;">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"
+                        style="filter: brightness(0) invert(1);"></span>
+                </span>
+            </button>
+            <button class="carousel-control-next avis-carousel-btn" type="button" data-bs-target="#testimonialCarousel"
+                data-bs-slide="next">
+                <span class="p-3 rounded-circle d-flex align-items-center justify-content-center shadow"
+                    style="background-color: #c39d3b; width: 40px; height: 40px;">
+                    <span class="carousel-control-next-icon" aria-hidden="true"
+                        style="filter: brightness(0) invert(1);"></span>
+                </span>
+            </button>
+        </div>
     </div>
-
-    <button class="carousel-control-prev avis-carousel-btn" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
-        <span class="p-3 rounded-circle d-flex align-items-center justify-content-center shadow" style="background-color: #c39d3b; width: 40px; height: 40px;">
-            <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: brightness(0) invert(1);"></span>
-        </span>
-    </button>
-    <button class="carousel-control-next avis-carousel-btn" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
-        <span class="p-3 rounded-circle d-flex align-items-center justify-content-center shadow" style="background-color: #c39d3b; width: 40px; height: 40px;">
-            <span class="carousel-control-next-icon" aria-hidden="true" style="filter: brightness(0) invert(1);"></span>
-        </span>
-    </button>
-</div>
-  </div>
 </section>
 
 

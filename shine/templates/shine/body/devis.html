@@ -60,7 +60,8 @@
             <div class="col-lg-6">
                             <div class="card shadow-lg rounded p-4 bg-white text-dark">
                     <h4 class="mb-3">Demander un devis</h4>
-                    
+                                            <div id="response-message" class="mt-2 text-center"></div>
+
                  
                          {% if messages %} 
                     {% for message in messages %}
@@ -75,11 +76,11 @@
                     </div>
                     {% endfor %} 
                     {% endif %}
-               <form method="post"  enctype="multipart/form-data">
+               <form method="post"  enctype="multipart/form-data" id="ajax-devis-form">
     {% csrf_token %}
 
     <div class="mb-3">
-        <label class="form-label fw-bold">Nom complet *</label>
+        <label class="form-label fw-bold">Nom complet *</label> 
         {{ form.nom }}
         {% if form.nom.errors %}
             <div class="text-danger small">{{ form.nom.errors.0 }}</div>

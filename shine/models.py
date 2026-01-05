@@ -375,3 +375,15 @@ class FAQ(models.Model):
     def __clug__(self):
         # On crée un slug basé sur le titre du service pour le filtrage JS
         return self.service.slug
+###
+from django_countries.fields import CountryField
+class Consultation(models.Model):
+    nom_complet = models.CharField(max_length=255)
+    email = models.EmailField()
+    pays = CountryField()
+    numero_telephone = PhoneNumberField()
+    destination = models.ForeignKey('PaysDestination', on_delete=models.CASCADE) # Assurez-vous que ce modèle existe
+    date_demande = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.nom_complet} - {self.destination.nom}"

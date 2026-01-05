@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib import messages
-from .forms import DemandeDevisForm, ContactMessageForm, NewsLetterForm
+from .forms import DemandeDevisForm, ContactMessageForm, NewsLetterForm,ConsultationForm
 from .models import PackService, Service, News_letter,Blog,PaysDestination,Bourse,StatutBourse,Service,FAQ
 from django.core.paginator import Paginator
 from django.http import JsonResponse
@@ -11,12 +11,29 @@ from django.contrib import messages # Pour les messages de succès
 def home(request):
     articles = Blog.objects.all().order_by('-date_publication')[:3]
     pays_destinations = PaysDestination.objects.filter(is_active=True).order_by('nom')
-    
-    context={
-        'articles':articles,
-        'pays_destinations':pays_destinations,
+   
+    if request.method == 'POST':
+        form = ConsultationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({
+                'status': 'success',
+                'message': 'Votre réservation a été confirmée !'
+            })
+        else:
+            return JsonResponse({
+                'status': 'error',
+                'message': 'Veuillez corriger les erreurs ci-dessous.',
+                'errors': form.errors.get_json_data()
+            }, status=400)
+
+    # Pour le chargement initial de la page
+    context = {
+        'articles': articles,
+        'pays_destinations': pays_destinations,
+        'form': ConsultationForm()
     }
-    return render(request,'shine/body/index.html',context)
+    return render(request, 'shine/body/index.html', context)
 #............................................................................................
 
 

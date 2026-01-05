@@ -117,7 +117,7 @@
                     {% endfor %} 
                     {% endif %}
 
-                    <form method="post" enctype="multipart/form-data">
+                    <form method="post" enctype="multipart/form-data" id="contact-form">
                         {% csrf_token %} {% if form.non_field_errors %}
                         <div class="alert alert-danger">{{ form.non_field_errors }}</div>
                         {% endif %}

@@ -8,8 +8,13 @@
 {% block content %}
 <!-- HERO BANNER -->
 <section class="hero-banner">
+{% if services_hero.image_service  %}
+                <img src="{{ services_hero.image_service.url }}" class="hero-bg" alt="{{ services_hero.titre }}">
+{% else %}
+
                 <img src="{% static 'images/bourse.jpg'%}" class="hero-bg" alt="">
                     <div class="hero-overlay"></div>
+{% endif %}
 
     <div class="container hero-content">
         <div class="row ">
@@ -18,7 +23,7 @@
             <h2 class="fw-bold ">{{ services_hero.titre_blanc }}<span class="text-title-gold">{{ services_hero.titre_shine }}</span></h2>
         <p class="lead">{{ services_hero.text_hero }}</p>
 
-                        <a href="#" class="btn btn-agen-colr  btn-sm px-4 py-2 fw-bold">
+                        <a href="{% url 'shine:services' services_hero.slug %}#packsshine" class="btn btn-agen-colr  btn-sm px-4 py-2 fw-bold">
             {{ services_hero.button_hero_fist }}
         </a>
             </div>
@@ -29,7 +34,7 @@
     </div>
 </section>
 
-<section class="py-5 position-relative" style="
+<section class="py-5 position-relative" id="packsshine"  style="
     background: linear-gradient(135deg, #122046 60%, #c39d3b33);
     overflow: hidden;
 ">
