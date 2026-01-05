@@ -3,12 +3,10 @@
 {% block title %}{% endblock title %}
 
 {% block content %}
-<section class="hero-banner">   
+<section class="hero-banner">
 
     <!-- Image -->
-    <img src="{% static 'images/hero_devis.jpg' %}" 
-         alt="Étudiants à l'université"
-         class="hero-bg">
+    <img src="{% static 'images/hero_devis.jpg' %}" alt="Étudiants à l'université" class="hero-bg">
 
     <!-- Overlay bleu foncé transparent -->
     <div class="hero-overlay"></div>
@@ -18,15 +16,16 @@
         <div class="row">
             <div class="col-lg-6">
                 <h1 class="hero-title">
-                    Demande de Devis Gratuit
+                    Demande de <span class="text-title-gold">Devis Gratuit</span>
                 </h1>
                 <p class="hero-text">
-                    Obtenez une estimation personnalisée pour vos études à l'étranger avec Shine Agency. Remplissez le formulaire ci-dessous pour recevoir un devis gratuit adapté à vos besoins académiques et financiers.
-                
-            Un conseiller vous répond sous 24h, sans engagement.
-       
-                </p>
+                    Obtenez une estimation personnalisée pour vos études à l'étranger avec Shine Agency. Remplissez le
+                    formulaire ci-dessous pour recevoir un devis gratuit adapté à vos besoins académiques et financiers.
 
+                    Un conseiller vous répond sous 24h, sans engagement.
+
+                </p>
+                  <a href="{% url 'shine:devis' %}#form-devis" class="btn btn-responsive-warning me-2">Nous  répondons sous 24h</a>
             </div>
         </div>
     </div>
@@ -40,16 +39,19 @@
             <div class="col-lg-6 mb-4 mb-lg-0 text-center text-lg-start">
                 <div class="p-4" style="border-left: 5px solid #e2b740; background-color: #f8f9fa; border-radius: 8px;">
                     <span style="font-size: 3rem;">🚀</span>
-                    <h2 class="fw-bolder mb-3 mt-2 text-title-blue" >
+                    <h2 class="fw-bolder mb-3 mt-2 text-title-blue">
                         Prêt(e) à faire le <span class="text-title-gold">grand saut</span> ?
                     </h2>
                     <p class="lead mb-3" style="color: #343a40;">
                         Finies les hésitations ! C'est le moment de concrétiser ton projet d'études à l'étranger.
                     </p>
                     <ul class="list-unstyled text-start ms-3" style="color: #343a40;">
-                        <li class="mb-2"><i class="fas fa-check-circle me-2 text-title-gold" ></i> Devis 100% Gratuit.</li>
-                        <li class="mb-2"><i class="fas fa-check-circle me-2 text-title-gold" ></i> Réponse ultra-rapide (moins de 24h).</li>
-                        <li><i class="fas fa-check-circle me-2 text-title-gold"></i> 0% d'engagement, 100% de conseils !</li>
+                        <li class="mb-2"><i class="fas fa-check-circle me-2 text-title-gold"></i> Devis 100% Gratuit.
+                        </li>
+                        <li class="mb-2"><i class="fas fa-check-circle me-2 text-title-gold"></i> Réponse ultra-rapide
+                            (moins de 24h).</li>
+                        <li><i class="fas fa-check-circle me-2 text-title-gold"></i> 0% d'engagement, 100% de conseils !
+                        </li>
                     </ul>
                     <p class="small mt-4 text-muted">
                         Ton futur t'attend, remplis ce formulaire et commençons l'aventure ! 🌍
@@ -58,78 +60,91 @@
             </div>
 
             <div class="col-lg-6">
-                            <div class="card shadow-lg rounded p-4 bg-white text-dark">
+                <div class="card shadow-lg rounded p-4 bg-white text-dark" id="devis-form">
                     <h4 class="mb-3">Demander un devis</h4>
-                                            <div id="response-message" class="mt-2 text-center"></div>
+                    <div id="response-message" class="mt-2 text-center"></div>
 
-                 
-                         {% if messages %} 
+
+                    {% if messages %}
                     {% for message in messages %}
                     <div class="alert alert-success">{{ message }}</div>
-                    {% endfor %} 
-                    {% endif %} 
-                    {% if form.email.errors %} 
-                    {% for error in form.email.errors %}
-                    <div class="text-danger small mt-1 animate__animated animate__shakeX">
-                        <i class="fas fa-exclamation-triangle me-1"></i> 
-                        {{ error }}
-                    </div>
-                    {% endfor %} 
+                    {% endfor %}
                     {% endif %}
-               <form method="post"  enctype="multipart/form-data" id="ajax-devis-form">
-    {% csrf_token %}
+                   
+                    <form method="post" enctype="multipart/form-data" id="ajax-devis-form" novalidate>
+                        {% csrf_token %}
+                     <div id="devis-message" class="ajax-response mb-3"></div>
 
-    <div class="mb-3">
-        <label class="form-label fw-bold">Nom complet *</label> 
-        {{ form.nom }}
-        {% if form.nom.errors %}
-            <div class="text-danger small">{{ form.nom.errors.0 }}</div>
-        {% endif %}
-    </div>
+                        <div class="mb-3">
+                          <label class="form-label" for="{{ form.nom.id_for_label }}">
+                                    <i class="fas fa-user icon-color me-1 text-title-gold"></i>
+                                    {{ form.nom.label }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                {{ form.nom }}
+                            {% comment %} {% if form.nom.errors %}
+                            <div class="invalid-feedback">{{ form.nom.errors.0 }}</div>
+                            {% endif %} {% endcomment %}
+                        </div>
 
-    <div class="mb-3">
-        <label class="form-label fw-bold">Email *</label>
-        {{ form.email }}
-        {% if form.email.errors %}
-            <div class="text-danger small">{{ form.email.errors.0 }}</div>
-        {% endif %}
-    </div>
+                        <div class="mb-3">
+                             <label class="form-label" for="{{ form.email.id_for_label }}">
+                                    <i class="fas fa-envelope icon-color me-1 text-title-gold"></i>
+                                    {{ form.email.label }} <span class="text-danger">*</span>
+                                </label>
+                                {{ form.email }}
+                            {% comment %} {% if form.email.errors %}
+                            <div class="invalid-feedback">{{ form.email.errors.0 }}</div>
+                            {% endif %} {% endcomment %}
+                        </div>
 
-    <div class="mb-3">
-        <label class="form-label fw-bold">Téléphone *</label>
-        <div class="row g-0">
-            <div class="col-5 col-md-4">
-                {{ form.pays }}
-            </div>
-            <div class="col-7 col-md-8">
-                {{ form.numero_telephone }}
-            </div>
-        </div>
-        {% if form.numero_telephone.errors %}
-            <div class="text-danger small mt-1">{{ form.numero_telephone.errors }}</div>
-        {% endif %}
-    </div>
+                        <div class="mb-3">
+                                                            <label class="form-label" for="telephone">
+                                    <i class="fas fa-phone-alt icon-color me-1 text-title-gold"></i>
+                                    Téléphone <span class="text-danger">*</span>
+                                </label>
+                            <div class="row g-0">
+                                <div class="col-5 col-md-4">
+                                    {{ form.pays }}
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    {{ form.numero_telephone }}
+                                </div>
+                            </div>
+                            {% comment %} {% if form.numero_telephone.errors %}
+                            <div class="text-danger small mt-1">{{ form.numero_telephone.errors }}</div>
+                            {% endif %} {% endcomment %}
+                        </div>
 
-    <div class="mb-3">
-        <label class="form-label fw-bold">Service souhaité *</label>
-        {{ form.service_souhaite }}
-        {% if form.service_souhaite.errors %}
-            <div class="text-danger small">{{ form.service_souhaite.errors }}</div>
-        {% endif %}
-    </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.service_souhaite.id_for_label }}">
+                                    <i class="fas fa-concierge-bell icon-color me-1 text-title-gold"></i>
+                                    {{ form.service_souhaite.label }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                {{ form.service_souhaite }}
+                            {% comment %} {% if form.service_souhaite.errors %}
+                            <div class="text-danger small">{{ form.service_souhaite.errors }}</div>
+                            {% endif %} {% endcomment %}
+                        </div>
 
-    <div class="mb-3">
-        <label class="form-label fw-bold">Détails de votre demande</label>
-        {{ form.contenu }}
-        {% if form.contenu.errors %}
-            <div class="text-danger small">{{ form.contenu.errors }}</div>
-        {% endif %}
-    </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.contenu.id_for_label }}">
+                                    <i class="fas fa-comment-dots icon-color me-1 text-title-gold"></i>
+                                    {{ form.contenu.label }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                            {{ form.contenu }}
+                            {% comment %} {% if form.contenu.errors %}
+                            <div class="text-danger small">{{ form.contenu.errors }}</div>
+                            {% endif %} {% endcomment %}
+                        </div>
 
-    <button type="submit" class="btn btn-primary btn-lg w-100 mt-3" style="background-color: #122046; border:none;">
-        Envoyer ma demande
-    </button>
-</form>
+                        <button type="submit" class="btn btn-primary btn-lg w-100 mt-3"
+                            style="background-color: #122046; border:none;">
+                            Envoyer ma demande
+                        </button>
+                    </form>
 
 
 
@@ -139,5 +154,5 @@
         </div>
     </div>
 </section>
-  
+
 {% endblock content %}

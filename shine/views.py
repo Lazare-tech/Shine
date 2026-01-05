@@ -37,7 +37,6 @@ def home(request):
 #............................................................................................
 
 
-
 def contact_view(request):
     if request.method == 'POST':
         data = request.POST.copy()
@@ -46,28 +45,42 @@ def contact_view(request):
 
         form = ContactMessageForm(data)
 
+        # Logique de validation du téléphone
         if code_pays and numero_local:
             try:
-                # On essaie de formater
                 parsed_number = phonenumbers.parse(numero_local, code_pays)
                 if phonenumbers.is_valid_number(parsed_number):
                     formatted = phonenumbers.format_number(
                         parsed_number, phonenumbers.PhoneNumberFormat.E164
                     )
                     data['numero_telephone'] = formatted
-                    form.data = data # On met à jour le formulaire avec le format +226...
+                    form.data = data 
                 else:
-                    # MESSAGE D'ERREUR PERSONNALISÉ
-                    form.add_error('numero_telephone', f"Le numéro saisi n'est pas valide pour le pays choisi ({code_pays}).")
+                    form.add_error('numero_telephone', f"Numéro invalide pour le pays ({code_pays}).")
             except Exception:
-                form.add_error('numero_telephone', "Veuillez entrer un numéro de téléphone valide.")
+                form.add_error('numero_telephone', "Veuillez entrer un numéro valide.")
 
+        # VERIFICATION AJAX
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            if form.is_valid():
+                form.save()
+                return JsonResponse({
+                    'status': 'success',
+                    'message': 'Votre message a été envoyé avec succès !'
+                })
+            else:
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'Veuillez corriger les erreurs ci-dessous.',
+                    'errors': form.errors.get_json_data() # Envoie les erreurs par champ
+                }, status=400)
+
+        # Logique classique (si pas AJAX)
         if form.is_valid():
             form.save()
-            # 1. On ajoute un message de succès
             messages.success(request, "Votre message a été envoyé avec succès !")
-            # 2. ON REDIRIGE pour vider le formulaire
             return redirect('shine:contact') 
+            
     else:
         form = ContactMessageForm()
     
@@ -91,40 +104,48 @@ def about(request):
     return render(request,'shine/body/about.html')    
 #............................................................................................
 def demande_devis_view(request):
+    form = DemandeDevisForm(request.POST or None)
+    
     if request.method == 'POST':
         data = request.POST.copy()
         code_pays = data.get('pays') 
         numero_local = data.get('numero_telephone')
-        form = DemandeDevisForm(data)
 
-        # On fait notre validation personnalisée
         if code_pays and numero_local:
             try:
                 import phonenumbers
                 parsed_number = phonenumbers.parse(numero_local, code_pays)
                 if phonenumbers.is_valid_number_for_region(parsed_number, code_pays):
-                    # Succès : on formate
                     data['numero_telephone'] = phonenumbers.format_number(
                         parsed_number, phonenumbers.PhoneNumberFormat.E164
                     )
                     form.data = data 
                 else:
-                    # ERREUR PERSONNALISÉE EN FRANÇAIS
                     form.add_error('numero_telephone', f"Le numéro n'est pas valide pour le pays choisi ({code_pays}).")
             except Exception:
                 form.add_error('numero_telephone', "Veuillez entrer un numéro de téléphone valide.")
 
+        # --- GESTION DE LA RÉPONSE AJAX ---
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            if form.is_valid():
+                form.save()
+                return JsonResponse({
+                    'status': 'success', 
+                    'message': 'Votre demande de devis a été envoyée avec succès !'
+                })
+            else:
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'Veuillez corriger les erreurs ci-dessous.',
+                    'errors': form.errors.get_json_data() # Envoie les erreurs propres de Django au JS
+                }, status=400)
 
-        # Réponse AJAX
+        # --- CAS CLASSIQUE (SANS AJAX) ---
         if form.is_valid():
             form.save()
-            messages.success(request, "Votre message a été envoyé avec succès !")
-            return redirect('shine:devis') 
+            messages.success(request, "Votre demande a été envoyée !")
+            return redirect('shine:devis')
 
-
-    else:
-            # Ici, form.errors contiendra maintenant ton message en français
-        form = DemandeDevisForm()
     return render(request, 'shine/body/devis.html', {'form': form})
 #............................................................................................
 def mentorat(request):
