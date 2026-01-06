@@ -14,7 +14,6 @@ def info_contact_processor(request):
         'phone_number_bobo': 'Bobo-Dioulasso:+226 70 24 24 24',
         'phone_number_ouaga': 'Ouagadougou:+226 60 79 78 31',
         'phone_number_france': 'France:+33 7 59 86 92 56',
-        'whatsapp_number': '+33 7 63 12 99 59',
         'email_address':'shineagency226@gmail.com',
         'location':'Burkina-Faso,Bobo-Dioulasso,secteur 5 face à megamonde ',
     }

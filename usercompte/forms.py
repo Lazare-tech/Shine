@@ -6,33 +6,41 @@ from django_countries.fields import CountryField
 from phonenumber_field.formfields import PhoneNumberField
 from phonenumber_field.widgets import PhoneNumberPrefixWidget
 import phonenumbers
-
+from phonenumber_field.phonenumber import to_python
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from django.contrib.auth.password_validation import validate_password
 
 class RegistrationForm(UserCreationForm):
     statut = forms.ModelChoiceField(
         queryset=StatutUtilisateur.objects.all(),
         empty_label="Sélectionnez votre statut",
-        widget=forms.Select(attrs={'class': 'form-select shadow-sm'})
+        widget=forms.Select(attrs={'class': 'form-select shadow-sm'}),
+        error_messages={'required': "Le statut est obligatoire."} # Ajoutez ceci
     )
-    profil_name=forms.ModelChoiceField(
+    profil_name = forms.ModelChoiceField(
         queryset=ProfilUtilisateur.objects.exclude(profil_name__icontains='Mentor'),
         empty_label="Sélectionnez votre profil",
-        widget=forms.Select(attrs={'class': 'form-select shadow-sm'})
+        widget=forms.Select(attrs={'class': 'form-select shadow-sm'}),
+        error_messages={'required': "Le profil est obligatoire."} # Ajoutez ceci
     )
     pays = CountryField(blank_label='Sélectionnez votre pays').formfield(
-        widget=forms.Select(attrs={
-            'class': 'form-select shadow-sm',
-            'style': 'max-width: none !important; border-radius: 8px 0 0 8px;' # Correction affichage
-        })
+        widget=forms.Select(attrs={'class': 'form-select shadow-sm'}),
+        error_messages={'required': "Veuillez sélectionner un pays."} # Ajoutez ceci
     )
-    phone = PhoneNumberField(
-        region=None, 
+    # phone = PhoneNumberField(
+    #     widget=forms.TextInput(attrs={'class': 'form-control shadow-sm'}),
+    #     error_messages={'required': "Le numéro de téléphone est obligatoire."} # Ajoutez ceci
+    # )
+    phone = forms.CharField(
         widget=forms.TextInput(attrs={
             'class': 'form-control shadow-sm',
-            'placeholder': '70112233',
+            'placeholder': 'Numéro (ex: 70123456)',
             'style': 'border-radius: 0 8px 8px 0;'
-        })
+        }),
+        error_messages={'required': "Le numéro de téléphone est obligatoire."}
     )
+
     class Meta(UserCreationForm.Meta):
         model = User
         # L'username est retiré d'ici car on le remplit via l'email dans save()
@@ -65,52 +73,140 @@ class RegistrationForm(UserCreationForm):
             'street_name': forms.TextInput(attrs={'class': 'form-control shadow-sm'}),
            
         }
+        error_messages = {
+            'first_name': {'required': "Le prénom est obligatoire."},
+            'last_name': {'required': "Le nom est obligatoire."},
+            'email': {
+                'required': "L'adresse email est obligatoire.",
+                'invalid': "Entrez une adresse email valide."
+            },
+            'nationality': {'required': "La nationalité est obligatoire."},
+            'birth_year': {'required': "La date de naissance est obligatoire."},
+            'gender': {'required': "Le genre est obligatoire."},
+            'country': {'required': "Le pays de résidence est obligatoire."},
+            'city': {'required': "La ville est obligatoire."},
+            'code_postal': {'required': "Le code postal est obligatoire."},
+            'street_number': {'required': "Le numéro de rue est obligatoire."},
+            'street_name': {'required': "Le nom de la rue est obligatoire."},
+            'password1': {'required': "Le mot de passe est obligatoire."},
+            'password2': {'required': "La confirmation est obligatoire."},
+        }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        
+        # Validation Django
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
+        self.fields['street_number'].required = True # AJOUTÉ
+        self.fields['street_name'].required = True   # AJOUTÉ
+        
         for field_name, field in self.fields.items():
-            # Force la classe de base si elle n'existe pas
             existing_classes = field.widget.attrs.get('class', 'form-control shadow-sm')
             
-            # Ajout du rouge si Django détecte une erreur au rechargement
+            # Ajout du rouge si erreur serveur précédente
             if self.errors.get(field_name):
                 if 'is-invalid' not in existing_classes:
                     existing_classes = f"{existing_classes} is-invalid"
             
             field.widget.attrs['class'] = existing_classes.strip()
-            field.widget.attrs['required'] = 'required'
-    
+
+            # SUPPRESSION DE LA BULLE NAVIGATEUR
+            # On retire l'attribut HTML 'required' pour laisser le JS gérer les messages
+            field.widget.attrs.pop('required', None)
+
     def clean_email(self):
+        """ Vérifie le format et l'unicité de l'email """
         email = self.cleaned_data.get('email')
+        # Format
+        try:
+            validate_email(email)
+        except ValidationError:
+            raise forms.ValidationError("Veuillez entrer une adresse email valide.")
+        
+        # Unicité
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError("Cette adresse email est déjà utilisée.")
         return email
 
-
+    
+ 
+    # def clean_password1(self):
+    #     password = self.cleaned_data.get("password1")
+    #     if password:
+    #         try:
+    #             # Lance les validateurs standards de Django (trop court, trop commun, etc.)
+    #             validate_password(password, self.instance)
+    #         except ValidationError as errors:
+    #             # On intercepte les erreurs pour les traduire
+    #             translated_errors = []
+    #             for error in errors.messages:
+    #                 if "too common" in error.lower():
+    #                     translated_errors.append("Ce mot de passe est trop commun.")
+    #                 elif "too short" in error.lower():
+    #                     translated_errors.append("Le mot de passe doit contenir au moins 8 caractères.")
+    #                 elif "entirely numeric" in error.lower():
+    #                     translated_errors.append("Le mot de passe ne peut pas être entièrement numérique.")
+    #                 else:
+    #                     translated_errors.append(error)
+    #             raise ValidationError(translated_errors)
+    #     return password
     def clean(self):
         cleaned_data = super().clean()
-        pays_code = cleaned_data.get('pays') # Renvoie 'BF', 'FR', 'CI', etc.
+        # ATTENTION : Utilisez bien le nom du champ CountryField (ici 'pays')
+        pays_code = cleaned_data.get('pays') 
         phone_raw = cleaned_data.get('phone')
+        password1 = cleaned_data.get("password1")
+        password2 = cleaned_data.get("password2")
 
+        # Vérification de la correspondance des mots de passe
+        # 1. On vérifie d'abord si les deux mots de passe correspondent
+        if password1 and password2:
+            if password1 != password2:
+                self.add_error('password2', "Les deux mots de passe ne correspondent pas.")
+            else:
+                # 2. Si ils correspondent, on vérifie la sécurité sur le premier champ uniquement
+                try:
+                    validate_password(password1, self.instance)
+                except ValidationError as errors:
+                    for error in errors.messages:
+                        if "too common" in error.lower():
+                            msg = "Ce mot de passe est trop commun."
+                        elif "too short" in error.lower():
+                            msg = "Le mot de passe doit contenir au moins 8 caractères."
+                        elif "entirely numeric" in error.lower():
+                            msg = "Le mot de passe ne peut pas être entièrement numérique."
+                        elif "too similar" in error.lower():
+                            msg = "Le mot de passe est trop proche de vos informations personnelles."
+                        else:
+                            msg = error
+                        
+                        # On attache l'erreur au premier champ
+                        self.add_error('password1', msg)
         if pays_code and phone_raw:
             try:
-                # 1. On convertit l'objet PhoneNumber en chaîne brute
-                phone_str = str(phone_raw)
+                # On parse avec la région (ex: 'BF', 'FR', 'CI')
+                # Si pays_code est un objet Country, on le force en string
+                region = str(pays_code)
+                parsed_phone = phonenumbers.parse(phone_raw, region)
                 
-                # 2. On parse le numéro avec le code pays en contexte
-                # (Cela permet de valider même si l'utilisateur n'a pas tapé +226)
-                parsed_number = phonenumbers.parse(phone_str, pays_code)
-                
-                # 3. On vérifie si le numéro est valide pour CETTE région spécifique
-                if not phonenumbers.is_valid_number_for_region(parsed_number, pays_code):
-                    # On récupère l'exemple de format pour aider l'utilisateur
-                    example = phonenumbers.get_example_number(pays_code)
-                    self.add_error('phone', f"Numéro invalide pour ce pays. Exemple attendu: {example.national_number}")
-                    
+                # Vérification de la validité pour la région choisie
+                if not phonenumbers.is_valid_number_for_region(parsed_phone, region):
+                    example = phonenumbers.get_example_number(region)
+                    example_num = example.national_number if example else "incorrect"
+                    # On utilise add_error pour que l'erreur s'affiche sur le champ 'phone'
+                    self.add_error('phone', f"Numéro invalide pour ce pays. Format attendu : {example_num}")
+                    print("Numéro de téléphone invalide.")
+                else:
+                    # Si valide, on enregistre le format international (+226...)
+                    cleaned_data['phone'] = phonenumbers.format_number(
+                        parsed_phone, phonenumbers.PhoneNumberFormat.E164
+                    )
+                    print("Numéro de téléphone valide.")
             except Exception:
-                self.add_error('phone', "Le format du numéro est incorrect.")
+                self.add_error('phone', "Format de numéro incorrect. Vérifiez le pays.")
                 
         return cleaned_data
-    
+ 
     def save(self, commit=True):
         # 1. On récupère l'objet user (en mémoire, pas encore en base)
         user = super().save(commit=False)
@@ -323,23 +419,27 @@ class ProfileUpdateForm(forms.ModelForm):
             'nationality': {'required': 'Ce champ est requis.'},
             'country': {'required': 'Veuillez sélectionner votre pays de résidence.'},
         }
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
-        # 1. On force les champs à être requis pour Django
+        # On garde la validation logique côté Django
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True
+        
         for field_name, field in self.fields.items():
-            # On ajoute la classe de base si elle n'existe pas
             existing_classes = field.widget.attrs.get('class', '')
             if 'custom-input' not in existing_classes:
                 field.widget.attrs.update({'class': f'{existing_classes} form-control custom-input'.strip()})
             
-            # Si le formulaire est soumis et contient une erreur sur ce champ, on ajoute 'is-invalid'
+            # GESTION DES ERREURS
             if self.is_bound and field_name in self.errors:
                 field.widget.attrs.update({'class': f"{field.widget.attrs['class']} is-invalid-custom"})
 
+            # --- LA SOLUTION EST ICI ---
+            # On supprime l'attribut HTML 'required' pour empêcher le navigateur d'afficher la bulle.
+            # Django validera quand même le champ car field.required est True.
+            if 'required' in field.widget.attrs:
+                del field.widget.attrs['required']
     def clean(self):
         cleaned_data = super().clean()
         pays_code = cleaned_data.get('pays')

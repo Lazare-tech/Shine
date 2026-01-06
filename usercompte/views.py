@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 ###
 from django.contrib import messages
-
+from django.http import JsonResponse
 def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request, data=request.POST)
@@ -67,26 +67,42 @@ def user_register_business(request):
 # #
 def user_admin_mentor(request):
     return render(request, 'usercompte/useradmin/mentoradmin.html')
+# def register_client_view(request):
+#     if request.method == 'POST':
+#         form = RegistrationForm(request.POST)
+#         if form.is_valid():
+#             # Ici, form.save() appelle la méthode que nous avons écrite au-dessus
+#             user = form.save() 
+#             messages.success(request, "Compte créé !")
+#             return redirect('usercompte:login')
+#         else:
+#             # En cas d'erreur, le script JS dans ton template 
+#             # te renverra à la bonne étape (1, 2 ou 4)
+#             print(form.errors)
+#             messages.error(request, "Erreur dans le formulaire.")
+#     else:
+#         form = RegistrationForm()
+
+#     return render(request, 'usercompte/userregister/clientregister.html', {'form': form})
+
 def register_client_view(request):
+    
+    form = RegistrationForm(request.POST or None)
+    
     if request.method == 'POST':
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            # Ici, form.save() appelle la méthode que nous avons écrite au-dessus
-            user = form.save() 
-            messages.success(request, "Compte créé !")
-            return redirect('usercompte:login')
-        else:
-            # En cas d'erreur, le script JS dans ton template 
-            # te renverra à la bonne étape (1, 2 ou 4)
-            print(form.errors)
-            messages.error(request, "Erreur dans le formulaire.")
-    else:
-        form = RegistrationForm()
-
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            if form.is_valid():
+                form.save()
+                return JsonResponse({'status': 'success', 'message': 'Compte créé avec succès !'})
+            else:
+                return JsonResponse({
+                    'status': 'error', 
+                    'message': 'Veuillez corriger les erreurs ci-dessous.', 
+                    'errors': form.errors.get_json_data()
+                }, status=400)
+    
     return render(request, 'usercompte/userregister/clientregister.html', {'form': form})
-
-
-##
+# ##
 def register_mentor_view(request):
     if request.method == 'POST':
         # On utilise le formulaire spécifique au mentor
