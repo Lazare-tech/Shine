@@ -52,7 +52,7 @@
 
     <div class="d-flex justify-content-between mb-3 small">
         <label><input type="checkbox" name="remember_me"> Se souvenir de moi</label>
-        <a href="#" class="text-title-blue fw-bold">Mot de passe oublié ?</a>
+        <a href="{% url 'usercompte:password_reset' %}" class="text-title-blue fw-bold">Mot de passe oublié ?</a>
     </div>
 
     <button type="submit" class="btn-shine w-100 text-white py-2">Continuer</button>
@@ -64,13 +64,6 @@
 </form>
     </div>
 </div>
-
-{% comment %} <script>
-function setRole(role){
-    document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
-}
-</script> {% endcomment %}
 
 <script>
 function setRole(role){

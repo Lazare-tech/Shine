@@ -391,3 +391,52 @@
 .btn-tiktok i {
     filter: drop-shadow(2px 0px 0px #fd3e3e) drop-shadow(-2px 0px 0px #4de8f4);
 }
+
+
+.progress-wrap {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    height: 46px;
+    width: 46px;
+    cursor: pointer;
+    display: block;
+    border-radius: 50px;
+    box-shadow: inset 0 0 0 2px rgba(18, 32, 70, 0.1);
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(15px);
+    transition: all 300ms linear;
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(5px);
+}
+
+.progress-wrap.active-progress {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.progress-wrap i {
+    position: absolute;
+    text-align: center;
+    line-height: 46px;
+    font-size: 16px;
+    color: var(--shine-dark-blue);
+    left: 0;
+    top: 0;
+    height: 46px;
+    width: 46px;
+    cursor: pointer;
+    display: block;
+    z-index: 1;
+}
+
+.progress-wrap svg.progress-circle path { 
+    fill: none; 
+    stroke: var(--shine-gold); /* Couleur du trait de progression */
+    stroke-width: 4;
+    box-sizing:border-box;
+    transition: all 300ms linear;
+}

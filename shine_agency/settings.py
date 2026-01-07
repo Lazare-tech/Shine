@@ -138,8 +138,16 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
+# Expire après 2 semaines même si le navigateur est fermé
+SESSION_COOKIE_AGE = 1209600 
 
-LANGUAGE_CODE = "en-us"
+# Si False, la session expire quand on ferme le navigateur (comportement par défaut)
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+# Permet de sauvegarder la session à chaque requête pour éviter qu'elle n'expire trop vite
+SESSION_SAVE_EVERY_REQUEST = True
+
+LANGUAGE_CODE = "fr-fr"
 
 TIME_ZONE = "UTC"
 

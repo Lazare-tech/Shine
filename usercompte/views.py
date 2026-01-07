@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login,logout
 from django.contrib import messages
@@ -10,6 +11,15 @@ from django.db import transaction
 ###
 from django.contrib import messages
 from django.http import JsonResponse
+from django.contrib.auth.views import (
+    PasswordResetView, 
+    PasswordResetDoneView, 
+    PasswordResetConfirmView, 
+    PasswordResetCompleteView
+)
+from django.urls import reverse_lazy
+from django.contrib.messages.views import SuccessMessageMixin
+#
 def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request, data=request.POST)
@@ -22,7 +32,7 @@ def login_view(request):
 
             if not chosen_role:
                 messages.error(request, "Veuillez sélectionner un profil (Client, Mentor, etc.)")
-                return render(request, 'usercompte/login.html', {'form': form})
+                return render(request, 'usercompte/connecting/login.html', {'form': form})
 
             # 3. VERIFICATION : Est-ce que le profil en base correspond au choix ?
             if user.profil:
@@ -31,11 +41,16 @@ def login_view(request):
                 # Comparaison (on vérifie si le mot clé est contenu dans le nom du profil)
                 if chosen_role not in db_role:
                     messages.error(request, f"Ce compte n'est pas enregistré en tant que {chosen_role.capitalize()}.")
-                    return render(request, 'usercompte/login.html', {'form': form})
+                    return render(request, 'usercompte/connecting/login.html', {'form': form})
 
                 # 4. Si c'est ok, on connecte
                 login(request, user)
-                
+                if request.POST.get('remember_me'):
+                    # L'utilisateur a coché : on utilise la durée du settings (2 semaines)
+                    request.session.set_expiry(settings.SESSION_COOKIE_AGE)
+                else:
+                    # L'utilisateur n'a PAS coché : on force l'expiration à la fermeture du navigateur
+                    request.session.set_expiry(0)
                 # 5. Redirection selon le profil confirmé
                 if 'mentor' in db_role:
                     return redirect('usercompte:adminmentor')
@@ -50,40 +65,17 @@ def login_view(request):
     else:
         form = LoginForm()
     
-    return render(request, 'usercompte/login.html', {'form': form})
+    return render(request, 'usercompte/connecting/login.html', {'form': form})
 
 #
 def user_register(request):
-    return render(request, 'usercompte/register.html')
+    return render(request, 'usercompte/connecting/register.html')
 #
-def user_register_mentor(request):
-    return render(request, 'usercompte/userregister/mentorregister.html')
-#
-def user_register_business(request):
-    return render(request, 'usercompte/userregister/businessregister.html')
-#
-# def user_admin_client(request):
-#     return render(request, 'usercompte/useradmin/clientadmin.html')
-# #
+
+
 def user_admin_mentor(request):
     return render(request, 'usercompte/useradmin/mentoradmin.html')
-# def register_client_view(request):
-#     if request.method == 'POST':
-#         form = RegistrationForm(request.POST)
-#         if form.is_valid():
-#             # Ici, form.save() appelle la méthode que nous avons écrite au-dessus
-#             user = form.save() 
-#             messages.success(request, "Compte créé !")
-#             return redirect('usercompte:login')
-#         else:
-#             # En cas d'erreur, le script JS dans ton template 
-#             # te renverra à la bonne étape (1, 2 ou 4)
-#             print(form.errors)
-#             messages.error(request, "Erreur dans le formulaire.")
-#     else:
-#         form = RegistrationForm()
-
-#     return render(request, 'usercompte/userregister/clientregister.html', {'form': form})
+#
 
 def register_client_view(request):
     
@@ -221,3 +213,21 @@ def update_mentor_profile(request):
         form = MentorProfileForm(instance=mentor_profile, initial=initial_data)
 
     return render(request, 'usercompte/useradmin/profile_m.html', {'form': form})
+##
+class MyPasswordResetView(SuccessMessageMixin, PasswordResetView):
+    template_name = 'usercompte/connecting/password_reset.html'
+    email_template_name = 'usercompte/connecting/password_reset_email.html'
+    subject_template_name = 'usercompte/connecting/password_reset_subject.txt'
+    success_url = reverse_lazy('usercompte:password_reset_done')
+    success_message = "Un lien de réinitialisation a été envoyé à votre adresse email."
+
+class MyPasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'usercompte/connecting/password_reset_done.html'
+
+class MyPasswordResetConfirmView(SuccessMessageMixin, PasswordResetConfirmView):
+    template_name = 'usercompte/connecting/password_reset_confirm.html'
+    success_url = reverse_lazy('usercompte:password_reset_complete')
+    success_message = "Votre mot de passe a été réinitialisé avec succès."
+
+class MyPasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'usercompte/connecting/password_reset_complete.html'

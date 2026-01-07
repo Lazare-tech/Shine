@@ -17,6 +17,37 @@
 
     <link rel="stylesheet" href="{% static 'fontawesome-free/css/all.min.css' %}">
     <link href="{% static 'fonts/fontawesome/css/all.min.css' %}" rel="stylesheet">
+    
+    <style>
+    .icon-box-gold {
+    width: 60px;
+    height: 60px;
+    background: rgba(184, 134, 11, 0.1);
+    color: #B8860B;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1.5rem;
+}
+
+.text-navy { color: #122046; }
+.text-gold { color: #B8860B; }
+
+.btn-outline-navy {
+    border: 2px solid #122046;
+    color: #122046;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-outline-navy:hover {
+    background: #122046;
+    color: #fff;
+}
+
+.extra-small { font-size: 0.75rem; }
+</style>
   </head>
   <body>
   <header>
@@ -29,8 +60,15 @@
    
     
     {% block content %}
-    {% endblock content %}
+    
   
+    {% endblock content %}
+    <div id="progress-wrap" class="progress-wrap">
+    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+    </svg>
+    <i class="fas fa-chevron-up"></i>
+</div>
 </main>
 
 
@@ -45,7 +83,7 @@
 
   <script type="text/javascript" src={% static "js/style.js" %}></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+<script type="text/javascript" src={% static 'js/scrolltop.js' %}></script>
   <!--links rel-->
 <!-- MDB JS -->
 {% block script %}{% endblock script %}
