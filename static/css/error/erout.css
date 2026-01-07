@@ -1,0 +1,92 @@
+ /* Variables de couleurs SHINE */
+    :root {
+        --shine-navy: #122046;
+        --shine-gold: #B8860B;
+        --shine-gold-light: #FFD700;
+        --gold-soft: rgba(184, 134, 11, 0.1);
+    }
+
+    .error-page {
+        background-color: #f8f9fa;
+        color: var(--shine-navy);
+    }
+
+    .fw-black { font-weight: 900; }
+    .text-navy { color: var(--shine-navy); }
+    .text-gold { color: var(--shine-gold); }
+    .bg-gold-soft { background-color: var(--gold-soft); }
+
+    /* Effet sur le titre 404 */
+    .error-title {
+        font-size: calc(6rem + 5vw);
+        line-height: 1;
+        background: linear-gradient(180deg, var(--shine-navy) 30%, var(--shine-gold) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -5px;
+        margin-bottom: 0;
+    }
+
+    /* Boutons personnalisés */
+    .btn-navy {
+        background-color: var(--shine-navy);
+        color: white;
+        border: none;
+    }
+
+    .btn-white {
+        background-color: white;
+        color: var(--shine-navy);
+    }
+
+    .shadow-gold {
+        box-shadow: 0 10px 30px rgba(18, 32, 70, 0.15);
+    }
+
+    .transition-hover:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 35px rgba(184, 134, 11, 0.25);
+        color: white !important;
+        background-color: var(--shine-gold);
+    }
+
+    /* Formes décoratives floues */
+    .bg-shape-1, .bg-shape-2 {
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        border-radius: 50%;
+        filter: blur(80px);
+        z-index: 0;
+        opacity: 0.4;
+    }
+
+    .bg-shape-1 {
+        background: var(--shine-gold-light);
+        top: -10%;
+        right: -5%;
+    }
+
+    .bg-shape-2 {
+        background: var(--shine-navy);
+        bottom: -10%;
+        left: -5%;
+    }
+
+    /* Liens footer personnalisés */
+    .nav-link-custom {
+        color: #6c757d;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: color 0.3s ease;
+    }
+
+    .nav-link-custom:hover {
+        color: var(--shine-gold);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 576px) {
+        .error-title { font-size: 8rem; }
+    }

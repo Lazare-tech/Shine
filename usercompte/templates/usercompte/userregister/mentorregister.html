@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
 
 <section class="container py-5" style="max-width:760px">
@@ -17,6 +18,7 @@
 
     <form id="mentorForm" class="shine-box p-4 bg-white shadow-lg rounded-4" method="POST" onsubmit="return validateFinalStep(event)">
         {% csrf_token %}
+    <div id="register-message" class="ajax-response"></div>
 
         <div id="step1">
             <h5 class="fw-bold mb-4 text-title-gold">1. Informations personnelles</h5>
@@ -160,92 +162,7 @@
         </div>
     </form>
 </section>
-<script>
-   function showStep(step) {
-    document.querySelectorAll('[id^="step"]').forEach(s => s.classList.add('hidden'));
-    document.getElementById('step' + step).classList.remove('hidden');
-    updateProgressBar(step);
-}
-
-// 1. Gérer les erreurs au chargement sans "flash"
-document.addEventListener("DOMContentLoaded", function() {
-    {% if form.errors or form.non_field_errors %}
-        let errorStep = 1;
-        {% if form.last_name.errors or form.first_name.errors or form.statut.errors %}
-            errorStep = 1;
-        {% elif form.email.errors or form.phone.errors %}
-            errorStep = 2;
-        {% elif form.job_title.errors or form.bank_rib.errors %}
-            errorStep = 3;
-        {% else %}
-            errorStep = 4;
-        {% endif %}
-        
-        // On affiche l'étape d'erreur immédiatement
-        showStep(errorStep);
-    {% endif %}
-    
-});
-
-// 2. Validation à chaque clic sur "Continuer"
-function nextStep(step) {
-    const currentContainer = document.getElementById('step' + (step - 1));
-    const inputs = currentContainer.querySelectorAll('input, select, textarea');
-    let isValid = true;
-
-    inputs.forEach(input => {
-        if (!input.checkValidity()) {
-            input.classList.add('is-invalid'); // Force le rouge
-            isValid = false;
-        } else {
-            input.classList.remove('is-invalid');
-        }
-    });
-
-    if (isValid) {
-        showStep(step);
-    } else {
-        currentContainer.querySelector(':invalid').reportValidity();
-    }
-}
-
-// 3. Validation FINALE (Mots de passe)
-function validateFinalStep(event) {
-    const p1 = document.getElementById('id_password1');
-    const p2 = document.getElementById('id_password2');
-    const errorDiv = document.getElementById('password-error-msg');
-    const errorSpan = errorDiv.querySelector('span');
-    
-    // Réinitialisation
-    errorDiv.classList.add('d-none');
-    p1.classList.remove('is-invalid');
-    p2.classList.remove('is-invalid');
-
-    let errorMessage = "";
-
-    // 1. Vérification des champs vides
-    if (!p1.value || !p2.value) {
-        errorMessage = "Veuillez remplir les deux champs de mot de passe.";
-        if (!p1.value) p1.classList.add('is-invalid');
-        if (!p2.value) p2.classList.add('is-invalid');
-    } 
-    // 2. Vérification de la correspondance
-    else if (p1.value !== p2.value) {
-        errorMessage = "Les mots de passe ne correspondent pas.";
-        p1.classList.add('is-invalid');
-        p2.classList.remove('is-invalid'); // Le deuxième est souvent celui à corriger
-        p2.classList.add('is-invalid');
-    }
-
-    // Si on a une erreur
-    if (errorMessage) {
-        event.preventDefault(); // On bloque l'envoi
-        errorSpan.textContent = errorMessage;
-        errorDiv.classList.remove('d-none'); // On affiche le message
-        return false;
-    }
-    
-    return true;
-}
-</script>
+{% block script %}
+<script src="{% static 'js/ment.js' %}"></script>
+{% endblock script %}
 {% endblock %}

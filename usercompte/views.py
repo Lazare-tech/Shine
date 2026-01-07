@@ -93,7 +93,11 @@ def register_client_view(request):
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             if form.is_valid():
                 form.save()
-                return JsonResponse({'status': 'success', 'message': 'Compte créé avec succès !'})
+                return JsonResponse({
+                    'status': 'success', 
+                    'message': 'Compte créé avec succès !',
+                    'redirect_url': '/usercompte/login/'})
+                
             else:
                 return JsonResponse({
                     'status': 'error', 
@@ -104,25 +108,25 @@ def register_client_view(request):
     return render(request, 'usercompte/userregister/clientregister.html', {'form': form})
 # ##
 def register_mentor_view(request):
+    form = MentorRegistrationForm(request.POST or None)
+    
     if request.method == 'POST':
-        # On utilise le formulaire spécifique au mentor
-        form = MentorRegistrationForm(request.POST)
-        
         if form.is_valid():
-            # La méthode save() du formulaire s'occupe de créer le User 
-            # ET le MentorProfile (grâce au code qu'on a mis dans forms.py)
             user = form.save()
-            
-            messages.success(request, "Félicitations ! Votre candidature de mentor a été soumise.")
-            return redirect('usercompte:login')
+            return JsonResponse({
+                'status': 'success', 
+                'message': "Félicitations ! Votre candidature a été soumise.",
+                'redirect_url': '/usercompte/login/'
+            })
         else:
-            # Si le formulaire est invalide, Django renvoie les erreurs aux champs
-            messages.error(request, "Veuillez corriger les erreurs ci-dessous.")
-    else:
-        # Formulaire vide pour un affichage en GET
-        form = MentorRegistrationForm()
-
+            # On renvoie les erreurs au format JSON
+            return JsonResponse({
+                'status': 'error', 
+                'errors': form.errors
+            }, status=400)
+            
     return render(request, 'usercompte/userregister/mentorregister.html', {'form': form})
+
 def logout_view(request):
     logout(request)
     messages.info(request, "Vous avez été déconnecté avec succès.")

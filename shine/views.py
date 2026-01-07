@@ -253,3 +253,6 @@ def detail_bourse(request, slug):
         'bourse': bourse,
     }
     return render(request, 'shine/bourse/detail_bourse.html', context)
+
+def custom_404_view(request, exception):
+    return render(request, '404.html', status=404)

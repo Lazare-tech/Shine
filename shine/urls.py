@@ -5,7 +5,7 @@ import shine.views
 # Gestion de l'erreur 404
 ###
 app_name = "shine"
-
+handler404 = 'shine.views.custom_404_view'
 urlpatterns = [
     path('', shine.views.home, name='homepage'),
     contact_path := path('contact/', shine.views.contact_view, name='contact'),

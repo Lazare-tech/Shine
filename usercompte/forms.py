@@ -130,26 +130,7 @@ class RegistrationForm(UserCreationForm):
 
     
  
-    # def clean_password1(self):
-    #     password = self.cleaned_data.get("password1")
-    #     if password:
-    #         try:
-    #             # Lance les validateurs standards de Django (trop court, trop commun, etc.)
-    #             validate_password(password, self.instance)
-    #         except ValidationError as errors:
-    #             # On intercepte les erreurs pour les traduire
-    #             translated_errors = []
-    #             for error in errors.messages:
-    #                 if "too common" in error.lower():
-    #                     translated_errors.append("Ce mot de passe est trop commun.")
-    #                 elif "too short" in error.lower():
-    #                     translated_errors.append("Le mot de passe doit contenir au moins 8 caractères.")
-    #                 elif "entirely numeric" in error.lower():
-    #                     translated_errors.append("Le mot de passe ne peut pas être entièrement numérique.")
-    #                 else:
-    #                     translated_errors.append(error)
-    #             raise ValidationError(translated_errors)
-    #     return password
+   
     def clean(self):
         cleaned_data = super().clean()
         # ATTENTION : Utilisez bien le nom du champ CountryField (ici 'pays')
@@ -238,20 +219,14 @@ class LoginForm(AuthenticationForm):
     }))
 ##
 class MentorRegistrationForm(UserCreationForm):
-    # Champs additionnels provenant du modèle MentorProfile
-    job_title = forms.CharField(max_length=255, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    activity_field = forms.CharField(max_length=255, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    bank_rib = forms.CharField(max_length=34, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    mission_type = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    # Champs spécifiques
+    job_title = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    activity_field = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    bank_rib = forms.CharField(max_length=34, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    mission_type = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
     motivation = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 4}))
 
-    # Statut et Profil (souvent masqués ou pré-remplis pour les mentors)
-    profil = forms.ModelChoiceField(
-        queryset=ProfilUtilisateur.objects.all(),
-        required=False,
-        empty_label="Sélectionnez votre type de profil",
-        widget=forms.Select(attrs={'class': 'form-select shadow-sm'})
-    )
+    # Champs communs
     statut = forms.ModelChoiceField(
         queryset=StatutUtilisateur.objects.all(),
         empty_label="Votre statut actuel",
@@ -260,17 +235,17 @@ class MentorRegistrationForm(UserCreationForm):
     pays = CountryField(blank_label='Sélectionnez votre pays').formfield(
         widget=forms.Select(attrs={
             'class': 'form-select shadow-sm',
-            'style': 'max-width: none !important; border-radius: 8px 0 0 8px;' # Correction affichage
+            'style': 'border-radius: 8px 0 0 8px;'
         })
     )
-    # Modifie cette ligne dans ton forms.py
-    phone = forms.CharField( # On utilise CharField ici pour éviter la validation automatique trop stricte
+    phone = forms.CharField(
         widget=forms.TextInput(attrs={
             'class': 'form-control shadow-sm',
             'placeholder': '70112233',
             'style': 'border-radius: 0 8px 8px 0;'
         })
     )
+
     class Meta(UserCreationForm.Meta):
         model = User
         fields = (
@@ -279,70 +254,84 @@ class MentorRegistrationForm(UserCreationForm):
             'code_postal', 'street_number', 'street_name',
         )
         widgets = {
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'birth_year': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'gender': forms.Select(
+             'birth_year': forms.DateInput(
+                format='%Y-%m-%d',
+                attrs={'class': 'form-control shadow-sm', 'type': 'date'}
+            ),
+              'gender': forms.Select(
                 choices=[('', 'Sélectionnez'), ('Homme', 'Homme'), ('Femme', 'Femme')], 
                 attrs={'class': 'form-select shadow-sm'}
             ),
-            'nationality': forms.TextInput(attrs={'class': 'form-control'}),
-            'country': forms.TextInput(attrs={'class': 'form-control'}),
-            'city': forms.TextInput(attrs={'class': 'form-control'}),
-            'code_postal': forms.TextInput(attrs={'class': 'form-control'}),
-            'street_number': forms.TextInput(attrs={'class': 'form-control'}),
-            'street_name': forms.TextInput(attrs={'class': 'form-control'}),
-
-            'password1': forms.PasswordInput(attrs={'class': 'form-control'}),
-            'password2': forms.PasswordInput(attrs={'class': 'form-control'}),
         }
-        
-        
-         
-  
+        # Traductions des messages d'erreur
+        error_messages = {
+            'first_name': {'required': "Le prénom est obligatoire."},
+            'last_name': {'required': "Le nom est obligatoire."},
+            'email': {'required': "L'adresse email est obligatoire."},
+            'nationality': {'required': "La nationalité est obligatoire."},
+            'country': {'required': "Le pays de résidence est obligatoire."},
+            'city': {'required': "La ville est obligatoire."},
+            'password1': {'required': "Le mot de passe est obligatoire."},
+            'password2': {'required': "La confirmation est obligatoire."},
+        }
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        # On force les champs obligatoires comme dans RegistrationForm
+        fields_to_force = [
+            'first_name', 'last_name', 'street_number', 'street_name', 
+            'job_title', 'activity_field', 'bank_rib', 'mission_type', 'motivation'
+        ]
         
-        for field_name, field in self.fields.items():
-            # 1. On récupère les classes existantes ou on initialise form-control
-            existing_classes = field.widget.attrs.get('class', 'form-control shadow-sm')
-            
-            # 2. On force l'attribut HTML 'required' pour tous les champs
-            # Sauf profil s'il est géré en automatique
-            if field_name != 'profil':
-                field.required = True
-                field.widget.attrs['required'] = 'required'
+        self.fields['email'].error_messages = {
+            'unique': "Un utilisateur avec cet email existe déjà.",
+            'required': "Ce champ est obligatoire."
+        }
+        
+        for field in fields_to_force:
+            if field in self.fields:
+                self.fields[field].required = True
 
-            # 3. Si le formulaire a été soumis et que le champ est vide ou en erreur
-            if self.is_bound and field_name in self.errors:
-                if 'is-invalid' not in existing_classes:
-                    existing_classes = f"{existing_classes} is-invalid"
-            
+        for field_name, field in self.fields.items():
+            existing_classes = field.widget.attrs.get('class', 'form-control shadow-sm')
+            if self.errors.get(field_name):
+                existing_classes += " is-invalid"
             field.widget.attrs['class'] = existing_classes.strip()
-    
+            # On retire le required HTML pour laisser le JS gérer le rouge
+            field.widget.attrs.pop('required', None)
+
     def clean(self):
         cleaned_data = super().clean()
-        pays_code = cleaned_data.get('pays') # Code ISO (ex: 'BF')
+        pays_code = cleaned_data.get('pays')
         phone_raw = cleaned_data.get('phone')
+        password1 = cleaned_data.get("password1")
+        password2 = cleaned_data.get("password2")
 
+        # 1. Validation Mots de passe (Identique à RegistrationForm)
+        if password1 and password2:
+            if password1 != password2:
+                self.add_error('password2', "Les deux mots de passe ne correspondent pas.")
+            else:
+                try:
+                    validate_password(password1, self.instance)
+                except ValidationError as errors:
+                    for error in errors.messages:
+                        if "too common" in error.lower(): msg = "Ce mot de passe est trop commun."
+                        elif "too short" in error.lower(): msg = "Le mot de passe doit contenir au moins 8 caractères."
+                        elif "entirely numeric" in error.lower(): msg = "Pas uniquement des chiffres."
+                        else: msg = error
+                        self.add_error('password1', msg)
+
+        # 2. Validation Téléphone (Identique à RegistrationForm)
         if pays_code and phone_raw:
             try:
-                # On convertit en string (ex: '70112233')
-                phone_str = str(phone_raw)
-                
-                # On parse le numéro EN UTILISANT le pays choisi comme contexte
-                # C'est cette ligne qui permet de valider un numéro local
-                parsed_number = phonenumbers.parse(phone_str, pays_code)
-                
-                # On vérifie si le numéro est valide pour ce pays précis
-                if not phonenumbers.is_valid_number_for_region(parsed_number, pays_code):
-                    example = phonenumbers.get_example_number(pays_code)
-                    self.add_error('phone', f"Numéro invalide pour ce pays. Exemple attendu : {example.national_number}")
+                region = str(pays_code)
+                parsed_phone = phonenumbers.parse(phone_raw, region)
+                if not phonenumbers.is_valid_number_for_region(parsed_phone, region):
+                    example = phonenumbers.get_example_number(region)
+                    self.add_error('phone', f"Invalide. Format attendu : {example.national_number}")
                 else:
-                    # OPTIONNEL : On remplace la valeur par le format international propre (+22670...)
-                    cleaned_data['phone'] = phonenumbers.format_number(parsed_number, phonenumbers.PhoneNumberFormat.E164)
-            
+                    cleaned_data['phone'] = phonenumbers.format_number(parsed_phone, phonenumbers.PhoneNumberFormat.E164)
             except Exception:
                 self.add_error('phone', "Format de numéro incorrect.")
         
