@@ -33,7 +33,7 @@ urlpatterns = [
     #BOURSE PAGE
     bourse_path := path('bourses/<slug:slug>/', shine.views.detail_bourse, name='bourse'),
     liste_bourses_path := path('bourses/', shine.views.liste_bourses, name='liste_bourses'),
-
+    souscrire_path :=path('souscrire/<slug:pack_slug>/', shine.views.souscrire_pack, name='souscrire_pack'),
 ] +   static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Serve static and media files during development

@@ -1,0 +1,100 @@
+<div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+    <div class="card-header bg-dark p-4 text-white">
+        <div class="d-flex align-items-center">
+            <div class="icon-box bg-gold me-3 rounded-3 p-3">
+                <i class="fas fa-school text-dark fa-2x"></i>
+            </div>
+            <div>
+                <h4 class="mb-0 fw-bold">Demande d'Accompagnement Institutionnel</h4>
+                <p class="small mb-0 opacity-75">Service : {{ pack.service.titre }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body p-4 p-lg-5">
+        <div id="devis-message"></div>
+
+        <form id="ajax-devis-form" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="pack_id" value="{{ pack.id }}">
+
+            <div class="mb-5">
+                <h6 class="fw-bold text-title-blue border-bottom pb-2 mb-3 text-uppercase small">
+                    <i class="fas fa-info-circle me-2 text-title-gold"></i> L'Établissement
+                </h6>
+                <div class="row g-3">
+                    <div class="col-md-12">
+                        <label class="form-label small fw-bold">Nom de l'établissement scolaire</label>
+                        <input type="text" name="nom_ecole" class="form-control" placeholder="Ex: Groupe Scolaire Saint-Exupéry">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold">Type d'enseignement</label>
+                        <select name="type_enseignement" class="form-select">
+                            <option value="general">Enseignement Général</option>
+                            <option value="technique">Enseignement Technique</option>
+                            <option value="superieur">Enseignement Supérieur</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold">Nombre d'élèves (environ)</label>
+                        <input type="number" name="effectif_eleves" class="form-control" placeholder="Ex: 500">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-5">
+                <h6 class="fw-bold text-title-blue border-bottom pb-2 mb-3 text-uppercase small">
+                    <i class="fas fa-stethoscope me-2 text-title-gold"></i> Besoins prioritaires
+                </h6>
+                <label class="form-label small">Quels sont les axes d'amélioration identifiés ? (Plusieurs choix possibles)</label>
+                <div class="row g-2 mt-1">
+                    <div class="col-md-6">
+                        <div class="form-check p-2 border rounded">
+                            <input class="form-check-input ms-1" type="checkbox" name="axes" value="admin" id="ax1">
+                            <label class="form-check-label ms-2" for="ax1">Gestion administrative</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-check p-2 border rounded">
+                            <input class="form-check-input ms-1" type="checkbox" name="axes" value="pedago" id="ax2">
+                            <label class="form-check-label ms-2" for="ax2">Performance pédagogique</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-check p-2 border rounded">
+                            <input class="form-check-input ms-1" type="checkbox" name="axes" value="digital" id="ax3">
+                            <label class="form-check-label ms-2" for="ax3">Digitalisation des processus</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-check p-2 border rounded">
+                            <input class="form-check-input ms-1" type="checkbox" name="axes" value="rh" id="ax4">
+                            <label class="form-check-label ms-2" for="ax4">Formation du personnel</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h6 class="fw-bold text-title-blue border-bottom pb-2 mb-3 text-uppercase small">
+                    <i class="fas fa-user-tie me-2 text-title-gold"></i> Votre fonction
+                </h6>
+                <div class="mb-3">
+                    <select name="fonction_contact" class="form-select">
+                        <option value="fondateur">Fondateur / Promoteur</option>
+                        <option value="directeur">Directeur Général / Principal</option>
+                        <option value="gestionnaire">Gestionnaire / Comptable</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label small fw-bold">Message ou urgence particulière</label>
+                    <textarea name="message" class="form-control" rows="3" placeholder="Décrivez brièvement la situation actuelle de votre établissement..."></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-dark btn-lg w-100 fw-bold py-3 shadow-sm border-0" style="background-color: #122046;">
+                Demander un diagnostic expert
+            </button>
+        </form>
+    </div>
+</div>

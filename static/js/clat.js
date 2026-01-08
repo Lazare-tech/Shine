@@ -1,7 +1,32 @@
    // --- LOGIQUE MULTI-ÉTAPES ---
 // --- LOGIQUE MULTI-ÉTAPES ---
-// --- LOGIQUE MULTI-ÉTAPES ---
-// --- LOGIQUE MULTI-ÉTAPES ---
+function setupLiveErrorCleanup() {
+    // Écoute les entrées clavier (input) et les changements (select/change)
+    ['input', 'change'].forEach(eventType => {
+        document.addEventListener(eventType, function(e) {
+            const input = e.target;
+            
+            // Si le champ est en mode "erreur"
+            if (input.classList.contains('is-invalid')) {
+                // 1. On retire la bordure rouge
+                input.classList.remove('is-invalid');
+                
+                // 2. On cible le parent qui contient l'input et l'erreur (structure Bootstrap)
+                const container = input.closest('.mb-3, .col-md-6, .col-md-12, .col-md-4, .col-md-8, .col-12, .input-group');
+                
+                if (container) {
+                    // On cherche tous les messages d'erreur générés dynamiquement
+                    const errorMessages = container.querySelectorAll('.dynamic-error-msg, .invalid-feedback');
+                    errorMessages.forEach(msg => {
+                        msg.style.opacity = '0';
+                        msg.style.transition = 'opacity 0.2s ease';
+                        setTimeout(() => msg.remove(), 200);
+                    });
+                }
+            }
+        });
+    });
+}
 
 function showStep(step) {
     document.querySelectorAll('[id^="step"]').forEach(s => s.classList.add('hidden'));
@@ -112,7 +137,7 @@ function prevStep(step) {
 // --- SYSTÈME AJAX ET VALIDATION SERVEUR ---
 
 document.addEventListener('DOMContentLoaded', function() {
-    
+    setupLiveErrorCleanup();
     const handleFieldValidation = (form, errors) => {
         form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
         form.querySelectorAll('.dynamic-error-msg').forEach(el => el.remove());

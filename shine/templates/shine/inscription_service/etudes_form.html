@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-4 mb-4">
+            <div class="card bg-title-blue text-white p-4 sticky-top" style="top: 100px;">
+                <h5 class="text-title-gold fw-bold">Votre sélection</h5>
+                <hr>
+                <p class="mb-1 opacity-75 small">Service :</p>
+                <h6 class="fw-bold">{{ service.titre }}</h6>
+                <p class="mb-1 mt-3 opacity-75 small">Pack :</p>
+                <h6 class="fw-bold">{{ pack.titre_pack }}</h6>
+                <div class="display-6 fw-bold text-title-gold mt-3">{{ pack.prix }} €</div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="bg-white p-4 p-md-5 shadow-lg rounded-4 border-top border-warning border-4">
+                <h2 class="fw-bold text-title-blue mb-4">Finalisez votre demande</h2>
+                
+                <form id="ajax-devis-form" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% include "shine/forms/partials/etudes_fields.html" %}
+                    
+                    <button type="submit" class="btn btn-responsive-primaryl w-100 btn-lg fw-bold mt-4">
+                        Valider mon inscription au pack
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

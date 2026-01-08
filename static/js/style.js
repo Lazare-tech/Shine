@@ -88,11 +88,12 @@ document.addEventListener('DOMContentLoaded', function() {
 //
 
     document.addEventListener('DOMContentLoaded', function() {
-        
+            
         /**
          * Gère l'affichage visuel des erreurs (Bordures rouges + messages)
          * Cette fonction évite la répétition pour tous vos formulaires.
          */
+     
         const handleFieldValidation = (form, errors) => {
         // 1. NETTOYAGE
         form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
@@ -198,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             });
         };
-
+        setupLiveErrorCleanup();
         // --- INITIALISATION UNIQUE ---
         setupAjaxForm('#contact-form', '#contact-message');
         setupAjaxForm('#ajax-devis-form', '#devis-message'); // Ajoutez id="devis-message" dans votre template devis

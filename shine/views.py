@@ -213,6 +213,27 @@ def services(request, slug):
     return render(request,'shine/services/services.html',context)
 
 # 
+def souscrire_pack(request, pack_slug):
+    pack = get_object_or_404(PackService, slug=pack_slug)
+    service = pack.service
+    
+    # Choix du template selon le type de service (basé sur le slug du service parent)
+    template_name = 'shine/inscription_service/default_form.html'
+    
+    if 'soutien-scolaire' in service.slug:
+        template_name = 'shine/inscription_service/pack_soutien_scolaire.html'
+    elif 'etudes-internationales' in service.slug:
+        template_name = 'shine/inscription_service/etude_international.html'
+    elif 'accompagnement-etablissements' in service.slug:
+        template_name = 'shine/inscription_service/pack_accompagnement_etablissement.html'
+    elif 'mobilite' in service.slug:
+        template_name = 'shine/inscription_service/mobilite_generale.html'
+
+    context = {
+        'pack': pack,
+        'service': service,
+    }
+    return render(request, template_name, context)
 
 #............................................................................................
 def newsletter_subscribe(request):

@@ -1,4 +1,35 @@
 // --- LOGIQUE DE NAVIGATION ---
+//
+function setupLiveErrorCleanup() {
+    // On écoute l'événement 'input' (quand on tape) sur tout le document
+    document.addEventListener('input', function(e) {
+        const input = e.target;
+        
+        // On ne traite que les éléments qui ont la classe d'erreur
+        if (input.classList.contains('is-invalid')) {
+            
+            // 1. On retire la bordure rouge de l'input
+            input.classList.remove('is-invalid');
+            
+            // 2. On remonte au parent qui contient l'input ET le message d'erreur
+            // On cible les conteneurs de colonnes ou de groupes de ton HTML
+            const container = input.closest('.col-md-6, .col-md-12, .col-12, .mb-3');
+            
+            if (container) {
+                // On cherche tous les messages d'erreur possibles dans ce conteneur
+                const errorMessages = container.querySelectorAll('.dynamic-error-msg, .invalid-feedback');
+                
+                errorMessages.forEach(msg => {
+                    // On ajoute une petite animation de sortie (optionnel)
+                    msg.style.opacity = '0';
+                    msg.style.transition = 'opacity 0.2s ease';
+                    // On supprime après l'animation
+                    setTimeout(() => msg.remove(), 200);
+                });
+            }
+        }
+    });
+}
 
 function showStep(step) {
     document.querySelectorAll('[id^="step"]').forEach(s => s.classList.add('hidden'));
@@ -83,6 +114,7 @@ function validateStepInputs(stepNum) {
             isValid = false;
             input.classList.add('is-invalid');
             const errorMsg = document.createElement('div');
+            
             errorMsg.className = 'text-danger small mt-1 dynamic-error-msg animate__animated animate__fadeInUp';
             errorMsg.innerText = errorMessage;
             
@@ -96,7 +128,8 @@ function validateStepInputs(stepNum) {
 // --- SYSTÈME AJAX & RETOUR SERVEUR ---
 
 document.addEventListener('DOMContentLoaded', function() {
-    
+        setupLiveErrorCleanup();
+
     const handleFieldValidation = (form, errors) => {
         // On nettoie d'abord
         form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
@@ -195,3 +228,4 @@ document.addEventListener('DOMContentLoaded', function() {
     // Au démarrage, on affiche le step 1 ou celui avec erreur
     showStep(1); 
 });
+

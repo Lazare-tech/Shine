@@ -81,7 +81,7 @@
 
             <div class="mt-auto">
                 <p class="tarif mb-3 fw-bold">Tarif : <span>{{ p.prix }} €</span></p>
-                <a href="#" class="btn btn-responsive-warning w-100">Souscrire</a>
+                <a href="{% url 'shine:souscrire_pack' p.slug %}" class="btn btn-responsive-warning w-100">Souscrire</a>
             </div>
         </div>
     </div>

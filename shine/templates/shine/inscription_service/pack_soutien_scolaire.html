@@ -1,0 +1,82 @@
+<div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+    <div class="card-header bg-title-blue p-4 text-center">
+        <span class="badge bg-gold text-dark mb-2 px-3 py-2 rounded-pill fw-bold">SOUTIEN SCOLAIRE</span>
+        <h4 class="text-white mb-0">{{ pack.titre_pack }}</h4>
+    </div>
+
+    <div class="card-body p-4 p-lg-5">
+        <div id="devis-message"></div>
+
+        <form id="ajax-devis-form" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="pack_id" value="{{ pack.id }}">
+
+            <div class="mb-5">
+                <h6 class="fw-bold text-title-blue mb-3">
+                    <i class="fas fa-user-graduate me-2 text-title-gold"></i> Niveau d'étude actuel
+                </h6>
+                <div class="row g-2">
+                    {% for val, label in niveaux_etudes %}
+                    <div class="col-6 col-md-3">
+                        <input type="radio" class="btn-check" name="niveau" id="lvl_{{ forloop.counter }}" value="{{ val }}">
+                        <label class="btn btn-outline-primary w-100 py-2 small" for="lvl_{{ forloop.counter }}">
+                            {{ label }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="mb-5">
+                <h6 class="fw-bold text-title-blue mb-3">
+                    <i class="fas fa-lightbulb me-2 text-title-gold"></i> Quel est votre objectif principal ?
+                </h6>
+                <select name="objectif" class="form-select form-select-lg shadow-none border-2">
+                    <option value="orientation">Définir mon projet professionnel (Orientation)</option>
+                    <option value="notes">Améliorer mes notes (Accompagnement)</option>
+                    <option value="confiance">Gagner en confiance / Méthodologie (Coaching)</option>
+                    <option value="examen">Préparer un examen spécifique</option>
+                </select>
+            </div>
+
+            <div class="mb-5 bg-light p-3 rounded-3">
+                <h6 class="fw-bold text-title-blue mb-3">Matières prioritaires</h6>
+                <div class="d-flex flex-wrap gap-2">
+                    <div class="form-check form-check-inline bg-white px-3 py-1 rounded border">
+                        <input class="form-check-input" type="checkbox" name="matieres" value="maths" id="m1">
+                        <label class="form-check-label" for="m1">Mathématiques</label>
+                    </div>
+                    <div class="form-check form-check-inline bg-white px-3 py-1 rounded border">
+                        <input class="form-check-input" type="checkbox" name="matieres" value="physique" id="m2">
+                        <label class="form-check-label" for="m2">Physique-Chimie</label>
+                    </div>
+                    <div class="form-check form-check-inline bg-white px-3 py-1 rounded border">
+                        <input class="form-check-input" type="checkbox" name="matieres" value="anglais" id="m3">
+                        <label class="form-check-label" for="m3">Anglais</label>
+                    </div>
+                    <div class="form-check form-check-inline bg-white px-3 py-1 rounded border">
+                        <input class="form-check-input" type="checkbox" name="matieres" value="fr_philo" id="m4">
+                        <label class="form-check-label" for="m4">Français / Philo</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">Précisez votre besoin (Optionnel)</label>
+                <textarea name="details" class="form-control" rows="3" placeholder="Ex: J'ai des difficultés en méthodologie de dissertation..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-responsive-warning btn-lg w-100 fw-bold py-3 shadow">
+                Envoyer ma demande de pack
+            </button>
+        </form>
+    </div>
+</div>
+{% comment %} class SouscriptionSoutien(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    pack = models.ForeignKey(PackService, on_delete=models.PROTECT)
+    niveau_etude = models.CharField(max_length=50) # Ex: Terminale
+    objectif_principal = models.CharField(max_length=100)
+    matieres = models.TextField(blank=True) # Stocké en liste ou JSON
+    statut = models.CharField(max_length=20, default='EN_ATTENTE') # Pour votre dashboard admin
+    date_demande = models.DateTimeField(auto_now_add=True) {% endcomment %}

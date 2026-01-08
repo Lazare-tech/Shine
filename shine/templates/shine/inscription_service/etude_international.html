@@ -1,0 +1,84 @@
+<div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+    <div class="card-header p-4 text-white" style="background: linear-gradient(135deg, #122046 0%, #1d3557 100%); border-bottom: 4px solid #c39d3b;">
+        <div class="d-flex align-items-center">
+            <div class="bg-white rounded-circle p-3 me-3 shadow-sm">
+                <i class="fas fa-user-graduate text-title-blue fa-lg"></i>
+            </div>
+            <div>
+                <h4 class="mb-0 fw-bold">Dossier de Candidature Internationale</h4>
+                <p class="small mb-0 text-title-gold fw-bold">{{ pack.titre_pack }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body p-4 p-lg-5">
+        <div id="devis-message"></div>
+
+        <form id="ajax-devis-form" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="pack_id" value="{{ pack.id }}">
+
+            <div class="mb-5">
+                <h6 class="fw-bold text-title-blue border-bottom pb-2 mb-3">
+                    <i class="fas fa-globe-africa me-2 text-title-gold"></i> Projet d'études
+                </h6>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold">Pays de destination souhaité</label>
+                        <select name="target_destination" class="form-select shadow-none">
+                            <option value="France">France</option>
+                            <option value="Canada">Canada</option>
+                            <option value="Belgique">Belgique</option>
+                            <option value="Maroc">Maroc</option>
+                            <option value="Autre">Autre destination</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold">Filière d'études visée</label>
+                        <input type="text" name="filiere" class="form-control" placeholder="Ex: Informatique, Gestion, Médecine...">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-5">
+                <h6 class="fw-bold text-title-blue border-bottom pb-2 mb-3">
+                    <i class="fas fa-history me-2 text-title-gold"></i> Cursus Académique
+                </h6>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold">Dernier diplôme préparé/obtenu</label>
+                        <select name="student_level" class="form-select shadow-none">
+                            <option value="BAC">Baccalauréat</option>
+                            <option value="LICENCE">Licence (L1, L2 ou L3)</option>
+                            <option value="MASTER">Master</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold">Moyenne ou Mention (Dernière année)</label>
+                        <input type="text" name="moyenne" class="form-control" placeholder="Ex: 14.50 ou Bien">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h6 class="fw-bold text-title-blue border-bottom pb-2 mb-3">
+                    <i class="fas fa-file-pdf me-2 text-title-gold"></i> Documents pour analyse
+                </h6>
+                <div class="p-3 border rounded-3 bg-light mb-3">
+                    <label class="form-label small fw-bold">Relevé de notes ou CV (Recommandé)</label>
+                    <input type="file" name="attached_file" class="form-control bg-white">
+                    <div class="form-text mt-1" style="font-size: 0.75rem;">Format PDF ou Image (Max 5Mo). Cela nous permet de valider votre éligibilité plus vite.</div>
+                </div>
+                
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" name="recherche_bourse" id="bourseCheck">
+                    <label class="form-check-label small fw-bold" for="bourseCheck">Je souhaite être accompagné pour une demande de bourse</label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-responsive-primaryl btn-lg w-100 fw-bold py-3 text-uppercase shadow-sm" style="letter-spacing: 1px;">
+                Lancer mon projet d'études
+            </button>
+        </form>
+    </div>
+</div>
