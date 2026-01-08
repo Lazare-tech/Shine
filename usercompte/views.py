@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login,logout
 from django.contrib import messages
 from .forms import RegistrationForm,LoginForm,MentorRegistrationForm,ProfileUpdateForm,MentorProfileForm
 from .models import StatutUtilisateur, MentorProfile
-from shine.models import DemandeDevis, ContactMessage
+from shine.models import DemandeDevis, ContactMessage,SouscriptionEtablissement,SouscriptionEtude,SouscriptionLogement,SouscriptionMobilite,SouscriptionSoutien
 from .models import EtapeDossier,SuiviDossier
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
@@ -126,23 +126,42 @@ def logout_view(request):
 
 
 
+
+
 @login_required
 def dashboard_view(request):
-    # Test de récupération direct
+    user = request.user
+    
+    # 1. Récupération du dossier de suivi (Plan de route)
     try:
-        dossier = SuiviDossier.objects.get(etudiant=request.user)
-        print(f"DEBUG: Dossier trouvé pour {request.user.email}")
+        dossier = SuiviDossier.objects.get(etudiant=user)
     except SuiviDossier.DoesNotExist:
         dossier = None
-        print(f"DEBUG: Aucun dossier en base pour {request.user.email}")
 
-    mes_demandes = DemandeDevis.objects.filter(email=request.user.email).order_by('-date_envoi')
+    # 2. Récupération de TOUTES les souscriptions de l'utilisateur
+    # On récupère chaque type et on les transforme en liste
+    soutiens = SouscriptionSoutien.objects.filter(user=user)
+    etudes = SouscriptionEtude.objects.filter(user=user)
+    mobilites = SouscriptionMobilite.objects.filter(user=user)
+    etablissements = SouscriptionEtablissement.objects.filter(user=user)
+    logements = SouscriptionLogement.objects.filter(user=user)
+
+    # On combine tout dans une seule liste pour le template
+    toutes_souscriptions = list(soutiens) + list(etudes) + list(mobilites) + list(etablissements) + list(logements)
+    # Trier par date de demande (la plus récente en premier)
+    toutes_souscriptions.sort(key=lambda x: x.date_demande, reverse=True)
+
+    # 3. Récupération des devis (basé sur l'email)
+    mes_demandes_devis = DemandeDevis.objects.filter(email=user.email).order_by('-date_envoi')
+    
+    # 4. Étapes pour le plan de route
     toutes_les_etapes = EtapeDossier.objects.all().order_by('ordre')
 
     context = {
-        'dossier': dossier,  # C'est cette variable qui doit être utilisée dans le HTML
+        'dossier': dossier,
         'etapes': toutes_les_etapes,
-        'mes_demandes': mes_demandes,
+        'souscriptions': toutes_souscriptions, # Nouvelle variable
+        'mes_demandes': mes_demandes_devis,
     }
     return render(request, 'usercompte/useradmin/clientadmin.html', context)
 @login_required

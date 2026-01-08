@@ -78,22 +78,68 @@
                         </table>
                     </div>
                 </div>
-                {% else %}
-                <div class="alert alert-light border shadow-sm p-4 mb-4" style="border-radius: 15px;">
-                    <h5 class="text-dark">Aucun dossier de suivi actif</h5>
-                    <p class="text-muted mb-0">Dès que l'agence commencera le traitement de votre dossier, vous verrez ici les étapes de votre admission.</p>
-                </div>
                 {% endif %}
 
-                <div class="card border-0 shadow-sm" style="border-radius: 15px;">
+                <div class="card border-0 shadow-sm mb-4" style="border-radius: 15px; overflow: hidden;">
                     <div class="card-header bg-white border-0 py-3">
-                        <h5 class="mb-0" style="color: #122046;">Mes demandes de devis</h5>
+                        <h5 class="mb-0" style="color: #122046; font-weight: 700;">
+                            <i class="fas fa-box me-2" style="color: #e2b740;"></i> Mes Services & Packs
+                        </h5>
                     </div>
                     <div class="table-responsive">
-                        <table class="table align-middle">
+                        <table class="table align-middle mb-0">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th class="border-0 px-4">Pack</th>
+                                    <th class="border-0">Détails</th>
+                                    <th class="border-0">Statut</th>
+                                    <th class="border-0 text-end px-4">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for s in souscriptions %}
+                                <tr>
+                                    <td class="px-4">
+                                        <div class="fw-bold" style="color: #122046;">{{ s.pack.titre_pack }}</div>
+                                        <div class="small text-muted">{{ s.pack.service.titre }}</div>
+                                    </td>
+                                    <td class="small">
+                                        {% if s.ville_destination %}Dest: {{ s.ville_destination }}
+                                        {% elif s.filiere_visee %}Filière: {{ s.filiere_visee }}
+                                        {% elif s.type_visa %}Visa: {{ s.type_visa }}
+                                        {% elif s.nom_etablissement %}Etab: {{ s.nom_etablissement }}
+                                        {% elif s.objectif_principal %}Obj: {{ s.objectif_principal }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class="badge {% if s.statut == 'EN_ATTENTE' %}bg-warning text-dark{% else %}bg-info{% endif %}" style="border-radius: 20px;">
+                                            {{ s.statut }}
+                                        </span>
+                                    </td>
+                                    <td class="text-end px-4 text-muted">{{ s.date_demande|date:"d M Y" }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="text-center py-4 text-muted">Aucune souscription active.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm" style="border-radius: 15px; overflow: hidden;">
+                    <div class="card-header bg-white border-0 py-3">
+                        <h5 class="mb-0" style="color: #122046; font-weight: 700;">
+                            <i class="fas fa-file-invoice me-2" style="color: #e2b740;"></i> Mes demandes de devis
+                        </h5>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table align-middle mb-0">
                             <thead class="bg-light">
                                 <tr>
                                     <th class="border-0 px-4">Service</th>
+                                    <th class="border-0">Message</th>
                                     <th class="border-0 text-end px-4">Date</th>
                                 </tr>
                             </thead>
@@ -101,11 +147,12 @@
                                 {% for demande in recent_demandes %}
                                 <tr>
                                     <td class="px-4"><strong>{{ demande.service_souhaite }}</strong></td>
-                                    <td class="text-end px-4">{{ demande.date_created|date:"d M Y" }}</td>
+                                    <td class="text-muted small">{{ demande.contenu|truncatechars:40 }}</td>
+                                    <td class="text-end px-4">{{ demande.date_envoi|date:"d M Y" }}</td>
                                 </tr>
                                 {% empty %}
                                 <tr>
-                                    <td colspan="2" class="text-center py-4 text-muted">Aucune demande trouvée.</td>
+                                    <td colspan="3" class="text-center py-4 text-muted">Aucune demande de devis.</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
