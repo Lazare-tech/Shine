@@ -1,152 +1,32 @@
-<div class="card border-0 shadow-lg rounded-4 overflow-hidden">
-    <div class="card-header p-4 text-white" style="background: linear-gradient(45deg, #122046, #1d3557);">
-        <div class="d-flex align-items-center">
-            <div class="icon-box bg-title-gold me-3 rounded-circle p-3 shadow">
-                <i class="fas fa-plane-departure text-dark fa-lg"></i>
-            </div>
-            <div>
-                <h4 class="mb-0 fw-bold">Dossier de Mobilité Internationale</h4>
-                <p class="small mb-0 opacity-75">Pack : {{ pack.titre_pack }}</p>
-            </div>
-        </div>
+{% extends "shine/inscription_service/default_form.html" %}
+
+{% block specific_fields %}
+<div class="row mb-3">
+    <div class="col-md-12 mb-3">
+        <label class="form-label fw-bold">
+            <i class="fas fa-passport text-title-gold me-1"></i>
+            {{ form.type_visa.label }} <span class="text-danger">*</span>
+        </label>
+        {{ form.type_visa }}
+        <div id="error_type_visa" class="text-danger small"></div>
     </div>
 
-    <div class="card-body p-4 p-lg-5">
-        <div id="devis-message"></div>
+    <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">
+            <i class="fas fa-globe-africa text-title-gold me-1"></i>
+            {{ form.pays_destination.label }} <span class="text-danger">*</span>
+        </label>
+        {{ form.pays_destination }}
+        <div id="error_pays_destination" class="text-danger small"></div>
+    </div>
 
-        <form id="ajax-devis-form" method="POST">
-            {% csrf_token %}
-            <input type="hidden" name="pack_id" value="{{ pack.id }}">
-
-            <div class="mb-5">
-                <h6 class="fw-bold text-title-blue border-bottom pb-2 mb-3 text-uppercase small">
-                    <i class="fas fa-map-marked-alt me-2 text-title-gold"></i> Détails du déplacement
-                </h6>
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label small fw-bold">Destination principale</label>
-                        <input type="text" name="destination" class="form-control" placeholder="Ex: France, Canada, Dubaï...">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label small fw-bold">Motif du voyage</label>
-                        <select name="motif_voyage" class="form-select">
-                            <option value="tourisme">Tourisme / Visite familiale</option>
-                            <option value="affaires">Affaires / Professionnel</option>
-                            <option value="medical">Soins médicaux</option>
-                            <option value="autre">Autre</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label small fw-bold">Date de départ prévue</label>
-                        <input type="date" name="date_depart" class="form-control">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label small fw-bold">Durée du séjour (jours)</label>
-                        <input type="number" name="duree_sejour" class="form-control" placeholder="Ex: 15">
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-5">
-                <h6 class="fw-bold text-title-blue border-bottom pb-2 mb-3 text-uppercase small">
-                    <i class="fas fa-passport me-2 text-title-gold"></i> Informations administratives
-                </h6>
-                <div class="row g-3">
-                    <div class="col-md-8">
-                        <label class="form-label small fw-bold">Numéro de Passeport</label>
-                        <input type="text" name="num_passeport" class="form-control" placeholder="N° de passeport">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label small fw-bold">Expiration</label>
-                        <input type="date" name="expiration_passeport" class="form-control">
-                    </div>
-                    <div class="col-12">
-                        <div class="form-check form-switch p-3 border rounded bg-light">
-                            <input class="form-check-input ms-0 me-3" type="checkbox" name="deja_refuse" id="refusCheck">
-                            <label class="form-check-label fw-bold" for="refusCheck">
-                                J'ai déjà eu un refus de visa par le passé
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-4">
-                <h6 class="fw-bold text-title-blue border-bottom pb-2 mb-3 text-uppercase small">
-                    <i class="fas fa-concierge-bell me-2 text-title-gold"></i> Besoins additionnels
-                </h6>
-                <div class="d-flex flex-wrap gap-2">
-                    <div class="form-check border p-2 rounded">
-                        <input class="form-check-input ms-1" type="checkbox" name="besoins" value="hotel" id="b1">
-                        <label class="form-check-label ms-2 small" for="b1">Réservation d'hôtel</label>
-                    </div>
-                    <div class="form-check border p-2 rounded">
-                        <input class="form-check-input ms-1" type="checkbox" name="besoins" value="billet" id="b2">
-                        <label class="form-check-label ms-2 small" for="b2">Billet d'avion</label>
-                    </div>
-                    <div class="form-check border p-2 rounded">
-                        <input class="form-check-input ms-1" type="checkbox" name="besoins" value="assurance" id="b3">
-                        <label class="form-check-label ms-2 small" for="b3">Assurance voyage</label>
-                    </div>
-                </div>
-            </div>
-
-            <button type="submit" class="btn btn-lg w-100 fw-bold py-3 text-white shadow" style="background-color: #122046;">
-                Lancer ma procédure de mobilité
-            </button>
-        </form>
+    <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">
+            <i class="fas fa-calendar-check text-title-gold me-1"></i>
+            {{ form.date_prevue.label }} <span class="text-danger">*</span>
+        </label>
+        {{ form.date_prevue }}
+        <div id="error_date_prevue" class="text-danger small"></div>
     </div>
 </div>
-{% comment %} from django.db import models
-from django.conf import settings
-
-class ServiceSubscription(models.Model):
-    # --- Liaisons de Base ---
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, 
-        on_delete=models.CASCADE, 
-        related_name="subscriptions"
-    )
-    pack = models.ForeignKey(
-        'PackService', 
-        on_delete=models.PROTECT, 
-        related_name="subscriptions"
-    )
-    
-    # --- État de la demande ---
-    STATUS_CHOICES = [
-        ('PENDING', 'En attente'),
-        ('PROCESSING', 'En cours de traitement'),
-        ('COMPLETED', 'Finalisé'),
-        ('CANCELLED', 'Annulé'),
-    ]
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    # --- Champs Spécifiques (Qualification Senior UX) ---
-    
-    # 1. Académique / Scolaire (Soutien & Études)
-    student_level = models.CharField(max_length=100, blank=True, null=True, verbose_name="Niveau d'étude")
-    target_destination = models.CharField(max_length=100, blank=True, null=True, verbose_name="Pays cible")
-    subjects = models.TextField(blank=True, null=True, verbose_name="Matières concernées")
-    
-    # 2. Institutionnel (Établissements)
-    institution_name = models.CharField(max_length=255, blank=True, null=True, verbose_name="Nom de l'école")
-    institution_size = models.IntegerField(blank=True, null=True, verbose_name="Nombre d'élèves")
-    
-    # 3. Mobilité / Visa
-    passport_number = models.CharField(max_length=50, blank=True, null=True)
-    travel_date = models.DateField(blank=True, null=True)
-    has_previous_refusal = models.BooleanField(default=False, verbose_name="Déjà refusé ?")
-    
-    # --- Message & Fichier ---
-    additional_notes = models.TextField(blank=True, null=True)
-    attached_file = models.FileField(upload_to='subscriptions/docs/', blank=True, null=True)
-
-    class Meta:
-        verbose_name = "Souscription Service"
-        ordering = ['-created_at']
-
-    def __str__(self):
-        return f"{self.user.email} - {self.pack.titre_pack} ({self.status})" {% endcomment %}
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "shine/inscription_service/default_form.html" %}
+
+{% block specific_fields %}
+<div class="row mb-3">
+    <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">
+            <i class="fas fa-map-marker-alt text-title-gold me-1"></i>
+            {{ form.ville_destination.label }} <span class="text-danger">*</span>
+        </label>
+        {{ form.ville_destination }}
+        <div id="error_ville_destination" class="text-danger small mt-1"></div>
+    </div>
+    
+    <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">
+            <i class="fas fa-calendar-alt text-title-gold me-1"></i>
+            {{ form.date_arrivee_prevue.label }} <span class="text-danger">*</span>
+        </label>
+        {{ form.date_arrivee_prevue }}
+        <div id="error_date_arrivee_prevue" class="text-danger small mt-1"></div>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">
+            <i class="fas fa-home text-title-gold me-1"></i>
+            {{ form.type_logement_recherche.label }} <span class="text-danger">*</span>
+        </label>
+        {{ form.type_logement_recherche }}
+        <div id="error_type_logement_recherche" class="text-danger small mt-1"></div>
+    </div>
+    
+    <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">
+            <i class="fas fa-wallet text-title-gold me-1"></i>
+            {{ form.budget_loyer_max.label }} <span class="text-danger">*</span>
+        </label>
+        {{ form.budget_loyer_max }}
+        <div id="error_budget_loyer_max" class="text-danger small mt-1"></div>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-12">
+        <label class="form-label fw-bold">
+            <i class="fas fa-plane-arrival text-title-gold me-1"></i>
+            Détails supplémentaires <span class="text-muted small">(Optionnel)</span>
+        </label>
+        {{ form.details_vol }}
+        <div id="error_details_vol" class="text-danger small mt-1"></div>
+        <p class="text-muted small mt-2">Précisez ici si vous avez besoin d'un accueil à l'aéroport ou de meubles spécifiques.</p>
+    </div>
+</div>
+{% endblock specific_fields %}

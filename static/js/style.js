@@ -88,12 +88,49 @@ document.addEventListener('DOMContentLoaded', function() {
 //
 
     document.addEventListener('DOMContentLoaded', function() {
-            
+        
         /**
          * Gère l'affichage visuel des erreurs (Bordures rouges + messages)
          * Cette fonction évite la répétition pour tous vos formulaires.
          */
-     
+    //     const setupLiveErrorCleanup = () => {
+    //     document.addEventListener('input', function(e) {
+    //         const input = e.target;
+    //         if (input.classList.contains('is-invalid')) {
+    //             input.classList.remove('is-invalid');
+    //             // On remonte au conteneur parent pour supprimer le message
+    //             const container = input.closest('.mb-3, .col-md-6, .col-md-12, .col-12, .row');
+    //             const errorMsg = container?.querySelector('.dynamic-error-msg');
+    //             if (errorMsg) errorMsg.remove();
+    //         }
+    //     });
+    // };
+    const setupLiveErrorCleanup = () => {
+    // On écoute sur le document pour couvrir tous les formulaires (délégation d'événement)
+    document.addEventListener('input', function(e) {
+        const field = e.target;
+        
+        // Si le champ a la classe d'erreur
+        if (field.classList.contains('is-invalid')) {
+            // 1. Retirer la bordure rouge du champ
+            field.classList.remove('is-invalid');
+            
+            // 2. Chercher et supprimer le message d'erreur textuel
+            // On cherche d'abord dans le parent direct (mb-3, col, etc.)
+            const container = field.closest('.mb-3, .col-md-6, .col-md-12, .col-12, .row, .input-group');
+            if (container) {
+                const errorMsg = container.querySelector('.dynamic-error-msg, .invalid-feedback');
+                if (errorMsg) {
+                    errorMsg.innerHTML = ''; // On vide le texte
+                    // Si c'est un élément créé dynamiquement (div), on peut aussi le remove
+                    if (errorMsg.classList.contains('dynamic-error-msg')) {
+                        errorMsg.remove();
+                    }
+                }
+            }
+        }
+    });
+};
         const handleFieldValidation = (form, errors) => {
         // 1. NETTOYAGE
         form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
@@ -197,13 +234,17 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (submitBtn) submitBtn.disabled = false;
                     });
                 });
+                const btn = form.querySelector('[type="submit"]');
+if (btn) btn.disabled = false; // On réactive le bouton seulement quand le JS est prêt
             });
         };
-        setupLiveErrorCleanup();
+
         // --- INITIALISATION UNIQUE ---
+        setupLiveErrorCleanup(); // <--- AJOUTE CET APPEL ICI !
         setupAjaxForm('#contact-form', '#contact-message');
         setupAjaxForm('#ajax-devis-form', '#devis-message'); // Ajoutez id="devis-message" dans votre template devis
         setupAjaxForm('#newsletter-form', '#newsletter-message');
+        setupAjaxForm('#form-souscription','#souscription-message')
     });
 //FAQ PARTY
 document.addEventListener('DOMContentLoaded', function() {

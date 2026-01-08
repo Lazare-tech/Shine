@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib import messages
-from .forms import DemandeDevisForm, ContactMessageForm, NewsLetterForm,ConsultationForm
+from .forms import DemandeDevisForm, ContactMessageForm, NewsLetterForm,ConsultationForm,SoutienForm,MobiliteForm,EtablissementForm,EtudeInternationalForm,LogementForm
 from .models import PackService, Service, News_letter,Blog,PaysDestination,Bourse,StatutBourse,Service,FAQ
 from django.core.paginator import Paginator
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 import phonenumbers
 from django.contrib import messages # Pour les messages de succès
 
@@ -213,25 +213,81 @@ def services(request, slug):
     return render(request,'shine/services/services.html',context)
 
 # 
+# def souscrire_pack(request, pack_slug):
+#     pack = get_object_or_404(PackService, slug=pack_slug)
+#     service = pack.service
+    
+#     # Choix du template selon le type de service (basé sur le slug du service parent)
+#     template_name = 'shine/inscription_service/default_form.html'
+    
+#     if 'soutien-scolaire' in service.slug:
+#         template_name = 'shine/inscription_service/pack_soutien_scolaire.html'
+#     elif 'etudes-internationales' in service.slug:
+#         template_name = 'shine/inscription_service/etude_international.html'
+#     elif 'accompagnement-etablissements' in service.slug:
+#         template_name = 'shine/inscription_service/pack_accompagnement_etablissement.html'
+#     elif 'mobilite' in service.slug:
+#         template_name = 'shine/inscription_service/mobilite_generale.html'
+
+#     context = {
+#         'pack': pack,
+#         'service': service,
+#     }
+#     return render(request, template_name, context)
 def souscrire_pack(request, pack_slug):
     pack = get_object_or_404(PackService, slug=pack_slug)
     service = pack.service
     
-    # Choix du template selon le type de service (basé sur le slug du service parent)
-    template_name = 'shine/inscription_service/default_form.html'
-    
-    if 'soutien-scolaire' in service.slug:
-        template_name = 'shine/inscription_service/pack_soutien_scolaire.html'
-    elif 'etudes-internationales' in service.slug:
-        template_name = 'shine/inscription_service/etude_international.html'
-    elif 'accompagnement-etablissements' in service.slug:
-        template_name = 'shine/inscription_service/pack_accompagnement_etablissement.html'
-    elif 'mobilite' in service.slug:
-        template_name = 'shine/inscription_service/mobilite_generale.html'
+    forms_mapping = {
+        'soutien-scolaire': (SoutienForm, 'shine/inscription_service/pack_soutien_scolaire.html'),
+        'etudes-internationales': (EtudeInternationalForm, 'shine/inscription_service/etude_international.html'),
+        'accompagnement-des-etablissements-scolaires': (EtablissementForm, 'shine/inscription_service/pack_accompagnement_etablissement.html'),
+        'mobilite': (MobiliteForm, 'shine/inscription_service/mobilite_generale.html'),
+        'logement-accueil': (LogementForm, 'shine/inscription_service/logement_accueil.html'),
+    }
 
+    form_class = None
+    template_name = None # On part de None pour tester si on trouve
+
+    # Recherche du mapping
+    for key, (f_class, t_name) in forms_mapping.items():
+        if key in service.slug:
+            form_class = f_class
+            template_name = t_name
+            break
+
+    # --- SECURITÉ ANTI-PAGE BLANCHE ---
+    if not form_class or not template_name:
+        # Si on ne trouve pas, on affiche un message d'erreur clair au lieu de planter
+        return HttpResponse(f"Désolé, le formulaire pour le service '{service.slug}' n'est pas encore configuré dans forms_mapping.")
+
+    if request.method == 'POST':
+        form = form_class(request.POST, request.FILES)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.pack = pack
+            instance.save()
+            return JsonResponse({
+                'status': 'success', 
+                'message': 'Votre demande a été enregistrée !',
+                'redirect_url': '/merci/' # Assure-toi que cette URL existe
+            })
+        else:
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'status': 'error', 
+                    'message': 'Erreur de validation.',
+                    'errors': form.errors.get_json_data() 
+                })
+            context = {'pack': pack, 'service': service, 'form': form}
+            return render(request, template_name, context)
+
+    # GET : Affichage initial
     context = {
         'pack': pack,
         'service': service,
+        'form': form_class(), 
     }
     return render(request, template_name, context)
 

@@ -1,8 +1,11 @@
+from django.conf import settings
 from django.db import models
 from django.utils.text import slugify
 from django.core.validators import EmailValidator
 from phonenumber_field.modelfields import PhoneNumberField
 from ckeditor.fields import RichTextField
+
+from usercompte.models import User
 
 
 class News_letter(models.Model):
@@ -387,3 +390,65 @@ class Consultation(models.Model):
 
     def __str__(self):
         return f"{self.nom_complet} - {self.destination.nom}"
+#
+
+class SouscriptionSoutien(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    pack = models.ForeignKey(PackService, on_delete=models.PROTECT,verbose_name='pack_souscrit')
+    niveau_etude = models.CharField(max_length=50,verbose_name='niveau etude') # Ex: Terminale
+    objectif_principal = models.CharField(max_length=100,verbose_name='objectif_principal')
+    matieres = models.TextField(blank=True,verbose_name='matiere') # Stocké en liste ou JSON
+    statut = models.CharField(max_length=20, default='EN_ATTENTE') # Pour votre dashboard admin
+    date_demande = models.DateTimeField(auto_now_add=True,verbose_name='date envoi de la souscription') 
+#
+# --- 2. ÉTUDES INTERNATIONALES ---
+class SouscriptionEtude(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    pack = models.ForeignKey('PackService', on_delete=models.PROTECT)
+    dernier_diplome = models.CharField(max_length=150)
+    pays_destination = models.CharField(max_length=100)
+    filiere_visee = models.CharField(max_length=150)
+    
+    statut = models.CharField(max_length=20, default='EN_ATTENTE')
+    date_demande = models.DateTimeField(auto_now_add=True)
+
+# --- 3. MOBILITÉ GÉNÉRALE ---
+class SouscriptionMobilite(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    pack = models.ForeignKey('PackService', on_delete=models.PROTECT)
+    type_visa = models.CharField(max_length=150) # Ex: Visa Affaires, Tourisme
+    pays_destination = models.CharField(max_length=100)
+    date_prevue = models.DateField() # Champ date pour la planification
+    
+    statut = models.CharField(max_length=20, default='EN_ATTENTE')
+    date_demande = models.DateTimeField(auto_now_add=True)
+
+# --- 4. ACCOMPAGNEMENT ÉTABLISSEMENTS (B2B) ---
+class SouscriptionEtablissement(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    pack = models.ForeignKey('PackService', on_delete=models.PROTECT)
+    nom_etablissement = models.CharField(max_length=255,verbose_name="nom etablissement")
+    nombre_eleves = models.CharField(max_length=50) # Saisie texte : "Environ 500"
+    problemes_identifies = models.TextField(verbose_name='probleme identifie') # Analyse des besoins
+    
+    statut = models.CharField(max_length=20, default='EN_ATTENTE')
+    date_demande = models.DateTimeField(auto_now_add=True,verbose_name="date envoie de la souscription")
+#
+class SouscriptionLogement(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    pack = models.ForeignKey('PackService', on_delete=models.PROTECT)
+    
+    # Champs essentiels pour l'accueil et le logement
+    ville_destination = models.CharField(max_length=100, verbose_name="Ville de destination")
+    date_arrivee_prevue = models.CharField(max_length=100, verbose_name="Date d'arrivée (ou période)")
+    type_logement_recherche = models.CharField(max_length=200, verbose_name="Type de logement")
+    budget_loyer_max = models.CharField(max_length=100, verbose_name="Budget loyer mensuel")
+    
+    # Pour l'accueil aéroport
+    details_vol = models.TextField(blank=True, verbose_name="Détails du vol ou besoins spécifiques")
+    
+    statut = models.CharField(max_length=20, default='EN_ATTENTE')
+    date_demande = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Souscription Logement"

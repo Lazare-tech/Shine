@@ -3,16 +3,16 @@ from django_countries.widgets import CountrySelectWidget
 from django_countries.fields import CountryField
 from phonenumber_field.formfields import PhoneNumberField
 from phonenumber_field.widgets import PhoneNumberPrefixWidget
-from .models import Service,Consultation,DemandeDevis, ContactMessage,News_letter
+from .models import Service,Consultation,DemandeDevis, ContactMessage,News_letter,SouscriptionSoutien,SouscriptionEtablissement,SouscriptionEtude,SouscriptionMobilite,SouscriptionLogement
 from phonenumber_field.phonenumber import to_python
 import phonenumbers
+from django.core.validators import RegexValidator
 
 class DemandeDevisForm(forms.ModelForm):
     email = forms.EmailField(
         error_messages={
             'invalid': "Veuillez entrer une adresse email valide (ex: contact@domaine.com).",
             'required': "L'email est obligatoire.",
-            'unique': "Cette adresse email est déjà utilisée."
         }),
     pays = CountryField(blank_label='Pays').formfield(
         widget=forms.Select(attrs={
@@ -67,7 +67,7 @@ class DemandeDevisForm(forms.ModelForm):
         """Vérifie si l'email existe déjà pour éviter les doublons proprement"""
         email = self.cleaned_data.get('email').lower() # On passe tout en minuscule
         if DemandeDevis.objects.filter(email=email).exists():
-            raise forms.ValidationError("Email déjà utilisé !")
+            raise forms.ValidationError("Email invalid !")
         return email   
     
     
@@ -309,3 +309,113 @@ class ConsultationForm(forms.ModelForm):
                 if field_name in self.errors:
                     existing_classes = field.widget.attrs.get('class', '')
                     field.widget.attrs['class'] = f"{existing_classes} is-invalid"
+##
+# Validateur pour forcer le texte uniquement
+text_only = RegexValidator(r'^[a-zA-ZÀ-ÿ\s\-,\.\(\)]+$', "Ce champ ne doit contenir que des lettres.")
+
+class SoutienForm(forms.ModelForm):
+    class Meta:
+        model = SouscriptionSoutien
+        fields = ['niveau_etude', 'objectif_principal', 'matieres']
+        labels = {
+            'niveau_etude': "Niveau d'études actuel",
+            'objectif_principal': "Objectif principal",
+            'matieres': "Matières à renforcer",
+        }
+        widgets = {
+            'niveau_etude': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ex: Terminale D'}),
+            'objectif_principal': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ex: Préparation Baccalauréat'}),
+            'matieres': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Ex: Mathématiques, PC...'}),
+        }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Indispensable pour ton script JS handleFieldValidation
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': field.widget.attrs.get('class', '') + ' form-control'})
+
+class EtudeInternationalForm(forms.ModelForm):
+    class Meta:
+        model = SouscriptionEtude
+        fields = ['dernier_diplome', 'pays_destination', 'filiere_visee']
+        labels = {
+            'dernier_diplome': "Dernier diplôme obtenu",
+            'pays_destination': "Pays de destination souhaité",
+            'filiere_visee': "Filière ou domaine d'étude",
+        }
+        widgets = {
+            'dernier_diplome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ex: Licence 3'}),
+            'pays_destination': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ex: Canada'}),
+            'filiere_visee': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ex: Informatique'}),
+        }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Indispensable pour ton script JS handleFieldValidation
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': field.widget.attrs.get('class', '') + ' form-control'})
+
+class MobiliteForm(forms.ModelForm):
+    class Meta:
+        model = SouscriptionMobilite
+        fields = ['type_visa', 'pays_destination', 'date_prevue']
+        labels = {
+            'type_visa': "Type de projet (Visa, Voyage...)",
+            'pays_destination': "Pays de destination",
+            'date_prevue': "Date de départ prévue",
+        }
+        widgets = {
+            'type_visa': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ex: Visa Étudiant'}),
+            'pays_destination': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ex: France'}),
+            'date_prevue': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+        }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Indispensable pour ton script JS handleFieldValidation
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': field.widget.attrs.get('class', '') + ' form-control'})
+
+class EtablissementForm(forms.ModelForm):
+    class Meta:
+        model = SouscriptionEtablissement
+        fields = ['nom_etablissement', 'nombre_eleves', 'problemes_identifies']
+        labels = {
+            'nom_etablissement': "Nom de l'établissement scolaire",
+            'nombre_eleves': "Nombre d'élèves (environ)",
+            'problemes_identifies': "Description des besoins",
+        }
+        widgets = {
+            'nom_etablissement': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ex: Groupe Scolaire Saint-Paul'}),
+            'nombre_eleves': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ex: Environ 500 élèves'}),
+            'problemes_identifies': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Quels axes souhaitez-vous améliorer ?'}),
+        }
+        error_messages = {
+            'nom_etablissement': {
+                'required': "Ce champ est obligatoire.",
+            },
+            'nombre_eleves': {
+                'required': "Ce champ est obligatoire.",
+            },
+        }
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Indispensable pour ton script JS handleFieldValidation
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': field.widget.attrs.get('class', '') + ' form-control'})
+
+class LogementForm(forms.ModelForm):
+    class Meta:
+        model = SouscriptionLogement
+        fields = ['ville_destination', 'date_arrivee_prevue', 'type_logement_recherche', 'budget_loyer_max', 'details_vol']
+        widgets = {
+            'ville_destination': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ex: Paris, Lyon, Montréal...'}),
+                        'date_arrivee_prevue': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+
+            'type_logement_recherche': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ex: Studio, Chambre CROUS, Colocation...'}),
+            'budget_loyer_max': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ex: 500€ - 700€'}),
+            'details_vol': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'N° de vol, heure d\'arrivée ou précisions sur le logement...'}),
+        }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Indispensable pour ton script JS handleFieldValidation
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': field.widget.attrs.get('class', '') + ' form-control'})

@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from django.contrib import admin
-from .models import ContactMessage, DemandeDevis, News_letter,Service,PackService,Blog,AvisClient,Equipe,PaysDestination,StatutBourse,Bourse,FAQ,Consultation
+from .models import ContactMessage, DemandeDevis, News_letter,Service,PackService,Blog,AvisClient,Equipe,PaysDestination,StatutBourse,Bourse,FAQ,Consultation,SouscriptionEtablissement,SouscriptionEtude,SouscriptionMobilite,SouscriptionSoutien,SouscriptionLogement
 from django.utils.html import format_html
 
 
@@ -357,3 +357,34 @@ class ConsultationAdmin(admin.ModelAdmin):
     list_display = ('nom_complet', 'email', 'pays', 'destination', 'date_demande')
     list_filter = ('destination', 'pays')
     search_fields = ('nom_complet', 'email')
+#
+# Classe de base pour éviter de répéter le code (DRY)
+class BaseSubscriptionAdmin(admin.ModelAdmin):
+    list_display = ('user', 'pack', 'statut', 'date_demande')
+    list_filter = ('statut', 'date_demande')
+    search_fields = ('user__email', 'user__last_name', 'pack__titre_pack')
+    list_editable = ('statut',) # Permet de changer le statut directement dans la liste
+    date_hierarchy = 'date_demande' # Ajoute une barre de navigation par date en haut
+
+@admin.register(SouscriptionSoutien)
+class SoutienAdmin(BaseSubscriptionAdmin):
+    list_display = ('user', 'niveau_etude', 'objectif_principal', 'statut', 'date_demande')
+
+@admin.register(SouscriptionEtude)
+class EtudeAdmin(BaseSubscriptionAdmin):
+    list_display = ('user', 'dernier_diplome', 'pays_destination', 'statut', 'date_demande')
+
+@admin.register(SouscriptionMobilite)
+class MobiliteAdmin(BaseSubscriptionAdmin):
+    list_display = ('user', 'type_visa', 'pays_destination', 'date_prevue', 'statut')
+
+@admin.register(SouscriptionEtablissement)
+class EtablissementAdmin(BaseSubscriptionAdmin):
+    list_display = ('user', 'nom_etablissement', 'nombre_eleves', 'statut', 'date_demande')
+    
+@admin.register(SouscriptionLogement)
+class LogementAdmin(admin.ModelAdmin):
+    list_display = ('user', 'pack', 'ville_destination', 'date_arrivee_prevue', 'statut')
+    list_filter = ('statut', 'ville_destination')
+    search_fields = ('user__email', 'ville_destination')
+    list_editable = ('statut',)

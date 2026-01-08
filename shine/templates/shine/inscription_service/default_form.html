@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="py-5" style="background-color: #f8f9fa; min-height: 90vh;">
+    <div class="container">
+        <div class="row g-4">
+            
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm rounded-4 sticky-top" style="top: 100px; overflow: hidden;">
+                    <div class="p-4 text-white" style="background-color: #122046;">
+                        <span class="badge bg-gold text-dark mb-2 px-3 py-3 rounded-pill fw-bold">VOTRE SÉLECTION</span>
+                        <h4 class="fw-bold mb-0">{{ pack.service.titre }}</h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="mb-4">
+                            <h6 class="text-muted small text-uppercase fw-bold">Formule choisie</h6>
+                            <p class="h5 fw-bold text-title-blue">{{ pack.titre_pack }}</p>
+                        </div>
+
+                        <div class="mb-4">
+                            <h6 class="text-muted small text-uppercase fw-bold mb-3">Inclus dans ce pack</h6>
+                            <ul class="list-unstyled">
+                                {% for item in pack.liste_services_inclus.splitlines %}
+                                    {% if item %}
+                                    <li class="mb-2 d-flex align-items-start small">
+                                        <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                                        <span>{{ item }}</span>
+                                    </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold">Total à régler</span>
+                            <span class="h3 fw-bold text-title-blue mb-0">{{ pack.prix }} €</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
+                    <div id="souscription-message"></div> <header class="mb-4">
+                        <h2 class="fw-bold text-title-blue">Finalisez votre inscription</h2>
+                        <p class="text-muted">Complétez ces informations pour que nous puissions traiter votre dossier.</p>
+                    </header>
+
+                    <form id="form-souscription" method="POST" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+                        <input type="hidden" name="pack_id" value="{{ pack.id }}">
+
+                        <div class="form-fields-container">
+                            {% block specific_fields %}
+                                {% endblock specific_fields %}
+                        </div>
+
+                        <div class="mt-5 p-3 rounded-3 bg-light border-start border-4 border-warning">
+                            <p class="small mb-0 text-muted">
+                                <i class="fas fa-shield-alt me-2"></i> Vos données sont sécurisées et ne seront utilisées que dans le cadre de votre procédure avec Shine Agency.
+                            </p>
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-responsive-primaryl btn-sm fw-bold py-3 shadow" btn-disabled>
+                                Confirmer ma souscription <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/style.js' %}"></script>
+
+
+{% endblock content %}
