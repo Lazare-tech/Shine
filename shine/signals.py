@@ -4,6 +4,16 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from .models import DemandeDevis,ContactMessage,SouscriptionLogement,SouscriptionEtablissement,SouscriptionEtude,SouscriptionMobilite,SouscriptionSoutien,Consultation
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.core.mail import send_mail
+from django.conf import settings
+
+# Importe tous tes modèles de souscription
+from .models import (
+    SouscriptionSoutien, SouscriptionEtablissement, 
+    SouscriptionEtude, SouscriptionMobilite, SouscriptionLogement
+)
 
 AGENCY_CONTEXT = {
     'location': 'Burkina-Faso, Bobo-Dioulasso, secteur 5 face à Megamonde',
@@ -14,6 +24,7 @@ AGENCY_CONTEXT = {
     'tiktok_url': 'https://vm.tiktok.com/ZSHKLbam9tLDw-EzZ7y/',
     'instagram_url': 'https://www.instagram.com/shineagency226?igsh=dGUxbmhvM2xia21x',
 }
+ADMIN_EMAIL_RECEIVER = 'yelmaniyel@gmail.com'
 
 @receiver(post_save, sender=DemandeDevis)
 def envoyer_email_apres_devis(sender, instance, created, **kwargs):
@@ -71,11 +82,10 @@ def envoyer_email_apres_devis(sender, instance, created, **kwargs):
                 subject_admin,
                 message_admin,
                 None,
-                ['yelmaniyel@gmail.com'],
+                [ADMIN_EMAIL_RECEIVER],
                 fail_silently=False,
             )
             
-            print(f"Succès : Mail envoyé au client ({instance.email}) et à l'admin.")
 
         except Exception as e:
             # Regarde bien ton terminal/console quand tu testes pour voir l'erreur exacte
@@ -127,10 +137,9 @@ def envoyer_email_contact(sender, instance, created, **kwargs):
                 subject_admin,
                 message_admin,
                 None,
-                ['yelmaniyel@gmail.com'],
+                [ADMIN_EMAIL_RECEIVER],
                 fail_silently=False,
             )
-            print("Emails Contact (Client + Admin) envoyés avec succès !")
 
         except Exception as e:
             print(f"Erreur d'envoi contact : {e}")
@@ -144,16 +153,7 @@ def envoi_email_general(template_name, subject, context, recipient_email):
     except Exception as e:
         print(f"Erreur d'envoi email : {e}")
 ##
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from django.core.mail import send_mail
-from django.conf import settings
 
-# Importe tous tes modèles de souscription
-from .models import (
-    SouscriptionSoutien, SouscriptionEtablissement, 
-    SouscriptionEtude, SouscriptionMobilite, SouscriptionLogement
-)
 @receiver(post_save, sender=SouscriptionSoutien)
 @receiver(post_save, sender=SouscriptionEtablissement)
 @receiver(post_save, sender=SouscriptionEtude)
@@ -219,10 +219,9 @@ def envoyer_emails_souscription(sender, instance, created, **kwargs):
                 subject_admin,
                 message_admin,
                 None,
-                ['yelmaniyel@gmail.com'],
+                [ADMIN_EMAIL_RECEIVER],
                 fail_silently=False,
             )
-            print(f"Souscription de {nom_client} traitée avec succès !")
 
         except Exception as e:
             print(f"Erreur d'envoi souscription : {e}")
@@ -274,10 +273,9 @@ def envoyer_email_consultation(sender, instance, created, **kwargs):
                 subject_admin,
                 message_admin,
                 None,
-                ['yelmaniyel@gmail.com'],
+                [ADMIN_EMAIL_RECEIVER],
                 fail_silently=False,
             )
-            print(f"Emails Consultation envoyés pour {instance.nom_complet}")
 
         except Exception as e:
             print(f"Erreur signals consultation : {e}")
