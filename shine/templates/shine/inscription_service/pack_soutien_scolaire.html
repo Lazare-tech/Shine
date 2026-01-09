@@ -2,18 +2,25 @@
 
 {% block specific_fields %}
 <div class="mb-3">
-    <label class="form-label fw-bold">{{ form.niveau_etude.label }}</label>
+    <label class="form-label fw-bold">
+        <i class="fas fa-graduation-cap me-2 text-title-gold "></i>{{ form.niveau_etude.label }}
+    </label>
     {{ form.niveau_etude }}
-    <div class="text-danger small"></div> </div>
+    <div class="text-danger small"></div> 
+</div>
 
 <div class="mb-3">
-    <label class="form-label fw-bold">{{ form.objectif_principal.label }}</label>
+    <label class="form-label fw-bold">
+        <i class="fas fa-bullseye me-2 text-title-gold "></i>{{ form.objectif_principal.label }}
+    </label>
     {{ form.objectif_principal }}
     <div class="text-danger small"></div>
 </div>
 
 <div class="mb-3">
-    <label class="form-label fw-bold">{{ form.matieres.label }}</label>
+    <label class="form-label fw-bold">
+        <i class="fas fa-book me-2 text-title-gold "></i>{{ form.matieres.label }}
+    </label>
     {{ form.matieres }}
     <div class="text-danger small"></div>
 </div>

@@ -111,6 +111,7 @@ def demande_devis_view(request):
         code_pays = data.get('pays') 
         numero_local = data.get('numero_telephone')
 
+        # Nettoyage du téléphone
         if code_pays and numero_local:
             try:
                 import phonenumbers
@@ -121,31 +122,34 @@ def demande_devis_view(request):
                     )
                     form.data = data 
                 else:
-                    form.add_error('numero_telephone', f"Le numéro n'est pas valide pour le pays choisi ({code_pays}).")
+                    form.add_error('numero_telephone', f"Invalide pour {code_pays}.")
             except Exception:
-                form.add_error('numero_telephone', "Veuillez entrer un numéro de téléphone valide.")
+                form.add_error('numero_telephone', "Numéro invalide.")
 
-        # --- GESTION DE LA RÉPONSE AJAX ---
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            if form.is_valid():
-                form.save()
+        # --- LOGIQUE DE VALIDATION ET ENREGISTREMENT ---
+        if form.is_valid():
+            form.save() # ON SAUVEGARDE UNE SEULE FOIS ICI
+
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                 return JsonResponse({
                     'status': 'success', 
                     'message': 'Votre demande de devis a été envoyée avec succès !'
                 })
-            else:
-                return JsonResponse({
-                    'status': 'error',
-                    'message': 'Veuillez corriger les erreurs ci-dessous.',
-                    'errors': form.errors.get_json_data() # Envoie les erreurs propres de Django au JS
-                }, status=400)
-
-        # --- CAS CLASSIQUE (SANS AJAX) ---
-        if form.is_valid():
-            form.save()
+            
+            # Cas classique sans AJAX
             messages.success(request, "Votre demande a été envoyée !")
             return redirect('shine:devis')
 
+        else:
+            # GESTION DES ERREURS DE VALIDATION
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'Veuillez corriger les erreurs.',
+                    'errors': form.errors.get_json_data()
+                }, status=400)
+
+    # Affichage initial ou retour d'erreurs classique
     return render(request, 'shine/body/devis.html', {'form': form})
 #............................................................................................
 def mentorat(request):
@@ -268,11 +272,16 @@ def souscrire_pack(request, pack_slug):
             instance.user = request.user
             instance.pack = pack
             instance.save()
-            return JsonResponse({
-                'status': 'success', 
-                'message': 'Votre demande a été enregistrée !',
-                'redirect_url': '/merci/' # Assure-toi que cette URL existe
-            })
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                # Si c'est de l'AJAX, on renvoie du JSON et on S'ARRÊTE LÀ
+                return JsonResponse({
+                    'status': 'success', 
+                    'message': 'Votre demande a été enregistrée !',
+                    'redirect_url': '/merci/'
+                })
+            
+            # Si ce n'est PAS de l'AJAX (cas classique), on redirige
+           
         else:
             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                 return JsonResponse({

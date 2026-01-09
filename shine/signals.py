@@ -15,43 +15,51 @@ AGENCY_CONTEXT = {
     'instagram_url': 'https://www.instagram.com/shineagency226?igsh=dGUxbmhvM2xia21x',
 }
 @receiver(post_save, sender=DemandeDevis)
+@receiver(post_save, sender=DemandeDevis)
 def envoyer_email_apres_devis(sender, instance, created, **kwargs):
+    # On n'agit QUE si c'est une nouvelle création
     if created:
-        subject = "Confirmation de réception - Shine Agency"
-        
-        # On regroupe toutes les infos ici
-        context = AGENCY_CONTEXT.copy()
-        
         try:
+            # 1. Sécuriser la récupération du titre du service
+            nom_service = "Non spécifié"
+            if instance.service_souhaite:
+                nom_service = getattr(instance.service_souhaite, 'titre', str(instance.service_souhaite))
+
+            subject = "Confirmation de réception - Shine Agency"
+            context = AGENCY_CONTEXT.copy()
+            context['nom'] = instance.nom # Ajoute le nom pour le mail client
+            
             html_message = render_to_string('shine/emails/accuse_devis.html', context)
             plain_message = strip_tags(html_message)
             
+            # Email au Client
             send_mail(
                 subject,
                 plain_message,
-                None,
+                None, # Utilise DEFAULT_FROM_EMAIL des settings
                 [instance.email],
-                html_message=html_message
+                html_message=html_message,
+                fail_silently=False # On laisse le try/except attraper l'erreur
             )
-            # 2. ENVOI À L'ADMINISTRATEUR (Style structuré)
+
+            # 2. Email à l'Administrateur
             subject_admin = f"⭐ NOUVEAU DEVIS : {instance.nom}"
-            
             message_admin = (
                 f"Bonjour Shine Agency,\n\n"
                 f"Une nouvelle demande de devis a été soumise sur le site.\n\n"
-                f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 f"👤 INFOS CLIENT\n"
-                f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 f"● Nom complet : {instance.nom}\n"
                 f"● Email : {instance.email}\n"
                 f"● Téléphone : {instance.pays} {instance.numero_telephone}\n\n"
-                f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 f"💼 DÉTAILS DE LA DEMANDE\n"
-                f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                f"● Service : {service_nom}\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"● Service : {nom_service}\n"
                 f"● Message : \n\n{instance.contenu}\n\n"
-                f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                f"📅 Date : {instance.date_demande}\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"📅 Date : {instance.date_created if hasattr(instance, 'date_created') else 'Maintenant'}\n"
             )
 
             send_mail(
@@ -61,9 +69,12 @@ def envoyer_email_apres_devis(sender, instance, created, **kwargs):
                 ['yelmaniyel@gmail.com'],
                 fail_silently=False,
             )
-            print("Email professionnel envoyé avec succès !")
+            print("Emails envoyés avec succès !")
+
         except Exception as e:
-            print(f"Erreur d'envoi : {e}")
+            # Crucial : On print l'erreur mais on ne bloque pas la réponse serveur
+            # C'est cela qui évite l' "Erreur technique" sur le site
+            print(f"ALERTE : L'enregistrement a réussi mais l'email n'est pas parti. Erreur : {e}")
             
 @receiver(post_save, sender=ContactMessage) # Remplace 'Contact' par ton modèle
 def envoyer_email_contact(sender, instance, created, **kwargs):
@@ -95,16 +106,16 @@ def envoyer_email_contact(sender, instance, created, **kwargs):
             message_admin = (
                 f"Bonjour Shine Agency,\n\n"
                 f"Vous avez reçu un nouveau message depuis le formulaire de contact.\n\n"
-                f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 f"👤 INFORMATIONS CLIENT\n"
-                f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 f"● Nom : {instance.nom}\n"
                 f"● Email : {instance.email}\n"
-                f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 f"💬 MESSAGE DU CLIENT\n"
-                f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 f"{instance.contenu}\n\n"
-                f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 f"📅 Date de réception : {instance.date_envoi if hasattr(instance, 'date_envoi') else 'Maintenant'}\n"
             )
 
