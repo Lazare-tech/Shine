@@ -1,5 +1,28 @@
 {% extends "shine/inscription_service/default_form.html" %}
 {% load static %}
+{% block title %}
+    {% if pack %}
+        Inscription : {{ pack.titre_pack }} - {{ pack.service.titre }} | Shine Agency
+    {% else %}
+        Inscription aux Services d'Accompagnement | Shine Agency
+    {% endif %}
+{% endblock title %}
+{% block extra_head %}
+    <meta name="description" content="Finalisez votre inscription pour le {{ pack.titre_pack }}. Shine Agency vous accompagne dans votre projet de {{ pack.service.titre }} avec expertise.">
+    
+    <meta property="og:title" content="Rejoignez Shine Agency - {{ pack.titre_pack }}">
+    <meta property="og:description" content="Vous avez choisi l'excellence avec notre formule {{ pack.titre_pack }}. Complétez vos informations pour démarrer l'aventure.">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    
+    {% if pack.service.image_service %}
+        <meta property="og:image" content="{{ pack.service.image_service.url }}">
+    {% else %}
+        <meta property="og:image" content="{% static 'images/default-share-shine.jpg' %}">
+    {% endif %}
+    
+    <meta property="og:type" content="website">
+    <meta name="robots" content="noindex, follow">
+{% endblock extra_head %}
 {% block specific_fields %}
 <div class="row mb-4">
     <div class="col-md-12 mb-3">

@@ -3,7 +3,7 @@ from django.dispatch import receiver
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-from .models import DemandeDevis,ContactMessage,SouscriptionLogement,SouscriptionEtablissement,SouscriptionEtude,SouscriptionMobilite,SouscriptionSoutien
+from .models import DemandeDevis,ContactMessage,SouscriptionLogement,SouscriptionEtablissement,SouscriptionEtude,SouscriptionMobilite,SouscriptionSoutien,Consultation
 
 AGENCY_CONTEXT = {
     'location': 'Burkina-Faso, Bobo-Dioulasso, secteur 5 face à Megamonde',
@@ -14,54 +14,59 @@ AGENCY_CONTEXT = {
     'tiktok_url': 'https://vm.tiktok.com/ZSHKLbam9tLDw-EzZ7y/',
     'instagram_url': 'https://www.instagram.com/shineagency226?igsh=dGUxbmhvM2xia21x',
 }
-@receiver(post_save, sender=DemandeDevis)
+
 @receiver(post_save, sender=DemandeDevis)
 def envoyer_email_apres_devis(sender, instance, created, **kwargs):
-    # On n'agit QUE si c'est une nouvelle création
     if created:
         try:
-            # 1. Sécuriser la récupération du titre du service
+            # --- 1. RÉCUPÉRATION DU NOM DU SERVICE ---
             nom_service = "Non spécifié"
             if instance.service_souhaite:
+                # On essaie de récupérer le titre, sinon on prend la version texte de l'objet
                 nom_service = getattr(instance.service_souhaite, 'titre', str(instance.service_souhaite))
 
+            # --- 2. PRÉPARATION DU MAIL CLIENT ---
             subject = "Confirmation de réception - Shine Agency"
             context = AGENCY_CONTEXT.copy()
-            context['nom'] = instance.nom # Ajoute le nom pour le mail client
+            context.update({
+                'nom': instance.nom,
+                'service': nom_service,  # <--- INDISPENSABLE pour que {{ service }} marche dans l'HTML
+            })
             
             html_message = render_to_string('shine/emails/accuse_devis.html', context)
             plain_message = strip_tags(html_message)
             
-            # Email au Client
+            # Envoi au Client
             send_mail(
                 subject,
                 plain_message,
-                None, # Utilise DEFAULT_FROM_EMAIL des settings
+                None,
                 [instance.email],
                 html_message=html_message,
-                fail_silently=False # On laisse le try/except attraper l'erreur
+                fail_silently=False
             )
 
-            # 2. Email à l'Administrateur
+            # --- 3. PRÉPARATION DU MAIL ADMIN ---
             subject_admin = f"⭐ NOUVEAU DEVIS : {instance.nom}"
             message_admin = (
                 f"Bonjour Shine Agency,\n\n"
-                f"Une nouvelle demande de devis a été soumise sur le site.\n\n"
+                f"Une nouvelle demande de devis a été soumise.\n\n"
                 f"━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 f"👤 INFOS CLIENT\n"
                 f"━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 f"● Nom complet : {instance.nom}\n"
                 f"● Email : {instance.email}\n"
-                f"● Téléphone : {instance.pays} {instance.numero_telephone}\n\n"
+                f"● Téléphone :{instance.numero_telephone}\n\n"
                 f"━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                f"💼 DÉTAILS DE LA DEMANDE\n"
+                f"💼 DÉTAILS\n"
                 f"━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 f"● Service : {nom_service}\n"
                 f"● Message : \n\n{instance.contenu}\n\n"
                 f"━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                f"📅 Date : {instance.date_created if hasattr(instance, 'date_created') else 'Maintenant'}\n"
+                f"📅 Date : {instance.date_demande if hasattr(instance, 'date_demande') else 'Maintenant'}\n"
             )
 
+            # Envoi à l'Admin
             send_mail(
                 subject_admin,
                 message_admin,
@@ -69,13 +74,12 @@ def envoyer_email_apres_devis(sender, instance, created, **kwargs):
                 ['yelmaniyel@gmail.com'],
                 fail_silently=False,
             )
-            print("Emails envoyés avec succès !")
+            
+            print(f"Succès : Mail envoyé au client ({instance.email}) et à l'admin.")
 
         except Exception as e:
-            # Crucial : On print l'erreur mais on ne bloque pas la réponse serveur
-            # C'est cela qui évite l' "Erreur technique" sur le site
-            print(f"ALERTE : L'enregistrement a réussi mais l'email n'est pas parti. Erreur : {e}")
-            
+            # Regarde bien ton terminal/console quand tu testes pour voir l'erreur exacte
+            print(f"ERREUR SIGNALS : {e}")
 @receiver(post_save, sender=ContactMessage) # Remplace 'Contact' par ton modèle
 def envoyer_email_contact(sender, instance, created, **kwargs):
     if created:
@@ -222,3 +226,58 @@ def envoyer_emails_souscription(sender, instance, created, **kwargs):
 
         except Exception as e:
             print(f"Erreur d'envoi souscription : {e}")
+
+##
+@receiver(post_save, sender=Consultation)
+def envoyer_email_consultation(sender, instance, created, **kwargs):
+    if created:
+        try:
+            # 1. EMAIL POUR L'UTILISATEUR (Confirmation)
+            subject_user = "Confirmation de votre consultation gratuite - Shine Agency"
+            context = AGENCY_CONTEXT.copy()
+            context.update({
+                'nom': instance.nom_complet,
+                'service': "Consultation gratuite (Orientation/Études)"
+            })
+            
+            # Utilise ton template existant ou crée 'accuse_consultation.html'
+            html_message = render_to_string('shine/emails/accuse_consultation.html', context)
+            plain_message = strip_tags(html_message)
+            
+            send_mail(
+                subject_user,
+                plain_message,
+                None,
+                [instance.email],
+                html_message=html_message,
+                fail_silently=True
+            )
+
+            # 2. EMAIL POUR L'ADMINISTRATEUR (Détails complets)
+            subject_admin = f"📅 NOUVELLE CONSULTATION : {instance.nom_complet}"
+            
+            message_admin = (
+                f"Bonjour Shine Agency,\n\n"
+                f"Une nouvelle demande de consultation gratuite a été réservée.\n\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"👤 INFOS PROSPECT\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"● Nom complet : {instance.nom_complet}\n"
+                f"● Email : {instance.email}\n"
+                f"● Téléphone : {instance.pays} {instance.numero_telephone}\n"
+                f"● Destination : {instance.destination}\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"📅 Date de demande : {getattr(instance, 'date_creation', 'Maintenant')}\n"
+            )
+
+            send_mail(
+                subject_admin,
+                message_admin,
+                None,
+                ['yelmaniyel@gmail.com'],
+                fail_silently=False,
+            )
+            print(f"Emails Consultation envoyés pour {instance.nom_complet}")
+
+        except Exception as e:
+            print(f"Erreur signals consultation : {e}")

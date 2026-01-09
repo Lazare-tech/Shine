@@ -1,7 +1,20 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}{% endblock title %}
+{% block title %}
+    Demande de Devis Gratuit sous 24h | Shine Agency - Études à l'Étranger
+{% endblock title %}
+{% block extra_head %}
+    <meta name="description" content="Obtenez une estimation personnalisée pour votre projet d'études internationales. Devis 100% gratuit, sans engagement et réponse en moins de 24h par nos experts Shine Agency.">
+    <meta name="keywords" content="devis gratuit études étranger, prix accompagnement visa, tarif orientation scolaire, Shine Agency devis, coût études international">
 
+    <meta property="og:title" content="Votre Devis Personnalisé avec Shine Agency">
+    <meta property="og:description" content="Prêt(e) pour le grand saut ? Demandez votre devis gratuit en 2 minutes et recevez une réponse d'un conseiller sous 24h.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="{% static 'images/devis-og-share.jpg' %}">
+
+    <meta name="twitter:title" content="Devis Études à l'Étranger | Shine Agency">
+    <meta name="twitter:description" content="Estimation gratuite et rapide pour votre mobilité internationale. Sans engagement.">
+{% endblock extra_head %}
 {% block content %}
 <section class="hero-banner">
 

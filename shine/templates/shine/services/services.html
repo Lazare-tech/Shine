@@ -1,9 +1,20 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}{% endblock title %}
-<style>
+{% block title %}
+    Nos Services & Packs d'Accompagnement Études | Shine Agency
+{% endblock title %}
+{% block extra_head %}
+    <meta name="description" content="Découvrez nos packs d'accompagnement sur mesure : orientation, admission, visa, et installation. Des solutions clés en main pour réussir votre projet d'études internationales.">
+    <meta name="keywords" content="pack accompagnement études, aide visa étudiant, services mobilité internationale, orientation académique, Shine Agency services">
 
-</style>
+    <meta property="og:title" content="Packs d'Accompagnement Études à l'Étranger - Shine Agency">
+    <meta property="og:description" content="Orientation, Visa, Logement : choisissez le pack qui correspond à vos besoins et laissez nos experts guider votre réussite.">
+    <meta property="og:type" content="product">
+    <meta property="og:image" content="{% static 'images/services-og-share.jpg' %}">
+
+    <meta name="twitter:title" content="Services & Solutions Mobilité | Shine Agency">
+    <meta name="twitter:description" content="Des solutions complètes pour votre projet d'études à l'international. Réponse et devis rapides.">
+{% endblock extra_head %}
 
 {% block content %}
 <!-- HERO BANNER -->

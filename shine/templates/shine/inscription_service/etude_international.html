@@ -1,5 +1,21 @@
 {% extends "shine/inscription_service/default_form.html" %}
+{% load static %}
+{% block title %}
+    {% if pack %}
+        Inscription : {{ pack.titre_pack }} - {{ pack.service.titre }} | Shine Agency
+    {% else %}
+        Dossier d'Études Internationales | Shine Agency
+    {% endif %}
+{% endblock title %}
+{% block extra_head %}
+    <meta name="description" content="Complétez votre dossier pour le {{ pack.titre_pack }}. Shine Agency analyse votre profil pour garantir votre admission dans les meilleures universités.">
+    <meta name="robots" content="noindex, follow">
 
+    <meta property="og:title" content="Mon Projet d'Études - {{ pack.titre_pack }}">
+    <meta property="og:description" content="Dernière étape : précisez votre dernier diplôme et votre destination pour valider votre inscription.">
+    <meta property="og:image" content="{% if pack.service.image_service %}{{ pack.service.image_service.url }}{% else %}{% static 'images/etudes-og.jpg' %}{% endif %}">
+    <meta property="og:type" content="website">
+{% endblock extra_head %}
 {% block specific_fields %}
     <h5 class="fw-bold text-title-blue mb-4 border-bottom pb-2">
         <i class="fas fa-graduation-cap me-2 text-title-gold"></i>Projet d'Études Internationales

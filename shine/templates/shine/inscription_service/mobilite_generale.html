@@ -1,5 +1,22 @@
 {% extends "shine/inscription_service/default_form.html" %}
+{% load static %}
 
+{% block title %}
+    {% if pack %}
+        Demande de {{ pack.service.titre }} : {{ pack.titre_pack }} | Shine Agency
+    {% else %}
+        Assistance Visa & Mobilité Internationale | Shine Agency
+    {% endif %}
+{% endblock title %}
+{% block extra_head %}
+    <meta name="description" content="Lancez votre procédure de {{ pack.service.titre }} pour {{ pack.titre_pack }}. Shine Agency vous accompagne pour maximiser vos chances d'obtention de visa.">
+    <meta name="robots" content="noindex, follow">
+
+    <meta property="og:title" content="Procédure de Visa - {{ pack.titre_pack }}">
+    <meta property="og:description" content="Accompagnement expert pour votre destination : {{ pack.service.titre }}. Remplissez vos informations de mobilité.">
+    <meta property="og:image" content="{% if pack.service.image_service %}{{ pack.service.image_service.url }}{% else %}{% static 'images/visa-og.jpg' %}{% endif %}">
+    <meta property="og:type" content="website">
+{% endblock extra_head %}
 {% block specific_fields %}
 <div class="row mb-3">
     <div class="col-md-12 mb-3">

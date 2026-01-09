@@ -1,6 +1,23 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}{% endblock title %}
+{% block title %}
+    Devenir Mentor & Conseiller en Mobilité Internationale | Shine Agency
+{% endblock title %}
+{% block extra_head %}
+    <meta name="description" content="Rejoignez Shine Agency en tant que mentor. Partagez votre expérience d'études à l'étranger, guidez les futurs étudiants et valorisez votre expertise internationale.">
+    <meta name="keywords" content="devenir mentor, conseiller orientation, études à l'étranger, alumni, coaching étudiant, mobilité internationale">
+
+    <meta property="og:title" content="Devenez Mentor chez Shine Agency - Partagez votre expertise">
+    <meta property="og:description" content="Vous avez étudié à l'étranger ? Aidez la prochaine génération d'étudiants à réussir leur projet international.">
+    <meta property="og:type" content="article">
+
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/mentor.jpg' %}">
+    <meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+    <meta name="twitter:title" content="Devenir Mentor & Conseiller | Shine Agency">
+    <meta name="twitter:description" content="Partagez votre parcours international et accompagnez nos étudiants vers l'excellence.">
+{% endblock extra_head %}
+
 {% block content %}
 <section class="hero-banner">
     <!-- Image -->
@@ -40,12 +57,12 @@
         <div class="row g-5">
 
             <div class="col-lg-6">
-                <h3 class="fw-bold mb-4" style="color: #004aad;">
+                <h4 class="fw-bold mb-4" style="color: #004aad;">
                     Qu'est-ce qu'un Mentor Shine Agency ?
-                </h3>
+                </h4>
                 <div class="p-4 rounded shadow-sm definition-card" style="border-left: 5px solid #e2b740; background-color: #f8f9fa;">
                     <p class="lead mb-3">
-                        Un mentor est un **ambassadeur expérimenté** et un **conseiller d'orientation** qui guide nos futurs étudiants à travers le processus complexe des études à l'étranger.
+                        Un mentor est un <strong>ambassadeur expérimenté</strong> et un <strong>conseiller d'orientation</strong> qui guide nos futurs étudiants à travers le processus complexe des études à l'étranger.
                     </p>
                     <p>
                         Votre rôle est crucial : il s'agit d'offrir une **perspective personnelle et pratique** sur la vie étudiante internationale, le choix d'établissement, les démarches administratives (visa, inscription) et l'intégration culturelle. Vous êtes la première source d'inspiration et de réassurance pour nos candidats.
@@ -58,32 +75,32 @@
             </div>
 
             <div class="col-lg-6">
-                <h3 class="fw-bold mb-4" style="color: #004aad;">
+                <h4 class="fw-bold mb-4" style="color: #004aad;">
                     Les Profils pour Devenir Mentor
-                </h3>
+                </h4>
                 <p class="mb-4">
                     Nous recherchons des professionnels de l'éducation, des anciens étudiants ayant réussi à l'étranger ou des experts en formalités internationales :
                 </p>
                 
                 <ul class="list-group list-group-flush shadow-sm">
                     <li class="list-group-item d-flex align-items-start" style="border-left: 3px solid #e2b740;">
-                        <i class="fas fa-graduation-cap fa-2x me-3 pt-1" style="color: #e2b740;"></i>
+                        <i class="fas fa-graduation-cap fa-2x me-2 pt-1" style="color: #e2b740;"></i>
                         <div>
-                            <h5 class="mb-1" style="color: #004aad;">Alumni International</h5>
+                            <h6 class="mb-1" style="color: #004aad;">Alumni International</h6>
                             <p class="mb-0 small text-muted">Avoir complété au moins une année d'études supérieures dans un pays partenaire de Shine Agency.</p>
                         </div>
                     </li>
                     <li class="list-group-item d-flex align-items-start" style="border-left: 3px solid #e2b740;">
                         <i class="fas fa-atlas fa-2x me-3 pt-1" style="color: #e2b740;"></i>
                         <div>
-                            <h5 class="mb-1" style="color: #004aad;">Expert en Mobilité & Visa</h5>
+                            <h6 class="mb-1" style="color: #004aad;">Expert en Mobilité & Visa</h6>
                             <p class="mb-0 small text-muted">Connaissance approfondie des procédures de visa Schengen, Canada, ou États-Unis, et des formalités d'inscription universitaire.</p>
                         </div>
                     </li>
                     <li class="list-group-item d-flex align-items-start" style="border-left: 3px solid #e2b740;">
-                        <i class="fas fa-users fa-2x me-3 pt-1" style="color: #e2b740;"></i>
+                        <i class="fas fa-users fa-2x me-2 pt-1" style="color: #e2b740;"></i>
                         <div>
-                            <h5 class="mb-1" style="color: #004aad;">Conseiller d'Orientation (Professionnel)</h5>
+                            <h6 class="mb-1" style="color: #004aad;">Conseiller d'Orientation (Professionnel)</h6>
                             <p class="mb-0 small text-muted">Expérience dans l'aide au choix de carrière et la rédaction de lettres de motivation académiques.</p>
                         </div>
                     </li>
@@ -96,7 +113,6 @@
 
 <!--### 2. Pourquoi Devenir Mentor à Shine (Avantages)
 
-Cette section met en avant les avantages spécifiques liés à la mission d'accompagnement.
 
 ```html-->
 <section class="py-5" style="background-color: #f8f9fa;">

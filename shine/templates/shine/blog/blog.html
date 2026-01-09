@@ -1,10 +1,29 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}{% endblock title %}
+
+{% block title %}
+    {% if selected_category %}
+        Articles sur {{ selected_category.titre }} | Blog Shine Agency
+    {% else %}
+        Blog Mobilité & Conseils Études à l'Étranger | Shine Agency
+    {% endif %}
+{% endblock title %}
+{% block extra_head %}
+    <meta name="description" content="Découvrez nos guides, astuces et actualités sur la mobilité internationale. Réussissez votre projet d'études, votre demande de visa et votre installation à l'étranger avec Shine Agency.">
+    <meta name="keywords" content="blog études étranger, conseils visa, guide mobilité internationale, bourses d'études, installation étranger">
+
+    <meta property="og:title" content="Blog Mobilité & Projets Internationaux - Shine Agency">
+    <meta property="og:description" content="Toutes les clés pour réussir votre projet d'études à l'international : conseils d'experts, témoignages et guides pratiques.">
+    <meta property="og:type" content="blog">
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/blog.jpg' %}">
+
+ <meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+    <meta name="twitter:title" content="Blog Mobilité Internationale | Shine Agency">
+    <meta name="twitter:description" content="Conseils pratiques et analyses expertes pour vos projets d’études et de visa à l’international.">
+{% endblock extra_head %}
 
 {% block content %}
-
-
 
 <section class="hero-banner">
 

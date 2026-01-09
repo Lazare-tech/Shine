@@ -1,22 +1,24 @@
 {% load static %}
-
 <!DOCTYPE html>
-<html lang="en">
-  {% load static %}
-
-  <!DOCTYPE html>
-  <html lang="fr">
-  <head>
+<html lang="fr">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-        <title>{% block title %}{% endblock title %}</title>
-          <!-- CSS Frameworks et personnalisés -->
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-        <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+    <title>{% block title %}{% endblock title %}</title>
+
+
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'fontawesome-free/css/all.min.css' %}">
-    <link href="{% static 'fonts/fontawesome/css/all.min.css' %}" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@24.5.0/build/css/intlTelInput.css">
+    
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+
+    {% block extra_head %}{% endblock extra_head %}
     
     <style>
     .icon-box-gold {
@@ -48,47 +50,37 @@
 
 .extra-small { font-size: 0.75rem; }
 </style>
-  </head>
-  <body>
-  <header>
-{% block nav %}
-{% include 'shine/navbar/navbar.html' %}
+</head>
+<body>
 
-{% endblock nav %}
-  </header>
-  <main>
-   
-    
-    {% block content %}
-    
-  
-    {% endblock content %}
-    <div id="progress-wrap" class="progress-wrap">
-    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
-        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
-    </svg>
-    <i class="fas fa-chevron-up"></i>
-</div>
-</main>
+    <header>
+        {% block nav %}
+            {% include 'shine/navbar/navbar.html' %}
+        {% endblock nav %}
+    </header>
 
+    <main>
+        {% block content %}
+        {% endblock content %}
 
-  {% include 'shine/footer/footer.html' %}
-  
-  
-  
-  
-  <!--mdn Bootstrap links-->
-  <script type="text/javascript" src={% static "js/carousel-category.js" %}></script>
-  <script type="text/javascript" src={% static "js/bootstrap.bundle.min.js" %}></script>
+        <div id="progress-wrap" class="progress-wrap">
+            <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+            </svg>
+            <i class="fas fa-chevron-up"></i>
+        </div>
+    </main>
 
-  <script type="text/javascript" src={% static "js/style.js" %}></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script type="text/javascript" src={% static 'js/scrolltop.js' %}></script>
-  <!--links rel-->
-<!-- MDB JS -->
-{% block script %}{% endblock script %}
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@24.5.0/build/css/intlTelInput.css">
+    {% include 'shine/footer/footer.html' %}
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="{% static 'js/carousel-category.js' %}"></script>
+    <script src="{% static 'js/style.js' %}"></script>
+    <script src="{% static 'js/scrolltop.js' %}"></script>
+
+    {% block script %}{% endblock script %}
 
 </body>
-
 </html>

@@ -1,4 +1,18 @@
 {% extends "shine/inscription_service/default_form.html" %}
+{% load static %}
+{% block title %}
+    Souscription : {{ pack.titre_pack }} | {{ pack.service.titre }} - Shine Agency
+{% endblock title %}
+{% block extra_head %}
+    <meta name="description" content="Finalisez votre inscription au pack {{ pack.titre_pack }}. Shine Agency vous accompagne pour votre projet de {{ pack.service.titre }} avec expertise et sécurité.">
+    <meta name="robots" content="noindex, follow"> <meta property="og:title" content="Finaliser mon inscription - Shine Agency">
+    <meta property="og:description" content="Vous avez choisi la formule {{ pack.titre_pack }}. Complétez vos informations pour démarrer votre accompagnement.">
+    <meta property="og:image" content="{% static 'images/inscription-securisee.jpg' %}">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:title" content="Inscription sécurisée | Shine Agency">
+    <meta name="twitter:description" content="Dernière étape avant de lancer votre projet international avec nos mentors.">
+{% endblock extra_head %}
 
 {% block specific_fields %}
 <div class="mb-3">

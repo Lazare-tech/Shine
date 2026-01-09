@@ -177,6 +177,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "assets/")
 # ----------------------------------------------------------------------
 # Django 5.2 Specific Changes (CRITICAL AND RECOMMENDED)
 # ----------------------------------------------------------------------
+#
+LOGIN_URL = 'usercompte:login'
 AUTH_USER_MODEL = 'usercompte.User'
 # CRITICAL: Default primary key field type
 # Ensure this is set to BigAutoField for capacity assurance.
